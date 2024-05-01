@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">OneView</string>
+    <string name="encryption_algorithm_rsa">RSA</string>
+    <string name="sha1prng">SHA1PRNG</string>
+    <string name="SSL_context_protocol">TLSv1.2</string>
+    <string name="application_json">application/json</string>
+    <string name="encrypted_jwe_with_sha1">"Encrypted JWE with SHA1: "</string>
+    <string name="decrypted_payload">"Decrypted Payload: "</string>
+    <string name="shared_config_name">com.sbi.offsiteissuance.SharedConfig</string>
+    <string name="islogin">isLogin</string>
+    <string name="sessionmanagement">SessionManagement</string>
+    <string name="userid">USERID</string>
+    <string name="password">PASSWORD</string>
+    <string name="ca">ca</string>
+    <string name="error_creating_sslsocketfactory">Error creating SSLSocketFactory</string>
+    <string name="certificate_factory_type">X.509</string>
+    <string name="error_loading_certificate">Error loading certificate</string>
+    <string name="server_certificate_is_not_trusted">Server certificate is not trusted.</string>
+    <string name="the_certificate_is_not_an_x_509_certificate">The certificate is not an X.509 certificate.</string>
+    <string name="server_certificate_matched_one_of_the_custom_certificates">Server certificate matched one of the custom certificates.</string>
 </resources>
