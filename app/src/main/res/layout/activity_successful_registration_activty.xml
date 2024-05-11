@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main"
+    tools:context=".ui.login.LoginActivity">
+
+
+
+
+    <ImageView
+        android:id="@+id/bottomLeft_image"
+        android:layout_width="800dp"
+        android:layout_height="800dp"
+        android:alpha="0.3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="-210dp"
+        android:layout_marginStart="-310dp"
+        android:src="@drawable/bg_one"/>
+
+    <ImageView
+        android:id="@+id/bottomRight_image"
+        android:layout_width="600dp"
+        android:layout_height="600dp"
+        android:alpha="0.3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="-310dp"
+        android:layout_marginBottom="-200dp"
+        android:src="@drawable/bg_two"/>
+
+    <ImageView
+        android:id="@+id/topRight_image"
+        android:layout_width="800dp"
+        android:layout_height="800dp"
+        android:alpha="0.3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="-300dp"
+        android:layout_marginTop="-290dp"
+        android:src="@drawable/bg_three"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginStart="@dimen/_20sdp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_success"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+        </ImageView>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_done"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_height="wrap_content">
+        </ImageView>
+
+        <TextView
+            android:textFontWeight="700"
+            android:textSize="@dimen/_25ssp"
+            android:textColor="@color/white"
+            android:text="SUCCESS"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <TextView
+            style="@style/textstyle_18_400"
+            android:textColor="@color/white"
+            android:text="Congratulations, your Card application has been successfully created."
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+
+        <TextView
+            style="@style/textstyle_16_400"
+            android:textColor="@color/white"
+            android:text="MCRN Number"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
+        <LinearLayout
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_50sdp"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+
+            android:layout_height="@dimen/_40sdp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
+                android:background="@drawable/bg_rounded_mcrn"
+                android:layout_height="match_parent">
+                <TextView
+                    style="@style/textstyle_16_400"
+                    android:text="1234567890"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:textColor="#3A3A3A"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/bg_rounded_copy_corner"
+                android:layout_height="match_parent">
+                <TextView
+                    style="@style/textstyle_16_400"
+                    android:text="Copy"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLoginNow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:backgroundTint="#662D91"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:textColor="@color/white"
+            android:padding="@dimen/_12sdp"
+            app:cornerRadius="@dimen/_10sdp"
+            android:text="Login Now !"/>
+    </LinearLayout>
+
+
+
+    <ImageView
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/sbi_logo"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

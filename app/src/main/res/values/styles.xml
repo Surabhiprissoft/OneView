@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="edittext_registration">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/_40sdp</item>
+        <item name="android:layout_marginTop">@dimen/_10sdp</item>
+        <item name="android:textColorHint">@color/transperant_white</item>
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">@dimen/_13ssp</item>
+        <item name="android:paddingLeft">@dimen/_8sdp</item>
+        <item name="android:background">@drawable/bg_rounded_corner</item>
+        <item name="android:textColor">@color/hinttext_transperant_white</item>
+    </style>
+
+    <style name="textstyle_16_400">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">@dimen/_13ssp</item>
+    </style>
+
+    <style name="textstyle_18_400">
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">@dimen/_15ssp</item>
+    </style>
+
+    <style name="textstyle_20_600">
+        <item name="fontWeight">600</item>
+        <item name="android:textSize">@dimen/_17ssp</item>
+    </style>
+
+    <style name="cardDetailsHeadingTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/_11ssp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="cardDetailsValueTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#AAAAAA</item>
+        <item name="android:textSize">@dimen/_12ssp</item>
+    </style>
+
+    <style name="menuHeadingGradientTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/_17ssp</item>
+        <item name="fontWeight">700</item>
+        <item name="android:layout_marginStart">@dimen/_10sdp</item>
+        <item name="android:layout_marginTop">@dimen/_10sdp</item>
+    </style>
+
+    <style name="AnalyticsValueTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/_20ssp</item>
+    </style>
+
+    <style name="textstyle_14_600">
+        <item name="android:textSize">@dimen/_11ssp</item>
+        <item name="fontWeight">600</item>
+    </style>
+
+    <style name="textStyle_10_400">
+        <item name="android:textSize">@dimen/_7ssp</item>
+        <item name="fontWeight">400</item>
+    </style>
+</resources>

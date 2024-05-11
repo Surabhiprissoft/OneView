@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main"
+    tools:context=".ui.otp.EnterOtp">
+
+    <ImageView
+        android:id="@+id/bottomLeft_image"
+        android:layout_width="800dp"
+        android:layout_height="800dp"
+        android:alpha="0.3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="-210dp"
+        android:layout_marginStart="-310dp"
+        android:src="@drawable/bg_one"/>
+
+    <ImageView
+        android:id="@+id/bottomRight_image"
+        android:layout_width="600dp"
+        android:layout_height="600dp"
+        android:alpha="0.3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="-310dp"
+        android:layout_marginBottom="-200dp"
+        android:src="@drawable/bg_two"/>
+
+    <ImageView
+        android:id="@+id/topRight_image"
+        android:layout_width="800dp"
+        android:layout_height="800dp"
+        android:alpha="0.3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="-300dp"
+        android:layout_marginTop="-290dp"
+        android:src="@drawable/bg_three"/>
+
+    <ImageView
+        android:id="@+id/imgMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_50sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/otp_main_bg"/>
+
+    <TextView
+        android:id="@+id/txtEnterOtp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/imgMain"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:text="Enter OTP"
+        android:textStyle="bold"
+        android:focusable="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_18ssp"/>
+
+    <TextView
+        android:id="@+id/txtFirstOtpInstruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txtEnterOtp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:text="An 4 digit code has been sent to "
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12ssp"/>
+
+    <TextView
+        android:id="@+id/txtPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txtFirstOtpInstruction"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:text="+91 9876543210"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12ssp"/>
+
+
+    <LinearLayout
+        android:id="@+id/otpTextViewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtPhoneNumber"
+        android:weightSum="6"
+        android:gravity="start"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:background="@drawable/edit_text_otp_style"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/et2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:background="@drawable/edit_text_otp_style"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:maxLength="1"
+            android:inputType="number"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/et3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:background="@drawable/edit_text_otp_style"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:maxLength="1"
+            android:inputType="number"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/et4"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:background="@drawable/edit_text_otp_style"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:maxLength="1"
+            android:inputType="number"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnVerify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/otpTextViewLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:backgroundTint="#EAEAEA"
+        android:layout_margin="@dimen/_20sdp"
+        android:textColor="#290174"
+        android:padding="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:cornerRadius="@dimen/_10sdp"
+        android:text="Verify"/>
+
+    <TextView
+        android:id="@+id/txtResendOtp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btnVerify"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Resend OTP"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12ssp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_20sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/sbi_logo"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

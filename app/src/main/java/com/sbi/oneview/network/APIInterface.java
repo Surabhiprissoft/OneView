@@ -1,9 +1,19 @@
 package com.sbi.oneview.network;
 
 
+import com.sbi.oneview.network.RequestModel.LoginRequestModel;
+import com.sbi.oneview.network.ResponseModel.LoginResponseModel;
+import com.sbi.oneview.utils.Constants;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
 public interface APIInterface {
 
+
+    @POST(Constants.AUTHENTICATEUSER)
+    Call<LoginResponseModel> authenticateUser(@Body LoginRequestModel loginRequest);
  /*   @POST(Constants.AUTHENTICATEUSER)
     Call<String> authenticateUser(@Query("channelId") String channelID, @Body String loginRequest);
 

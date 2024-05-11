@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main"
+    tools:context=".ui.DashboardActivity">
+
+
+    <ImageView
+        android:id="@+id/bottomLeft_image"
+        android:layout_width="800dp"
+        android:layout_height="800dp"
+        android:alpha="0.3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="-210dp"
+        android:layout_marginStart="-310dp"
+        android:src="@drawable/bg_one"/>
+
+    <ImageView
+        android:id="@+id/bottomRight_image"
+        android:layout_width="600dp"
+        android:layout_height="600dp"
+        android:alpha="0.3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="-310dp"
+        android:layout_marginBottom="-200dp"
+        android:src="@drawable/bg_two"/>
+
+    <ImageView
+        android:id="@+id/topRight_image"
+        android:layout_width="800dp"
+        android:layout_height="800dp"
+        android:alpha="0.3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="-300dp"
+        android:layout_marginTop="-290dp"
+        android:src="@drawable/bg_three"/>
+
+    <ImageView
+        android:id="@+id/imgMain"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_200sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/home_menu_bg"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/imgMain"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/transit_inr_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/imgMain"
+                app:layout_constraintStart_toStartOf="parent"
+                android:weightSum="2"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/transitInstructionCardLayout"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_140sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/inrCardLayout"
+                    android:backgroundTint="#7A477f"
+                    app:strokeWidth="0dp"
+                    app:cardCornerRadius="@dimen/_20sdp"
+                    android:layout_height="@dimen/_190sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_10sdp"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img_transit_back_rotate"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="end"
+                        android:src="@drawable/rotate_icon"/>
+
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_10sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="lorem ipsum lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum lorem ipsumlorem ipsumlorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum"/>
+
+                        </LinearLayout>
+
+                    </androidx.core.widget.NestedScrollView>
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/transitCardLayout"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_140sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/inrCardLayout"
+                    android:backgroundTint="#7A477f"
+                    app:strokeWidth="0dp"
+                    app:cardCornerRadius="@dimen/_20sdp"
+                    android:layout_height="@dimen/_190sdp">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_10sdp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_transit_front_rotate"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="end"
+                            android:src="@drawable/rotate_icon"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_gravity="center"
+                            android:scaleType="fitXY"
+                            android:layout_margin="@dimen/_10sdp"
+                            android:src="@drawable/transit_card_logo"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Transit Card"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_13ssp"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_transit_proceed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:backgroundTint="#662D91"
+                            app:cornerRadius="@dimen/_10sdp"
+                            android:text="Proceed"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:layout_margin="@dimen/_4sdp"
+                            android:src="@drawable/rupay_logo"/>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/inrInstructionCardLayout"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_140sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/transitCardLayout"
+                    android:backgroundTint="#7A477f"
+                    app:strokeWidth="0dp"
+                    app:cardCornerRadius="@dimen/_20sdp"
+                    android:layout_height="@dimen/_190sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_10sdp"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/img_inr_back_rotate"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="end"
+                            android:src="@drawable/rotate_icon"/>
+                          <androidx.core.widget.NestedScrollView
+                         android:layout_width="wrap_content"
+                         android:layout_height="match_parent">
+
+                         <LinearLayout
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:orientation="vertical">
+
+                             <TextView
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:text="lorem ipsum lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum lorem ipsumlorem ipsumlorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum prismatic softwares"/>
+
+                         </LinearLayout>
+
+                     </androidx.core.widget.NestedScrollView>
+                    </LinearLayout>
+
+
+
+
+
+
+
+
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/inrCardLayout"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_140sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/transitCardLayout"
+                    android:backgroundTint="#7A477f"
+                    app:strokeWidth="0dp"
+                    app:cardCornerRadius="@dimen/_20sdp"
+                    android:layout_height="@dimen/_190sdp">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_10sdp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_inr_front_rotate"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="end"
+                            android:src="@drawable/rotate_icon"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_10sdp"
+                            android:src="@drawable/inr_prepaid_card_logo"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="INR Prepaid Card"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_13ssp"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:backgroundTint="#662D91"
+                            app:cornerRadius="@dimen/_10sdp"
+                            android:text="Proceed"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_4sdp"
+                            android:src="@drawable/rupay_visa_mastercard_logo"/>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ftc_virtual_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintTop_toBottomOf="@id/imgMain"
+                app:layout_constraintStart_toStartOf="parent"
+                android:weightSum="2"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/ftcCardLayout"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_140sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/virtualCardLayout"
+                    android:backgroundTint="#7A477f"
+                    app:strokeWidth="0dp"
+                    app:cardCornerRadius="@dimen/_20sdp"
+                    android:layout_height="@dimen/_190sdp">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_10sdp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="end"
+                            android:src="@drawable/rotate_icon"/>
+
+                        <ImageView
+                            android:id="@+id/img_ftc_front_rotate"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_10sdp"
+                            android:src="@drawable/ftc_card_logo"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="FTC Card"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_13ssp"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:backgroundTint="#662D91"
+                            app:cornerRadius="@dimen/_10sdp"
+                            android:text="Proceed"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_4sdp"
+                            android:src="@drawable/rupay_visa_mastercard_logo"/>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/ftcInstructionCardLayout"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_140sdp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/virtualCardLayout"
+                    android:backgroundTint="#7A477f"
+                    app:strokeWidth="0dp"
+                    app:cardCornerRadius="@dimen/_20sdp"
+                    android:layout_height="@dimen/_190sdp">
+
+                    <ImageView
+                        android:id="@+id/img_ftc_back_rotate"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="end"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:src="@drawable/rotate_icon"/>
+
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:padding="@dimen/_10sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="lorem ipsum lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum lorem ipsumlorem ipsumlorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum"/>
+
+                        </LinearLayout>
+
+                    </androidx.core.widget.NestedScrollView>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/virtualCardLayout"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_140sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ftcCardLayout"
+                    android:backgroundTint="#7A477f"
+                    app:strokeWidth="0dp"
+                    app:cardCornerRadius="@dimen/_20sdp"
+                    android:layout_height="@dimen/_190sdp">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_130sdp"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_10sdp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_virtual_front_rotate"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="end"
+                            android:src="@drawable/rotate_icon"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_50sdp"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_10sdp"
+                            android:src="@drawable/virtual_gift_card_logo"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Virtual Gift Card"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_13ssp"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:backgroundTint="#662D91"
+                            app:cornerRadius="@dimen/_10sdp"
+                            android:text="Proceed"/>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_4sdp"
+                            android:src="@drawable/rupay_visa_mastercard_logo"/>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/virtualInstructionCardLayout"
+                    android:layout_weight="1"
+                    android:layout_width="@dimen/_140sdp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ftcCardLayout"
+                    android:backgroundTint="#7A477f"
+                    app:strokeWidth="0dp"
+                    app:cardCornerRadius="@dimen/_20sdp"
+                    android:layout_height="@dimen/_190sdp">
+
+                    <ImageView
+                        android:id="@+id/img_virtual_back_rotate"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="end"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:src="@drawable/rotate_icon"/>
+
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:padding="@dimen/_10sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="lorem ipsum lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum lorem ipsumlorem ipsumlorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum"/>
+
+                        </LinearLayout>
+
+                    </androidx.core.widget.NestedScrollView>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

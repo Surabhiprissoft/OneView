@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@drawable/bg_gradient"
+    tools:context=".ui.SplashScreenActivity">
+
+    <TextView
+        android:id="@+id/tv_splash"
+        android:text="@string/one_prepaid"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textFontWeight="600"
+        android:textSize="@dimen/_27ssp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </TextView>
+</LinearLayout>

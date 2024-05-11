@@ -4,6 +4,7 @@ import android.content.Context;
 
 public class Constants {
     public static final String RESPONSECODE_SUCESS = "00";
+    public static final String AUTHENTICATEUSER ="/login";
     static Context context;
 
     //CONSTANTS FIELDS FOR HEADER
