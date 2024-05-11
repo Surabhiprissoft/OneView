@@ -197,12 +197,13 @@ public class ApplyTransitCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-
-                if (validateFields())
+                Intent i = new Intent(ApplyTransitCardActivity.this, SuccessfulRegistrationActivity.class);
+                startActivity(i);
+                /*if (validateFields())
                 {
                     Intent i = new Intent(ApplyTransitCardActivity.this, SuccessfulRegistrationActivity.class);
                     startActivity(i);
-                }
+                }*/
 
             }
         });
