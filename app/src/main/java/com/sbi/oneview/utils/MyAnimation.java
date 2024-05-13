@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.App;
 import com.sbi.oneview.ui.home.TransitHomeActivity;
+import com.sbi.oneview.ui.login.LoginActivity;
 
 public class MyAnimation {
 
@@ -71,6 +72,8 @@ public class MyAnimation {
             public void onAnimationEnd(Animation animation) {
                 textView.setText(R.string.one_view);
                 animateTextFromTop(textView,imglogo);
+                animateTextFromBottom(imglogo);
+
             }
 
             @Override
@@ -99,7 +102,6 @@ public class MyAnimation {
               /*  Intent i = new Intent(App.getAppContext(), TransitHomeActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 App.getAppContext().startActivity(i);*/
-                animateTextFromBottom(imglogo);
             }
 
             @Override
@@ -114,9 +116,10 @@ public class MyAnimation {
     private static void animateTextFromBottom(ImageView imglogo) {
         // Animation to move text from top to original position
         imglogo.setVisibility(View.VISIBLE);
-        Animation animFromBottom = new TranslateAnimation(0, 0, 1000, 0);
+        Animation animFromBottom = AnimationUtils.loadAnimation(imglogo.getContext(), android.R.anim.slide_in_left);
         animFromBottom.setDuration(duration); // Set duration to 2000 milliseconds (2 seconds)
         animFromBottom.setFillAfter(true);
+
 
         animFromBottom.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -127,7 +130,7 @@ public class MyAnimation {
             @Override
             public void onAnimationEnd(Animation animation) {
 
-                Intent i = new Intent(App.getAppContext(), TransitHomeActivity.class);
+                Intent i = new Intent(App.getAppContext(), LoginActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 App.getAppContext().startActivity(i);
 

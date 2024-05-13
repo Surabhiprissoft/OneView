@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/_20sdp"
+            android:paddingBottom="@dimen/_30sdp"
             android:orientation="vertical">
 
             <include

@@ -39,7 +39,7 @@ public class ContactUsBlankFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvContactUs = view.findViewById(R.id.tvDashboard);
+        tvContactUs = view.findViewById(R.id.tvHeader);
         tvCurrentDate = view.findViewById(R.id.tvDate);
         rvContactUs = view.findViewById(R.id.rvContactMethods);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

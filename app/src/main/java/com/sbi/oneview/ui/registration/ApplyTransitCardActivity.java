@@ -28,6 +28,7 @@ import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.App;
 import com.sbi.oneview.ui.login.LoginActivity;
+import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomInputFilter;
 
 public class ApplyTransitCardActivity extends AppCompatActivity {
@@ -207,6 +208,17 @@ public class ApplyTransitCardActivity extends AppCompatActivity {
 
             }
         });
+
+        etDob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String selectedDate = CommonUtils.showDatePickerDialog(ApplyTransitCardActivity.this, etDob);
+
+
+                // etDob.setText(selectedDate);
+            }
+        });
+
     }
     private boolean validateFields() {
         boolean isValid = true;

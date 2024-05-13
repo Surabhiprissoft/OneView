@@ -137,7 +137,8 @@
 
                 <EditText
                     android:id="@+id/et_dob"
-                    android:inputType="text"
+                    android:inputType="none"
+                    android:editable="false"
                     android:hint="Date of Birth"
                     style="@style/edittext_registration" />
 
