@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
+import com.sbi.oneview.ui.TopUpFragment;
 import com.sbi.oneview.ui.profile.MyProfileFragment;
 
 public class TransitHomeActivity extends AppCompatActivity {
@@ -118,6 +119,7 @@ public class TransitHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 drawerItemClick("contactUs");
                 subMenuClicked(cardTopUpCard,false);
+                replaceFragment(new ContactUsBlankFragment());
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
@@ -151,6 +153,8 @@ public class TransitHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 drawerItemClick("cardManagement");
                 subMenuClicked(cardTopUpCard,true);
+                replaceFragment(new TopUpFragment());
+                drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
         cardStatementLayout.setOnClickListener(new View.OnClickListener() {

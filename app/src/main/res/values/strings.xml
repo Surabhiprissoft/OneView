@@ -53,6 +53,8 @@
     <string name="select_the_card">Select the Card</string>
     <string name="viewAll"><u>View All</u>.</string>
     <string name="Rs">\u20B9</string>
+    <string name="eligible_topup">Eligible Balance for Topup :  <b>₹2000.00/-</b></string>
+    <string name="last_topup">Last topup <b>₹500.00</b> on <b>03 Jan 2024</b></string>
 
     <string-array name="salutations_array">
         <item>Salutation</item>
