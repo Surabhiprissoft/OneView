@@ -444,7 +444,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
                             android:layout_marginStart="@dimen/_15sdp"
                             android:layout_marginEnd="@dimen/_30sdp"
                             app:layout_constraintTop_toBottomOf="@id/tvMyProfile"
@@ -586,7 +586,7 @@
 
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:id="@+id/kycActivationLayout"
+                                    android:id="@+id/cardhotlistLayout"
                                     android:layout_width="match_parent"
                                     android:orientation="horizontal"
                                     android:layout_marginTop="10dp"
@@ -598,7 +598,7 @@
                                         android:background="#FFFFFF"/>
 
                                     <com.google.android.material.card.MaterialCardView
-                                        android:id="@+id/kycActivationCard"
+                                        android:id="@+id/cardhotlistCard"
                                         android:layout_width="match_parent"
                                         android:layout_marginEnd="@dimen/_30sdp"
                                         app:cardBackgroundColor="@android:color/transparent"
@@ -617,7 +617,49 @@
                                                 android:layout_height="wrap_content"
                                                 android:textSize="@dimen/_12ssp"
                                                 android:textColor="@color/white"
-                                                android:text="KYC Activation"/>
+                                                android:text="Card Hotlist"/>
+
+                                        </LinearLayout>
+                                    </com.google.android.material.card.MaterialCardView>
+
+
+
+                                    <!-- Four Horizontal Lines with Text -->
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/resetpinLayout"
+                                    android:layout_width="match_parent"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_height="wrap_content">
+                                    <View
+                                        android:layout_width="10dp"
+                                        android:layout_height="1dp"
+                                        android:layout_marginTop="@dimen/_14sdp"
+                                        android:background="#FFFFFF"/>
+
+                                    <com.google.android.material.card.MaterialCardView
+                                        android:id="@+id/resetpincardCard"
+                                        android:layout_width="match_parent"
+                                        android:layout_marginEnd="@dimen/_30sdp"
+                                        app:cardBackgroundColor="@android:color/transparent"
+                                        app:strokeWidth="0dp"
+                                        android:layout_height="wrap_content">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:gravity="center"
+                                            android:padding="@dimen/_7sdp">
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="@dimen/_12ssp"
+                                                android:textColor="@color/white"
+                                                android:text="Reset Pin"/>
 
                                         </LinearLayout>
                                     </com.google.android.material.card.MaterialCardView>
@@ -668,48 +710,7 @@
                                     <!-- Four Horizontal Lines with Text -->
 
                                 </LinearLayout>
-                                <LinearLayout
-                                    android:id="@+id/cardSupportLayout"
-                                    android:layout_width="match_parent"
-                                    android:orientation="horizontal"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_height="wrap_content">
-                                    <View
-                                        android:layout_width="10dp"
-                                        android:layout_height="1dp"
-                                        android:layout_marginTop="@dimen/_14sdp"
-                                        android:background="#FFFFFF"/>
 
-                                    <com.google.android.material.card.MaterialCardView
-                                        android:id="@+id/cardSupportCard"
-                                        android:layout_width="match_parent"
-                                        android:layout_marginEnd="@dimen/_30sdp"
-                                        app:cardBackgroundColor="@android:color/transparent"
-                                        app:strokeWidth="0dp"
-                                        android:layout_height="wrap_content">
-
-                                        <LinearLayout
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="center"
-                                            android:gravity="center"
-                                            android:padding="@dimen/_7sdp">
-
-                                            <TextView
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:textSize="@dimen/_12ssp"
-                                                android:textColor="@color/white"
-                                                android:text="Card Support"/>
-
-                                        </LinearLayout>
-                                    </com.google.android.material.card.MaterialCardView>
-
-
-
-                                    <!-- Four Horizontal Lines with Text -->
-
-                                </LinearLayout>
 
                             </LinearLayout>
 
@@ -717,6 +718,7 @@
 
 
                         <LinearLayout
+                            android:visibility="gone"
                             android:id="@+id/cardManagementSubMenuLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

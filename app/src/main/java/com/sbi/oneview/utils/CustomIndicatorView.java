@@ -7,6 +7,80 @@ import android.view.View;
 
 import com.sbi.oneview.R;
 
+
+
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.util.AttributeSet;
+import android.view.View;
+
+import com.sbi.oneview.R;
+
+public class CustomIndicatorView extends View {
+    private int numItems;
+    private int activeIndex;
+    private Paint activePaint;
+    private Paint inactivePaint;
+
+    public CustomIndicatorView(Context context) {
+        super(context);
+        init();
+    }
+
+    public CustomIndicatorView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        // Extract attributes from XML
+        // Initialize with default values if needed
+        init();
+    }
+
+    private void init() {
+        activePaint = new Paint();
+        activePaint.setColor(getResources().getColor(R.color.page_indicator_active_color));
+        activePaint.setAntiAlias(true);
+
+        inactivePaint = new Paint();
+        inactivePaint.setColor(getResources().getColor(R.color.page_indicator_inactive_color));
+        inactivePaint.setAntiAlias(true);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        int width = getWidth();
+        int height = getHeight();
+        int circleRadius = Math.min(width / (numItems * 2), height / 4); // Adjust circle radius based on available space
+        int margin = dpToPx(getContext(), 3); // Convert dp to pixels
+
+        for (int i = 0; i < numItems; i++) {
+            int cx = width / 2 + (i - numItems / 2) * circleRadius * 4 + margin; // Center X of the item with margin
+            int cy = height / 2; // Center Y remains the same
+            Paint paint = (i == activeIndex) ? activePaint : inactivePaint;
+            canvas.drawCircle(cx, cy, circleRadius, paint);
+        }
+    }
+
+    // Utility method to convert dp to pixels
+    private int dpToPx(Context context, int dp) {
+        float density = context.getResources().getDisplayMetrics().density;
+        return Math.round(dp * density);
+    }
+
+    public void setNumItems(int numItems) {
+        this.numItems = numItems;
+        requestLayout();
+    }
+
+    public void setActiveIndex(int activeIndex) {
+        this.activeIndex = activeIndex;
+        invalidate();
+    }
+}
+
+/*
 public class CustomIndicatorView extends View {
     private int numItems;
     private int activeIndex;
@@ -61,13 +135,15 @@ public class CustomIndicatorView extends View {
             Paint paint = (i == activeIndex) ? activePaint : inactivePaint;
             if(i==activeIndex)
             {
-             /*   activePaint.setStyle(Paint.Style.STROKE); // Set to stroke for the line
+             */
+/*   activePaint.setStyle(Paint.Style.STROKE); // Set to stroke for the line
                 activePaint.setStrokeWidth(circleRadius *1.2f); // Set the stroke width
                 int startX = (int) (cx - circleRadius * lineExpansionFactor);
                 int endX = (int) (cx + circleRadius * lineExpansionFactor);
                 int startY = cy;
                 int endY = cy;
-                canvas.drawLine(startX, startY, endX, endY, activePaint);*/
+                canvas.drawLine(startX, startY, endX, endY, activePaint);*//*
+
 
                 activePaint.setStyle(Paint.Style.FILL); // Set to fill for the rounded rect
                 activePaint.setStrokeWidth(circleRadius * 1.2f); // Set the stroke width
@@ -101,3 +177,4 @@ public class CustomIndicatorView extends View {
         invalidate();
     }
 }
+*/

@@ -1,8 +1,18 @@
 package com.sbi.oneview.ui.home;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,8 +30,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.card.MaterialCardView;
+import com.sbi.oneview.MpinActivity;
 import com.sbi.oneview.R;
 import com.sbi.oneview.ui.TopUpFragment;
+import com.sbi.oneview.base.App;
 import com.sbi.oneview.ui.profile.MyProfileFragment;
 
 public class TransitHomeActivity extends AppCompatActivity {
@@ -29,11 +41,11 @@ public class TransitHomeActivity extends AppCompatActivity {
     private ImageView openIcon;
     private DrawerLayout drawerLayout;
 
-    LinearLayout dashboardLayout,myProfileLayout,viewProfileLayout,editProfileLayout,accountDetailsLayout,cardTopUpLayout,cardStatementLayout,kycActivationLayout,cardLimitLayout,cardSupportLayout,cardBlockUnblockLayout,cardHotListLayout;
+    LinearLayout dashboardLayout,myProfileLayout,viewProfileLayout,editProfileLayout,accountDetailsLayout,cardTopUpLayout,cardStatementLayout,cardhotlistLayout,cardLimitLayout,resetpinLayout,cardBlockUnblockLayout,cardHotListLayout;
     MaterialCardView DashboardCardView,myProfileCardView,cardManagementCardView,contactUsCardView;
     ImageView iconDashboard,iconMyProfile,iconCardManagement,iconContactUs;
     TextView tvDashboard,tvMyProfile,tvCardManagement,tvContactUs;
-    MaterialCardView cardTopUpCard,cardStatementCard,kycActivationCard,cardLimitCard,cardSupportCard,cardBlockUnblockCard,cardHotListCard;
+    MaterialCardView cardTopUpCard,cardStatementCard,cardhotlistCard,cardLimitCard,resetpinCard,cardBlockUnblockCard,cardHotListCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,17 +78,17 @@ public class TransitHomeActivity extends AppCompatActivity {
         accountDetailsLayout = findViewById(R.id.accountDetailsLayout);*/
         cardTopUpLayout = findViewById(R.id.cardTopUpLayout);
         cardStatementLayout = findViewById(R.id.cardStatementLayout);
-        kycActivationLayout = findViewById(R.id.kycActivationLayout);
+        cardhotlistLayout = findViewById(R.id.cardhotlistLayout);
         cardLimitLayout = findViewById(R.id.cardLimitLayout);
-        cardSupportLayout = findViewById(R.id.cardSupportLayout);
+        resetpinLayout = findViewById(R.id.resetpinLayout);
         cardBlockUnblockLayout = findViewById(R.id.cardBlockUnblockLayout);
         cardHotListLayout = findViewById(R.id.cardHotlistLayout);
 
         cardTopUpCard = findViewById(R.id.cardTopUpCard);
         cardStatementCard = findViewById(R.id.cardStatementCard);
-        kycActivationCard = findViewById(R.id.kycActivationCard);
+        cardhotlistCard = findViewById(R.id.cardhotlistCard);
         cardLimitCard = findViewById(R.id.cardlimitCard);
-        cardSupportCard = findViewById(R.id.cardSupportCard);
+        resetpinCard = findViewById(R.id.resetpincardCard);
         cardBlockUnblockCard = findViewById(R.id.cardBlockUnblockCard);
         cardHotListCard = findViewById(R.id.cardHotListCard);
         /*viewProfileCard = findViewById(R.id.viewProfileCard);
@@ -161,14 +173,24 @@ public class TransitHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 drawerItemClick("cardManagement");
+                //showDialog();
                 subMenuClicked(cardStatementCard,true);
             }
         });
-        kycActivationLayout.setOnClickListener(new View.OnClickListener() {
+
+        resetpinLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerItemClick("cardManagement");
-                subMenuClicked(kycActivationCard,true);
+                showDialog();
+                subMenuClicked(cardStatementCard,true);
+            }
+        });
+        cardhotlistLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerItemClick("cardManagement");
+                subMenuClicked(cardhotlistCard,true);
             }
         });
         cardLimitLayout.setOnClickListener(new View.OnClickListener() {
@@ -422,14 +444,14 @@ public class TransitHomeActivity extends AppCompatActivity {
         cardStatementCard.setCardBackgroundColor(Color.TRANSPARENT);
         cardStatementCard.setStrokeWidth(0);
 
-        kycActivationCard.setCardBackgroundColor(Color.TRANSPARENT);
-        kycActivationCard.setStrokeWidth(0);
+        cardhotlistCard.setCardBackgroundColor(Color.TRANSPARENT);
+        cardhotlistCard.setStrokeWidth(0);
 
         cardLimitCard.setCardBackgroundColor(Color.TRANSPARENT);
         cardLimitCard.setStrokeWidth(0);
 
-        cardSupportCard.setCardBackgroundColor(Color.TRANSPARENT);
-        cardSupportCard.setStrokeWidth(0);
+        resetpinCard.setCardBackgroundColor(Color.TRANSPARENT);
+        resetpinCard.setStrokeWidth(0);
 
         cardBlockUnblockCard.setCardBackgroundColor(Color.TRANSPARENT);
         cardBlockUnblockCard.setStrokeWidth(0);
@@ -467,5 +489,53 @@ public class TransitHomeActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    private void showDialog()
+    {
+        final Dialog dialog = new Dialog(TransitHomeActivity.this);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_reset_pin);
+        TextView textViewCountdown = (TextView) dialog.findViewById(R.id.textViewCountdown);
+
+        TranslateAnimation translateAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0.0f, // From X position (relative to self)
+                Animation.RELATIVE_TO_SELF, 0.0f, // To X position (relative to self)
+                Animation.RELATIVE_TO_SELF, 1.0f, // From Y position (relative to self) - start from the bottom
+                Animation.RELATIVE_TO_SELF, 0.5f // To Y position (relative to self) - stop at the center
+        );
+        ScaleAnimation scaleAnimation = new ScaleAnimation(
+                0.5f, 1.0f, // From X scale, To X scale
+                0.5f, 1.0f, // From Y scale, To Y scale
+                Animation.RELATIVE_TO_SELF, 0.5f, // Pivot X (relative to self)
+                Animation.RELATIVE_TO_SELF, 0.5f // Pivot Y (relative to self)
+        );
+
+// Create AnimationSet to combine TranslateAnimation and ScaleAnimation
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.addAnimation(translateAnimation);
+        animationSet.addAnimation(scaleAnimation);
+        animationSet.setDuration(1000);
+        new CountDownTimer(10000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // Update the TextView with the remaining time
+                long secondsRemaining = millisUntilFinished / 1000;
+
+               // textViewCountdown.setAnimation(animationSet);
+                textViewCountdown.setText(String.valueOf(secondsRemaining));
+
+
+            }
+
+            @Override
+            public void onFinish() {
+                // Countdown timer finished, do something here if needed
+                textViewCountdown.setText("0");
+                dialog.dismiss();
+            }
+        }.start();
+
+        dialog.show();
     }
 }

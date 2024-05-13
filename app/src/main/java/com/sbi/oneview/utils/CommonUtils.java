@@ -11,6 +11,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sbi.oneview.R;
+import com.sbi.oneview.base.App;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -171,7 +174,7 @@ public class CommonUtils {
     {
         LinearGradient shader = new LinearGradient(
                 0f, 0f, 0f, textView.getTextSize(),
-                Color.RED, Color.BLUE,
+                App.getAppContext().getColor(R.color.background_two), App.getAppContext().getColor(R.color.background_one),
                 Shader.TileMode.CLAMP
         );
         textView.getPaint().setShader(shader);
