@@ -20,12 +20,12 @@ import java.util.ArrayList;
 
 public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<String> arrayList;
+    private ArrayList<Integer> arrayList;
     private OnItemClickListener onItemClickListener;
     private int currentPosition = 0;
     private int initialPosition;
     private CustomIndicatorView customIndicator;
-    public CourouselAdapter(Context context, ArrayList<String> arrayList, CustomIndicatorView customIndicator) {
+    public CourouselAdapter(Context context, ArrayList<Integer> arrayList, CustomIndicatorView customIndicator) {
         this.context = context;
         this.arrayList = arrayList;
         this.customIndicator = customIndicator;
@@ -47,7 +47,9 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
 
         Log.e("POSITION",""+currentPosition);
         Log.e("IMAGE",""+arrayList.get(currentPosition));
-        Glide.with(context).load(arrayList.get(currentPosition)).into(holder.imageView);
+
+        holder.imageView.setImageResource(arrayList.get(currentPosition));
+        //Glide.with(context).load(arrayList.get(currentPosition)).into(holder.imageView);
         customIndicator.setActiveIndex(currentPosition);
 
 
@@ -68,8 +70,9 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
         });
 
         holder.itemView.setOnClickListener(view -> {
-            if (onItemClickListener != null) {
-                onItemClickListener.onClick(holder.imageView, arrayList.get(position));
+            if (onItemClickListener != null)
+            {
+               // onItemClickListener.onClick(holder.imageView, arrayList.get(position));
             }
         });
     }
@@ -100,7 +103,7 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
         void onClick(ImageView imageView, String path);
     }
 
-    private void animateImageChange(ImageView imageView, String imagePath, boolean isNext) {
+   /* private void animateImageChange(ImageView imageView, String imagePath, boolean isNext) {
         Animation slideOut = AnimationUtils.loadAnimation(context, isNext ? R.anim.slide_out_left : R.anim.slide_out_right);
         imageView.startAnimation(slideOut);
         slideOut.setAnimationListener(new Animation.AnimationListener() {
@@ -118,6 +121,26 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
             public void onAnimationRepeat(Animation animation) {
 
             }
+        });
+    }*/
+
+
+    private void animateImageChange(ImageView imageView, int imageResourceId, boolean isNext) {
+        Animation slideOut = AnimationUtils.loadAnimation(context, isNext ? R.anim.slide_out_left : R.anim.slide_out_right);
+        imageView.startAnimation(slideOut);
+        slideOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                imageView.setImageResource(imageResourceId);
+                Animation slideIn = AnimationUtils.loadAnimation(context, isNext ? R.anim.slide_in_right : R.anim.slide_in_left);
+                imageView.startAnimation(slideIn);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
         });
     }
 }

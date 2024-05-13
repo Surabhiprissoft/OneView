@@ -11,6 +11,152 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <include layout="@layout/common_header" />
+        <TextView
+            android:id="@+id/tvCustomerdetails"
+            android:text="Customer Details"
+            style="@style/menuHeadingGradientTextStyle" />
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/table_border">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:weightSum="2"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/first_name_label"
+                    android:layout_width="0dp"
+                    android:text="First Name"
+                    style="@style/textStyle_14_600_table" />
+
+                <TextView
+                    android:id="@+id/first_name_value"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_400_table"
+                    android:text="John" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/middle_name_label"
+                    style="@style/textStyle_14_600_table"
+                    android:layout_width="0dp"
+                    android:text="Middle Name" />
+
+                <TextView
+                    android:id="@+id/middle_name_value"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_400_table"
+                    android:text="Doe" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/last_name_label"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_600_table"
+                    android:text="Last Name" />
+
+                <TextView
+                    android:id="@+id/last_name_value"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_400_table"
+                    android:text="Smith" />
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/DOB_label"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_600_table"
+                    android:text="Date of Birth" />
+
+                <TextView
+                    android:id="@+id/DOB_value"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_400_table"
+                    android:text="24-04-1996" />
+            </TableRow>
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/ovd_type_label"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_600_table"
+                    android:text="OVD Type" />
+
+                <TextView
+                    android:id="@+id/ovd_type_value"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_400_table"
+                    android:text="Passport" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/ovd_value_label"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_600_table"
+                    android:text="OVD Value" />
+
+                <TextView
+                    android:id="@+id/ovd_value_value"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_400_table"
+                    android:text="1234567890" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/kyc_type_label"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_600_table"
+                    android:text="KYC Type" />
+
+                <TextView
+                    android:id="@+id/kyc_type_value"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_400_table"
+                    android:text="Aadhaar" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/mobile_number_label"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_600_table"
+                    android:text="Mobile Number" />
+
+                <TextView
+                    android:id="@+id/mobile_number_value"
+                    android:layout_width="0dp"
+                    style="@style/textStyle_14_400_table"
+                    android:text="9876543210" />
+            </TableRow>
+
+        </TableLayout>
     </LinearLayout>
 
 </FrameLayout>
