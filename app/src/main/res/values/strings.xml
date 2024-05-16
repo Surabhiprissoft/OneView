@@ -53,8 +53,11 @@
     <string name="select_the_card">Select the Card</string>
     <string name="viewAll"><u>View All</u>.</string>
     <string name="Rs">\u20B9</string>
+    <string name="resendOtp"><u>Resend OTP</u></string>
     <string name="eligible_topup">Eligible Balance for Topup :  <b>₹2000.00/-</b></string>
     <string name="last_topup">Last topup <b>₹500.00</b> on <b>03 Jan 2024</b></string>
+    <string name="hotlist_reason_one">Please note that the Card will be permanently blocked after Hot listing.</string>
+    <string name="hotlist_reason_two">Please visit the Nearest Branch and Metro Tom counter for Issuance of New Card.</string>
 
     <string-array name="salutations_array">
         <item>Salutation</item>
@@ -62,6 +65,16 @@
         <item>Mrs</item>
         <item>Ms</item>
     </string-array>
+
+    <string-array name="hot_list_reason_array">
+        <item>Select Reason</item>
+        <item>Lost</item>
+        <item>Stolen</item>
+        <item>Defective</item>
+        <item>Fraud</item>
+        <item>General</item>
+    </string-array>
+
 
     <string-array name="cards_array">
         <item>Select Card</item>

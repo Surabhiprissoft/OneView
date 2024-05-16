@@ -191,6 +191,8 @@ public class TransitHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 drawerItemClick("cardManagement");
                 subMenuClicked(cardhotlistCard,true);
+                replaceFragment(new CardHotlistFragment());
+                drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
         cardLimitLayout.setOnClickListener(new View.OnClickListener() {
@@ -198,6 +200,8 @@ public class TransitHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 drawerItemClick("cardManagement");
                 subMenuClicked(cardLimitCard,true);
+                replaceFragment(new CardLimitFragment());
+                drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
         cardBlockUnblockLayout.setOnClickListener(new View.OnClickListener() {

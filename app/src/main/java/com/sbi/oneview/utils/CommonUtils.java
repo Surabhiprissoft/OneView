@@ -1,16 +1,20 @@
 package com.sbi.oneview.utils;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.App;
 
@@ -178,5 +182,21 @@ public class CommonUtils {
                 Shader.TileMode.CLAMP
         );
         textView.getPaint().setShader(shader);
+    }
+
+
+    public static void showSuccessDialogue(Context context){
+
+        Dialog dialog = new Dialog(context);
+
+        dialog.setContentView(R.layout.dialog_hotlist_success);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+
+
+
+
+        dialog.show();
     }
 }

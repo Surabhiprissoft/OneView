@@ -15,4 +15,6 @@
     <color name="hinttext_transperant_white">#DEFFFFFF</color>
     <color name="page_indicator_active_color">#D6224F</color>
     <color name="page_indicator_inactive_color">#868A93</color>
+    <color name="transparent">#00000000</color>
+
 </resources>

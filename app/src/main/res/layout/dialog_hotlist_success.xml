@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_20sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
+        android:src="@drawable/check_green"/>
+
+    <TextView
+        android:id="@+id/h1"
+        android:text="Success"
+        android:layout_marginTop="@dimen/_15sdp"
+        style="@style/dialogHeadingTextStyle" />
+
+    <TextView
+        android:text="Congratulations, card has been permanently blocked."
+        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_marginStart="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_30sdp"
+        style="@style/dialogNormalTextStyle" />
+
+
+    <TextView
+        android:text="Redirecting to Card Hotlist Page"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        style="@style/dialogNormalTextStyle" />
+
+</LinearLayout>

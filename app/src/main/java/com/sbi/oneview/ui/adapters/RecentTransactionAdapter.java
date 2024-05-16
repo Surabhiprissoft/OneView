@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
 
 public class RecentTransactionAdapter extends RecyclerView.Adapter<RecentTransactionAdapter.ViewHolder> {
@@ -27,7 +29,12 @@ public class RecentTransactionAdapter extends RecyclerView.Adapter<RecentTransac
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.layoutTransaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
     }
 
     @Override
@@ -36,8 +43,13 @@ public class RecentTransactionAdapter extends RecyclerView.Adapter<RecentTransac
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
+        ConstraintLayout layoutTransaction;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            layoutTransaction = itemView.findViewById(R.id.cardDate);
+
         }
     }
 }
