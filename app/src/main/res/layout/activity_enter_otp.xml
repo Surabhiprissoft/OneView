@@ -5,8 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="@drawable/bg_main"
-    tools:context=".ui.otp.EnterOtp">
+    tools:context=".ui.registration.EnterOtp">
 
     <ImageView
         android:id="@+id/bottomLeft_image"
@@ -43,150 +44,173 @@
 
     <ImageView
         android:id="@+id/imgMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_width="@dimen/_180sdp"
+        android:layout_height="@dimen/_180sdp"
+        android:layout_marginTop="@dimen/_40sdp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/layoutContent"
         android:src="@drawable/otp_main_bg"/>
 
-    <TextView
-        android:id="@+id/txtEnterOtp"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutContent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/imgMain"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:text="Enter OTP"
-        android:textStyle="bold"
-        android:focusable="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_18ssp"/>
+        app:layout_constraintBottom_toTopOf="@id/imgSbiLogo"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <TextView
-        android:id="@+id/txtFirstOtpInstruction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txtEnterOtp"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:text="An 4 digit code has been sent to "
-        android:textColor="@color/white"
-        android:textSize="@dimen/_12ssp"/>
-
-    <TextView
-        android:id="@+id/txtPhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txtFirstOtpInstruction"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:text="+91 9876543210"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_12ssp"/>
-
-
-    <LinearLayout
-        android:id="@+id/otpTextViewLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtPhoneNumber"
-        android:weightSum="6"
-        android:gravity="start"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/et1"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_35sdp"
-            android:background="@drawable/edit_text_otp_style"
+        <LinearLayout
+            android:id="@+id/layoutEnterOtp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_7sdp"
-            android:inputType="number"
-            android:maxLength="1"
-            android:gravity="center"
-            android:maxLines="1"
-            android:textStyle="bold"
-            android:layout_weight="1"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/txtEnterOtp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/imgMain"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Enter OTP"
+                android:textStyle="bold"
+                android:focusable="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18ssp"/>
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/et2"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_35sdp"
-            android:background="@drawable/edit_text_otp_style"
-            android:layout_marginEnd="@dimen/_7sdp"
-            android:maxLength="1"
-            android:inputType="number"
-            android:gravity="center"
-            android:maxLines="1"
-            android:textStyle="bold"
-            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/txtFirstOtpInstruction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/layoutEnterOtp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:text="A 4 digit code has been sent to "
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"/>
 
-        <EditText
-            android:id="@+id/et3"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_35sdp"
-            android:background="@drawable/edit_text_otp_style"
-            android:layout_marginEnd="@dimen/_7sdp"
-            android:maxLength="1"
-            android:inputType="number"
-            android:gravity="center"
-            android:maxLines="1"
-            android:textStyle="bold"
-            android:layout_weight="1"/>
-
-        <EditText
-            android:id="@+id/et4"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_35sdp"
-            android:background="@drawable/edit_text_otp_style"
-            android:layout_marginEnd="@dimen/_7sdp"
-            android:maxLength="1"
-            android:inputType="number"
-            android:gravity="center"
-            android:maxLines="1"
-            android:textStyle="bold"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
+        <TextView
+            android:id="@+id/txtPhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/txtFirstOtpInstruction"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:maxLength="10"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"/>
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnVerify"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/otpTextViewLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:backgroundTint="#EAEAEA"
-        android:layout_margin="@dimen/_20sdp"
-        android:textColor="#290174"
-        android:padding="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        app:cornerRadius="@dimen/_10sdp"
-        android:text="Verify"/>
+        <LinearLayout
+            android:id="@+id/otpTextViewLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtPhoneNumber"
+            android:weightSum="6"
+            android:gravity="start"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/txtResendOtp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/btnVerify"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:text="Resend OTP"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_12ssp"/>
+            <EditText
+                android:id="@+id/et1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:background="@drawable/edit_text_otp_style"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:inputType="number"
+                android:maxLength="1"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/et2"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:background="@drawable/edit_text_otp_style"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:maxLength="1"
+                android:inputType="number"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/et3"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:background="@drawable/edit_text_otp_style"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:maxLength="1"
+                android:inputType="number"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/et4"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:background="@drawable/edit_text_otp_style"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:maxLength="1"
+                android:inputType="number"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVerify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/otpTextViewLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:backgroundTint="#EAEAEA"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:textColor="#290174"
+            android:padding="@dimen/_12sdp"
+            app:cornerRadius="@dimen/_10sdp"
+            android:text="Verify"/>
+
+        <TextView
+            android:id="@+id/txtResendOtp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/btnVerify"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Resend OTP"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_20sdp"
+        android:id="@+id/imgSbiLogo"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:scaleType="fitXY"
+        android:layout_marginBottom="@dimen/_40sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

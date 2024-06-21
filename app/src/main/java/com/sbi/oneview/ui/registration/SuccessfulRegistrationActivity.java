@@ -1,5 +1,6 @@
 package com.sbi.oneview.ui.registration;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
-import com.sbi.oneview.ui.login.LoginActivity;
 
 public class SuccessfulRegistrationActivity extends AppCompatActivity {
 
@@ -16,6 +16,7 @@ public class SuccessfulRegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_successful_registration_activty);
         btnLoginNow=findViewById(R.id.btnLoginNow);
         btnLoginNow.setOnClickListener(new View.OnClickListener() {

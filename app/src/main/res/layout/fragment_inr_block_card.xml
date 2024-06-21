@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.inrPrepaid.InrBlockCardFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/common_header" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EAEAEA"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvMyCards"
+            android:text="@string/my_cards"
+            style="@style/menuHeadingGradientTextStyle" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_gravity="center"
+            android:clipToPadding="true"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+
+        <com.sbi.oneview.utils.CustomIndicatorView
+            android:id="@+id/customIndicator"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_height="20dp"/>
+
+        <TextView
+            android:id="@+id/tvCardDetails"
+            android:text="@string/card_details"
+            style="@style/menuHeadingGradientTextStyle"/>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:strokeWidth="0dp"
+            android:backgroundTint="@color/white"
+            app:cardElevation="@dimen/_7sdp"
+            android:layout_margin="@dimen/_10sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_20sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvCN"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/card_number"
+                    style="@style/cardDetailsHeadingTextStyle" />
+
+                <TextView
+                    android:id="@+id/tvCardNumber"
+                    app:layout_constraintTop_toBottomOf="@id/tvCN"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/no_value_dots"
+                    style="@style/cardDetailsValueTextStyle" />
+
+
+                <TextView
+                    android:id="@+id/tvCRNTitle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/crn"
+                    style="@style/cardDetailsHeadingTextStyle"/>
+
+                <TextView
+                    android:id="@+id/tvCRNNumber"
+                    app:layout_constraintTop_toBottomOf="@id/tvCN"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/cardDetailsValueTextStyle"
+                    android:text="@string/no_value_dots"/>
+
+
+                <TextView
+                    android:id="@+id/tvCS"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/tvCardNumber"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/card_status"
+                    style="@style/cardDetailsHeadingTextStyle"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardStatusCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/_13sdp"
+                    app:layout_constraintTop_toBottomOf="@id/tvCS"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <LinearLayout
+                        android:id="@+id/layoutCardStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/activeCardBackground"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvCardStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_3sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:layout_marginStart="@dimen/_15sdp"
+                            android:layout_marginEnd="@dimen/_15sdp"
+                            android:text="@string/no_value_dots"/>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <TextView
+                    android:id="@+id/tvCPN"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/tvCRNNumber"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/card_product_name"
+                    style="@style/cardDetailsHeadingTextStyle"/>
+
+                <TextView
+                    android:id="@+id/tvCardProductName"
+                    app:layout_constraintTop_toBottomOf="@id/tvCPN"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textColor="#AAAAAA"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_12ssp"
+                    android:maxLines="1"
+                    android:gravity="end"
+                    android:ellipsize="end"
+                    android:layout_width="@dimen/_150sdp"
+                    android:text="@string/no_value_dots"/>
+
+                <TextView
+                    android:id="@+id/tvAD"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/cardStatusCard"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/card_act_date"
+                    style="@style/cardDetailsHeadingTextStyle"/>
+                <TextView
+                    android:id="@+id/tvCardActiveDate"
+                    app:layout_constraintTop_toBottomOf="@id/tvAD"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/cardDetailsValueTextStyle"
+                    android:text="@string/no_value_dots"/>
+
+                <TextView
+                    android:id="@+id/tvED"
+                    android:layout_marginTop="@dimen/_17sdp"
+                    android:text="@string/card_exp_date"
+                    style="@style/cardDetailsHeadingTextStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCardProductName" />
+                <ImageView
+                    android:id="@+id/imgExpDate"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvED"
+                    android:src="@drawable/hide_icon"/>
+                <TextView
+                    android:id="@+id/tvCardExpDate"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    app:layout_constraintTop_toBottomOf="@id/tvED"
+                    app:layout_constraintEnd_toStartOf="@id/imgExpDate"
+                    style="@style/cardDetailsValueTextStyle"
+                    android:text="@string/xx_xx"/>
+
+                <TextView
+                    android:id="@+id/tvCB"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/tvCardActiveDate"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/card_bal"
+                    style="@style/cardDetailsHeadingTextStyle"/>
+                <TextView
+                    android:id="@+id/tvCardBalance"
+                    app:layout_constraintTop_toBottomOf="@id/tvCB"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/cardDetailsValueTextStyle"
+                    android:text="@string/no_value_dots"/>
+
+
+                <TextView
+                    android:id="@+id/tvChipB"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@id/imgExpDate"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/card_chip_bal"
+                    style="@style/cardDetailsHeadingTextStyle"/>
+
+                <TextView
+                    android:id="@+id/tvChipBalance"
+                    app:layout_constraintTop_toBottomOf="@id/tvChipB"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/cardDetailsValueTextStyle"
+                    android:text="@string/no_value_dots"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tvCardBlock"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/menuHeadingGradientTextStyle"
+            android:text="@string/card_block"
+            tools:showIn="@layout/fragment_transit_card_dashboard" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:strokeWidth="0dp"
+                android:backgroundTint="@color/white"
+                app:cardElevation="@dimen/_7sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_60sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:cardCornerRadius="@dimen/_30sdp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2"
+                            android:padding="@dimen/_4sdp"
+                            android:background="#EAEAEA"
+                            android:orientation="horizontal">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:cardElevation="0dp"
+                                android:backgroundTint="#EAEAEA"
+                                app:cardCornerRadius="@dimen/_30sdp">
+
+                                <LinearLayout
+                                    android:id="@+id/cardBlocUnblock"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <!-- Content of the first CardView -->
+                                    <TextView
+                                        android:id="@+id/tvCardBlockUnblock"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="@dimen/_5sdp"
+                                        android:textStyle="bold"
+                                        android:text="Block/Unblock" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="@dimen/_30sdp"
+                                app:cardElevation="0dp">
+
+                                <LinearLayout
+                                    android:id="@+id/cardHotlist"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="#290174"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tvHotlist"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/_5sdp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/white"
+                                    android:text="Hotlist" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:id="@+id/layoutBlockUnblock"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:orientation="vertical">
+
+                        
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnTempBlockUnblock"
+                            android:layout_width="@dimen/_150sdp"
+                            android:layout_height="wrap_content"
+                            app:cornerRadius="@dimen/_5sdp"
+                            android:text="Tempprary Block"/>
+
+                        <TextView
+                            android:id="@+id/tvPerBlockNote1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginBottom="@dimen/_4sdp"
+                            android:text="Your card is permanantly blocked."
+                            android:textColor="@color/failedTransaction"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="*Note:"
+                            android:textStyle="bold"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            style="@style/cardDetailsHeadingTextStyle"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1. "
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/block_note_one"
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1. "
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/block_note_two"
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/layoutHotlist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvTempBlockNote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginBottom="@dimen/_4sdp"
+                            android:text="* Your card is temporary block, please unblock it first to proceed with hotlist"
+                            android:textColor="@color/failedTransaction"/>
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnHotlist"
+                            android:layout_width="@dimen/_150sdp"
+                            android:layout_height="wrap_content"
+                            app:cornerRadius="@dimen/_5sdp"
+                            android:text="Hotlist"/>
+
+                        <TextView
+                            android:id="@+id/tvPerBlockNote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginBottom="@dimen/_4sdp"
+                            android:text="Your card is permanantly blocked."
+                            android:textColor="@color/failedTransaction"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="*Note:"
+                            android:textStyle="bold"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            style="@style/cardDetailsHeadingTextStyle"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1. "
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/hotlist_reason_one"
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1. "
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/hotlist_reason_two"
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+</FrameLayout>

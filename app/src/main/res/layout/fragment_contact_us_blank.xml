@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
-    tools:context=".ui.home.ContactUsBlankFragment">
+    tools:context=".ui.transitScreen.ContactUsBlankFragment">
 
    <LinearLayout
        android:layout_width="match_parent"
@@ -17,6 +17,7 @@
       <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/rvContactMethods"
           android:layout_marginTop="@dimen/_10sdp"
+          android:layout_marginBottom="@dimen/_40sdp"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"/>
 

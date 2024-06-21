@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.App;
+import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
 
 public class SharedConfig {
     private final static String NAME = App.getAppContext().getString(R.string.shared_config_name);
@@ -13,6 +15,8 @@ public class SharedConfig {
     private final static String SESSIONMANAGEMENT = App.getAppContext().getString(R.string.sessionmanagement);
     private final static String USERID = App.getAppContext().getString(R.string.userid);
     private final static String PASSWORD = App.getAppContext().getString(R.string.password);
+    private static final String KEY_RESPONSE = "response";
+    private static final String MOBILE_NUMBER = "mob_number";
 
     // declare context
     private static Context mContext;
@@ -89,6 +93,40 @@ public class SharedConfig {
     public void setPassword(String value) {
         edit().putString(PASSWORD, value).commit();
     }
+
+
+    public void setMobileNumber(String mobileNumber){
+        edit().putString(MOBILE_NUMBER,mobileNumber).commit();
+    }
+
+    public String getMobileNumber(){
+        try {
+            return preferences.getString(MOBILE_NUMBER, "");
+        }catch (Exception e) {
+            Log.d("EXCEPTION",""+e.getMessage());
+            return "";
+        }
+    }
+
+    public void saveLoginResponse(Context context, Data response) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(KEY_RESPONSE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(response);
+        editor.putString(KEY_RESPONSE, json);
+        editor.apply();
+    }
+
+    public Data getLoginResponse(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(KEY_RESPONSE, Context.MODE_PRIVATE);
+        String json = sharedPreferences.getString(KEY_RESPONSE, null);
+        if (json != null) {
+            Gson gson = new Gson();
+            return gson.fromJson(json, Data.class);
+        }
+        return null;
+    }
+
 
     public void clear() {
         sharedConfig.setIsLogin(false);

@@ -68,6 +68,48 @@ public class CommonUtils {
         }
     }
 
+    public static void changeBallPositionWithTime(ImageView topRightImg, ImageView bottomRightImg, ImageView bottomLeftImg,int animTime){
+        // Random number generator with a seed for potentially more predictable behavior
+        Random random = new Random(System.currentTimeMillis());
+
+        // Define base values and maximum ranges for translations (all positive)
+        int[] baseValues = {100, 100, 150, 150, 50};  // Assuming all base values are positive
+        int[] maxRanges = {20, 20, 20, 20, 20};
+
+        // Animate images with random translations
+        for (int i = 0; i < baseValues.length; i++) {
+            int randomX = baseValues[i] + random.nextInt(maxRanges[i] + 1);
+            int randomY = random.nextInt(maxRanges[i] + 1);  // Generate random Y value as well
+
+            // Choose random sign (+ or -) for X and Y translations
+            int signX = random.nextBoolean() ? 1 : -1;
+            int signY = random.nextBoolean() ? 1 : -1;
+
+            ImageView imageView;  // Assuming you have references to your image views
+            switch (i) {
+                case 0:
+                    imageView = topRightImg;
+                    break;
+                case 1:
+                    imageView = bottomLeftImg;
+                    break;
+                case 2:
+                    imageView = bottomRightImg;
+                    break;
+                // ... (similar cases for other images)
+                default:
+                    continue;  // Skip if index is out of bounds
+            }
+
+            imageView.animate()
+                    .translationXBy(randomX * signX)
+                    .translationYBy(randomY * signY)
+                    .setDuration(animTime)
+                    // .setFillAfter(true)
+                    .start();
+        }
+    }
+
     public static boolean isValidAadharNumber(String aadharNumber) {
         // Modify the regex pattern as needed for Aadhar Number validation
         String regex = "^[2-9]{1}[0-9]{11}$";

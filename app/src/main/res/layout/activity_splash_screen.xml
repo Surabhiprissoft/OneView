@@ -9,7 +9,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:background="@drawable/bg_gradient"
-    tools:context=".ui.SplashScreenActivity">
+    tools:context=".ui.splash.SplashScreenActivity">
 
     <TextView
         android:id="@+id/tv_splash"

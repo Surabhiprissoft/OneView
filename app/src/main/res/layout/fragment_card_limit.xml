@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="?attr/actionBarSize"
-    tools:context=".ui.home.CardLimitFragment">
+    tools:context=".ui.transitScreen.CardLimitFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

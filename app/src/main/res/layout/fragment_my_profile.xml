@@ -13,7 +13,7 @@
         <include layout="@layout/common_header" />
         <TextView
             android:id="@+id/tvCustomerdetails"
-            android:text="Customer Details"
+            android:text="@string/customer_details"
             style="@style/menuHeadingGradientTextStyle" />
         <TableLayout
             android:layout_width="fill_parent"
@@ -29,14 +29,14 @@
                 <TextView
                     android:id="@+id/first_name_label"
                     android:layout_width="0dp"
-                    android:text="First Name"
+                    android:text="@string/first_name"
                     style="@style/textStyle_14_600_table" />
 
                 <TextView
                     android:id="@+id/first_name_value"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_400_table"
-                    android:text="John" />
+                    android:text="@string/no_value_dots" />
             </TableRow>
 
             <TableRow
@@ -47,13 +47,13 @@
                     android:id="@+id/middle_name_label"
                     style="@style/textStyle_14_600_table"
                     android:layout_width="0dp"
-                    android:text="Middle Name" />
+                    android:text="@string/middle_name" />
 
                 <TextView
                     android:id="@+id/middle_name_value"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_400_table"
-                    android:text="Doe" />
+                    android:text="@string/no_value_dots" />
             </TableRow>
 
             <TableRow
@@ -64,13 +64,13 @@
                     android:id="@+id/last_name_label"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_600_table"
-                    android:text="Last Name" />
+                    android:text="@string/last_name" />
 
                 <TextView
                     android:id="@+id/last_name_value"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_400_table"
-                    android:text="Smith" />
+                    android:text="@string/no_value_dots" />
             </TableRow>
             <TableRow
                 android:layout_width="wrap_content"
@@ -80,13 +80,13 @@
                     android:id="@+id/DOB_label"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_600_table"
-                    android:text="Date of Birth" />
+                    android:text="@string/date_of_birth" />
 
                 <TextView
                     android:id="@+id/DOB_value"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_400_table"
-                    android:text="24-04-1996" />
+                    android:text="@string/no_value_dots" />
             </TableRow>
             <TableRow
                 android:layout_width="wrap_content"
@@ -96,13 +96,13 @@
                     android:id="@+id/ovd_type_label"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_600_table"
-                    android:text="OVD Type" />
+                    android:text="@string/ovd_type" />
 
                 <TextView
                     android:id="@+id/ovd_type_value"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_400_table"
-                    android:text="Passport" />
+                    android:text="@string/no_value_dots" />
             </TableRow>
 
             <TableRow
@@ -113,13 +113,13 @@
                     android:id="@+id/ovd_value_label"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_600_table"
-                    android:text="OVD Value" />
+                    android:text="@string/ovd_value" />
 
                 <TextView
                     android:id="@+id/ovd_value_value"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_400_table"
-                    android:text="1234567890" />
+                    android:text="@string/no_value_dots" />
             </TableRow>
 
             <TableRow
@@ -130,13 +130,13 @@
                     android:id="@+id/kyc_type_label"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_600_table"
-                    android:text="KYC Type" />
+                    android:text="@string/kyc_type" />
 
                 <TextView
                     android:id="@+id/kyc_type_value"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_400_table"
-                    android:text="Aadhaar" />
+                    android:text="@string/no_value_dots" />
             </TableRow>
 
             <TableRow
@@ -147,13 +147,13 @@
                     android:id="@+id/mobile_number_label"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_600_table"
-                    android:text="Mobile Number" />
+                    android:text="@string/mobile_number" />
 
                 <TextView
                     android:id="@+id/mobile_number_value"
                     android:layout_width="0dp"
                     style="@style/textStyle_14_400_table"
-                    android:text="9876543210" />
+                    android:text="@string/no_value_dots" />
             </TableRow>
 
         </TableLayout>

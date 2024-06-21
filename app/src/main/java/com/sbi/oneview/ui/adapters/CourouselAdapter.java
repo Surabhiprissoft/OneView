@@ -10,27 +10,34 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.sbi.oneview.R;
+import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
+import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
 import com.sbi.oneview.utils.CustomIndicatorView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<Integer> arrayList;
+    private List<CardDetailsItem> arrayList;
     private OnItemClickListener onItemClickListener;
     private int currentPosition = 0;
     private int initialPosition;
+    private Fragment fragment;
     private CustomIndicatorView customIndicator;
-    public CourouselAdapter(Context context, ArrayList<Integer> arrayList, CustomIndicatorView customIndicator) {
+    private MyFragmentCallback callback;
+    public CourouselAdapter(MyFragmentCallback callback, Context context, List<CardDetailsItem> arrayList, CustomIndicatorView customIndicator) {
         this.context = context;
         this.arrayList = arrayList;
         this.customIndicator = customIndicator;
         initialPosition = arrayList.size() / 2;
         customIndicator.setNumItems(arrayList.size());
+        this.callback = callback;
     }
 
     @NonNull
@@ -48,7 +55,38 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
         Log.e("POSITION",""+currentPosition);
         Log.e("IMAGE",""+arrayList.get(currentPosition));
 
-        holder.imageView.setImageResource(arrayList.get(currentPosition));
+        String productCode = arrayList.get(currentPosition).getProductCode();
+        callback.onPositionChange(currentPosition);
+
+        int currentImageResourceId;
+
+        if (productCode.equals("266")){
+            holder.imageView.setImageResource(R.drawable.city_chennai);
+            currentImageResourceId=R.drawable.city_chennai;
+        }else if (productCode.equals("262")){
+            holder.imageView.setImageResource(R.drawable.city_noida);
+            currentImageResourceId=R.drawable.city_noida;
+        }else if (productCode.equals("267")){
+            holder.imageView.setImageResource(R.drawable.city_mumbai);
+            currentImageResourceId=R.drawable.city_mumbai;
+        }else if (productCode.equals("263")){
+            holder.imageView.setImageResource(R.drawable.city_nagpur);
+            currentImageResourceId=R.drawable.city_nagpur;
+        }else if (productCode.equals("270")){
+            holder.imageView.setImageResource(R.drawable.city_kanpur);
+            currentImageResourceId=R.drawable.city_kanpur;
+        }else if (productCode.equals("123")){
+            holder.imageView.setImageResource(R.drawable.city_kanpur);
+            currentImageResourceId=R.drawable.city_kanpur;
+        }else if (productCode.equals("GBRSBT")){
+            holder.imageView.setImageResource(R.drawable.city_mumbai);
+            currentImageResourceId=R.drawable.city_mumbai;
+        }else{
+            currentImageResourceId=R.drawable.city_kanpur;
+        }
+
+
+        //holder.imageView.setImageResource(cardImage);
         //Glide.with(context).load(arrayList.get(currentPosition)).into(holder.imageView);
         customIndicator.setActiveIndex(currentPosition);
 
@@ -56,16 +94,18 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
         holder.btnNext.setOnClickListener(v -> {
             if (currentPosition < arrayList.size() - 1) {
                 currentPosition++;
-                animateImageChange(holder.imageView, arrayList.get(currentPosition), true);
+                animateImageChange(holder.imageView, getImageResources(arrayList.get(currentPosition).getProductCode()), true);
                 customIndicator.setActiveIndex(currentPosition);
+                callback.onPositionChange(currentPosition);
             }
         });
 
         holder.btnPrevious.setOnClickListener(v -> {
             if (currentPosition > 0) {
                 currentPosition--;
-                animateImageChange(holder.imageView, arrayList.get(currentPosition), false);
+                animateImageChange(holder.imageView, getImageResources(arrayList.get(currentPosition).getProductCode()), false);
                 customIndicator.setActiveIndex(currentPosition);
+                callback.onPositionChange(currentPosition);
             }
         });
 
@@ -124,6 +164,33 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
         });
     }*/
 
+
+    public int getImageResources(String productCode){
+        if (productCode.equals("266")){
+            //holder.imageView.setImageResource(R.drawable.city_chennai);
+            return  R.drawable.city_chennai;
+        }else if (productCode.equals("262")){
+            //holder.imageView.setImageResource(R.drawable.city_noida);
+            return R.drawable.city_noida;
+        }else if (productCode.equals("267")){
+            //holder.imageView.setImageResource(R.drawable.city_mumbai);
+            return R.drawable.city_mumbai;
+        }else if (productCode.equals("263")){
+            //holder.imageView.setImageResource(R.drawable.city_nagpur);
+            return R.drawable.city_nagpur;
+        }else if (productCode.equals("270")){
+            //holder.imageView.setImageResource(R.drawable.city_kanpur);
+            return R.drawable.city_kanpur;
+        }else if (productCode.equals("123")){
+            //holder.imageView.setImageResource(R.drawable.city_kanpur);
+            return R.drawable.city_kanpur;
+        }else if (productCode.equals("GBRSBT")){
+            //holder.imageView.setImageResource(R.drawable.city_mumbai);
+            return R.drawable.city_mumbai;
+        }else{
+            return R.drawable.city_kanpur;
+        }
+    }
 
     private void animateImageChange(ImageView imageView, int imageResourceId, boolean isNext) {
         Animation slideOut = AnimationUtils.loadAnimation(context, isNext ? R.anim.slide_out_left : R.anim.slide_out_right);

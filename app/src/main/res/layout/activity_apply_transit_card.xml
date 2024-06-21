@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_main"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.registration.LoginActivity">
     <ImageView
         android:id="@+id/bottomLeft_image"
         android:layout_width="800dp"
@@ -61,13 +61,15 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="@dimen/_20sdp"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_20sdp"
-        android:paddingBottom="@dimen/_80sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/imgSbiLogo"
         app:layout_constraintTop_toBottomOf="@id/txtNewCardApplication">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -216,15 +218,22 @@
                 android:text="@string/apply"/>
 
 
-            <ImageView
-                android:layout_gravity="center"
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_80sdp"
-                android:src="@drawable/sbi_logo"/>
+
 
         </LinearLayout>
 
 
     </androidx.core.widget.NestedScrollView>
+
+    <ImageView
+        android:id="@+id/imgSbiLogo"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:scaleType="fitXY"
+        android:layout_marginBottom="@dimen/_40sdp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/sbi_logo"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

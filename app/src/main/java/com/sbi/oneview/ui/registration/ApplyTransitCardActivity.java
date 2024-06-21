@@ -5,6 +5,7 @@ import static com.sbi.oneview.utils.CommonUtils.isValidPanCard;
 import static com.sbi.oneview.utils.CommonUtils.isValidPassportNumber;
 import static com.sbi.oneview.utils.CommonUtils.isValidVoterIdNumber;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatCheckBox;
 
@@ -13,7 +14,6 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -27,7 +27,6 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.App;
-import com.sbi.oneview.ui.login.LoginActivity;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomInputFilter;
 
@@ -42,6 +41,7 @@ public class ApplyTransitCardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_apply_transit_card);
         initWidgets();
         onClickListners();

@@ -11,7 +11,7 @@
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:layout_height="match_parent">
 
 
@@ -40,8 +40,30 @@
                         app:layout_constraintStart_toStartOf="parent"
                         android:src="@drawable/drawer_menu_icon"
                         android:layout_alignParentStart="true"
+                        android:layout_marginStart="@dimen/_5sdp" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/openIcon"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:layout_marginStart="@dimen/_5sdp"
-                        android:contentDescription="Open Navigation Drawer" />
+                        app:cardCornerRadius="@dimen/_3sdp"
+                        android:padding="@dimen/_7sdp"
+                        android:backgroundTint="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent">
+
+                        <TextView
+                            android:id="@+id/tvTransit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/_13ssp"
+                            android:textFontWeight="600"
+                            android:layout_marginStart="@dimen/_7sdp"
+                            android:layout_marginEnd="@dimen/_7sdp"
+                            android:text="@string/transit"/>
+
+                    </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -49,6 +71,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:layout_marginEnd="@dimen/_20sdp"
+                        android:gravity="center"
                         app:layout_constraintBottom_toBottomOf="parent">
 
                         <ImageView
@@ -59,19 +82,35 @@
                             app:layout_constraintStart_toStartOf="parent"
                             android:src="@drawable/notification_icon"
                             android:layout_alignParentStart="true"
-                            android:layout_marginStart="@dimen/_16sdp"
-                            android:contentDescription="Notification Icon" />
+                            android:layout_marginStart="@dimen/_16sdp" />
 
-                        <ImageView
-                            android:layout_width="@dimen/_25sdp"
-                            android:layout_height="match_parent"
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="@dimen/_28sdp"
+                            android:layout_height="@dimen/_28sdp"
+                            app:cardCornerRadius="@dimen/_50sdp"
+                            android:layout_marginStart="@dimen/_8sdp"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            android:src="@drawable/un_logo"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginStart="@dimen/_8sdp"
-                            android:contentDescription="profile Logo" />
+                            app:layout_constraintStart_toStartOf="parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/small_card_gradient_bg"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tvUserNameChar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:textColor="@color/white"/>
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+
 
                         <ImageView
                             android:layout_width="@dimen/_10sdp"
@@ -81,8 +120,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             android:src="@drawable/arrow_down"
                             android:layout_alignParentStart="true"
-                            android:layout_marginStart="@dimen/_8sdp"
-                            android:contentDescription="profile Logo" />
+                            android:layout_marginStart="@dimen/_8sdp"/>
 
                     </LinearLayout>
 
@@ -169,7 +207,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 android:layout_gravity="center"
                                 android:textStyle="bold"
-                                android:text="One View"
+                                android:text="@string/one_view"
                                 android:textColor="@color/white"
                                 android:layout_marginStart="@dimen/_5sdp"/>
 
@@ -233,7 +271,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textSize="@dimen/_13ssp"
-                                        android:text="Dashboard"
+                                        android:text="@string/dashboard"
                                         android:textStyle="bold"
                                         android:textColor="@color/black"
                                         android:layout_marginStart="@dimen/_10sdp" />
@@ -277,7 +315,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textSize="@dimen/_13ssp"
-                                        android:text="My Profile"
+                                        android:text="@string/my_profile"
                                         android:textStyle="bold"
                                         android:textColor="@color/white"
                                         android:layout_marginStart="@dimen/_10sdp" />
@@ -473,7 +511,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textSize="@dimen/_13ssp"
-                                        android:text="Card Management"
+                                        android:text="@string/card_management"
                                         android:textStyle="bold"
                                         android:textColor="@color/white"
                                         android:layout_marginStart="@dimen/_10sdp" />
@@ -535,7 +573,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:textSize="@dimen/_12ssp"
                                                 android:textColor="@color/white"
-                                                android:text="Card TopUp"/>
+                                                android:text="@string/card_top_up"/>
 
                                         </LinearLayout>
                                     </com.google.android.material.card.MaterialCardView>
@@ -575,7 +613,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:textSize="@dimen/_12ssp"
                                                 android:textColor="@color/white"
-                                                android:text="Card Statement"/>
+                                                android:text="@string/card_statement"/>
 
                                         </LinearLayout>
                                     </com.google.android.material.card.MaterialCardView>
@@ -617,7 +655,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:textSize="@dimen/_12ssp"
                                                 android:textColor="@color/white"
-                                                android:text="Card Hotlist"/>
+                                                android:text="@string/card_hotlist"/>
 
                                         </LinearLayout>
                                     </com.google.android.material.card.MaterialCardView>
@@ -659,7 +697,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:textSize="@dimen/_12ssp"
                                                 android:textColor="@color/white"
-                                                android:text="Reset Pin"/>
+                                                android:text="@string/reset_pin"/>
 
                                         </LinearLayout>
                                     </com.google.android.material.card.MaterialCardView>
@@ -700,7 +738,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:textSize="@dimen/_12ssp"
                                                 android:textColor="@color/white"
-                                                android:text="Card Limit"/>
+                                                android:text="@string/card_limit"/>
 
                                         </LinearLayout>
                                     </com.google.android.material.card.MaterialCardView>
@@ -863,7 +901,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textSize="@dimen/_13ssp"
-                                        android:text="Contact Us"
+                                        android:text="@string/contact_us"
                                         android:textStyle="bold"
                                         android:textColor="@color/white"
                                         android:layout_marginStart="@dimen/_10sdp" />

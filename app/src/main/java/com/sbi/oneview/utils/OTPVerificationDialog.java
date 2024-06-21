@@ -20,16 +20,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.sbi.oneview.R;
+import com.sbi.oneview.ui.CallBackListner.OtpDialogueCallBack;
 
 public class OTPVerificationDialog extends Dialog {
 
     EditText etFirstOTP, etSecondOTP, etThirdOTP, etFourthOTP,et5,et6;
     Button btnVerify;
     TextView tvResendOTP;
+    private OtpDialogueCallBack otpDialogueCallBack;
 
-
-    public OTPVerificationDialog(@NonNull Context context) {
+    public OTPVerificationDialog(OtpDialogueCallBack otpDialogueCallBack,@NonNull Context context) {
         super(context);
+        this.otpDialogueCallBack=otpDialogueCallBack;
     }
 
     @Override
@@ -55,8 +57,8 @@ public class OTPVerificationDialog extends Dialog {
                 String otpTxt = etFirstOTP.getText().toString()+ etSecondOTP.getText().toString()+ etThirdOTP.getText().toString()+ etFourthOTP.getText().toString();
                 if (otpTxt.length()==4)
                 {
-
-                    CommonUtils.showSuccessDialogue(getContext());
+                    otpDialogueCallBack.onVerifyClick(otpTxt);
+                    //CommonUtils.showSuccessDialogue(getContext());
                 }
                 else {
                     // Toast.makeText(getContext(), ""+R.string.enter_otp, Toast.LENGTH_SHORT).show();

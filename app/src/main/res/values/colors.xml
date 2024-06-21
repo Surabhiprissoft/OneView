@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background_one">#290174</color>
+    <color name="background_dim">#473863</color>
     <color name="background_two">#D6224F</color>
     <color name="disable_button_color">#B6B1B1</color>
     <color name="header_white_color">#EAEAEA</color>
@@ -16,5 +17,16 @@
     <color name="page_indicator_active_color">#D6224F</color>
     <color name="page_indicator_inactive_color">#868A93</color>
     <color name="transparent">#00000000</color>
+    <color name="faintPurple">#FF714a8f</color>
+    <color name="faintWhite">#FF7e7d80</color>
+    <color name="creditTransaction">#FF0A9420</color>
+    <color name="debitedTransaction">#FFFF7A00</color>
+    <color name="failedTransaction">#FFFF0000</color>
+    <color name="failedAmountTransaction">#FFAAAAAA</color>
+    <color name="tableHeaderBackground">#FFB9B9B9</color>
+    <color name="activeCardBackground">#FFA8FBB5</color>
+
+
+
 
 </resources>

@@ -5,7 +5,15 @@
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.TopUpFragment">
+    tools:context=".ui.transitScreen.TopUpFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <include
+        layout="@layout/common_header"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -14,15 +22,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/_30sdp"
             android:orientation="vertical">
 
-            <include
-                layout="@layout/common_header"/>
 
             <TextView
                 android:id="@+id/tvMyCards"
-                android:text="My Cards"
+                android:text="@string/my_cards"
                 style="@style/menuHeadingGradientTextStyle" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -42,7 +47,7 @@
 
             <TextView
                 android:id="@+id/tvCardDetails"
-                android:text="Card Details"
+                android:text="@string/card_details"
                 style="@style/menuHeadingGradientTextStyle"/>
 
             <com.google.android.material.card.MaterialCardView
@@ -56,21 +61,21 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/_20sdp"
+                    android:padding="@dimen/_10sdp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvCN"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:text="Card Number"
+                        android:text="@string/card_number"
                         style="@style/cardDetailsHeadingTextStyle" />
 
                     <TextView
                         android:id="@+id/tvCardNumber"
                         app:layout_constraintTop_toBottomOf="@id/tvCN"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:text="Card Number"
+                        android:text="@string/no_value_dots"
                         style="@style/cardDetailsValueTextStyle" />
 
 
@@ -78,7 +83,7 @@
                         android:id="@+id/tvCRNTitle"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:text="CRN"
+                        android:text="@string/crn"
                         style="@style/cardDetailsHeadingTextStyle"/>
 
                     <TextView
@@ -86,7 +91,7 @@
                         app:layout_constraintTop_toBottomOf="@id/tvCN"
                         app:layout_constraintEnd_toEndOf="parent"
                         style="@style/cardDetailsValueTextStyle"
-                        android:text="12345"/>
+                        android:text="@string/no_value_dots"/>
 
 
                     <TextView
@@ -94,26 +99,35 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         app:layout_constraintTop_toBottomOf="@id/tvCardNumber"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:text="Card Status"
+                        android:text="@string/card_status"
                         style="@style/cardDetailsHeadingTextStyle"/>
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardStatusCard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="#A8FBB5"
                         app:cardCornerRadius="@dimen/_13sdp"
                         app:layout_constraintTop_toBottomOf="@id/tvCS"
                         app:layout_constraintStart_toStartOf="parent">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/_3sdp"
-                            android:layout_marginTop="@dimen/_3sdp"
-                            android:layout_marginStart="@dimen/_15sdp"
-                            android:layout_marginEnd="@dimen/_15sdp"
-                            android:text="Active"/>
+                        <LinearLayout
+                            android:id="@+id/layoutCardStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/activeCardBackground"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvCardStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_3sdp"
+                                android:layout_marginTop="@dimen/_3sdp"
+                                android:layout_marginStart="@dimen/_15sdp"
+                                android:layout_marginEnd="@dimen/_15sdp"
+                                android:text="@string/no_value_dots"/>
+
+                        </LinearLayout>
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -123,34 +137,40 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         app:layout_constraintTop_toBottomOf="@id/tvCRNNumber"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:text="Card Product Name"
+                        android:text="@string/card_product_name"
                         style="@style/cardDetailsHeadingTextStyle"/>
 
                     <TextView
                         android:id="@+id/tvCardProductName"
                         app:layout_constraintTop_toBottomOf="@id/tvCPN"
                         app:layout_constraintEnd_toEndOf="parent"
-                        style="@style/cardDetailsValueTextStyle"
-                        android:text="Product Name"/>
+                        android:textColor="#AAAAAA"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_12ssp"
+                        android:maxLines="1"
+                        android:gravity="end"
+                        android:ellipsize="end"
+                        android:layout_width="@dimen/_150sdp"
+                        android:text="@string/no_value_dots"/>
 
                     <TextView
                         android:id="@+id/tvAD"
                         android:layout_marginTop="@dimen/_10sdp"
                         app:layout_constraintTop_toBottomOf="@id/cardStatusCard"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:text="Card Act. Date"
+                        android:text="@string/card_act_date"
                         style="@style/cardDetailsHeadingTextStyle"/>
                     <TextView
                         android:id="@+id/tvCardActiveDate"
                         app:layout_constraintTop_toBottomOf="@id/tvAD"
                         app:layout_constraintStart_toStartOf="parent"
                         style="@style/cardDetailsValueTextStyle"
-                        android:text="1 Jan 2020"/>
+                        android:text="@string/no_value_dots"/>
 
                     <TextView
                         android:id="@+id/tvED"
                         android:layout_marginTop="@dimen/_17sdp"
-                        android:text="Card Exp. Date"
+                        android:text="@string/card_exp_date"
                         style="@style/cardDetailsHeadingTextStyle"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvCardProductName" />
@@ -167,34 +187,29 @@
                         app:layout_constraintTop_toBottomOf="@id/tvED"
                         app:layout_constraintEnd_toStartOf="@id/imgExpDate"
                         style="@style/cardDetailsValueTextStyle"
-                        android:text="XX / XX"/>
+                        android:text="@string/xx_xx"/>
 
                     <TextView
                         android:id="@+id/tvCB"
                         android:layout_marginTop="@dimen/_10sdp"
                         app:layout_constraintTop_toBottomOf="@id/tvCardActiveDate"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:text="Card Bal."
+                        android:text="@string/card_bal"
                         style="@style/cardDetailsHeadingTextStyle"/>
                     <TextView
                         android:id="@+id/tvCardBalance"
                         app:layout_constraintTop_toBottomOf="@id/tvCB"
                         app:layout_constraintStart_toStartOf="parent"
                         style="@style/cardDetailsValueTextStyle"
-                        android:text="$15000.00"/>
-                    <TextView
-                        android:id="@+id/tvCardBalanceDate"
-                        app:layout_constraintTop_toBottomOf="@id/tvCardBalance"
-                        app:layout_constraintStart_toStartOf="parent"
-                        style="@style/cardDetailsValueTextStyle"
-                        android:text="[As on 1/11/2024]"/>
+                        android:text="@string/no_value_dots"/>
+
 
                     <TextView
                         android:id="@+id/tvChipB"
                         android:layout_marginTop="@dimen/_10sdp"
                         app:layout_constraintTop_toBottomOf="@id/imgExpDate"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:text="Card Chip Bal."
+                        android:text="@string/card_chip_bal"
                         style="@style/cardDetailsHeadingTextStyle"/>
 
                     <TextView
@@ -202,18 +217,13 @@
                         app:layout_constraintTop_toBottomOf="@id/tvChipB"
                         app:layout_constraintEnd_toEndOf="parent"
                         style="@style/cardDetailsValueTextStyle"
-                        android:text="[$15000.00]"/>
-                    <TextView
-                        android:id="@+id/tvChipBalanceDate"
-                        app:layout_constraintTop_toBottomOf="@id/tvChipBalance"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        style="@style/cardDetailsValueTextStyle"
-                        android:text="[As on 1/11/2024]"/>
+                        android:text="@string/no_value_dots"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             </com.google.android.material.card.MaterialCardView>
+
 
             <TextView
                 android:id="@+id/tvTopUp"
@@ -224,7 +234,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardElevation="@dimen/_7sdp"
-                android:layout_margin="@dimen/_10sdp">
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_60sdp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -360,49 +373,6 @@
 
 
 
-                    <LinearLayout
-                        android:id="@+id/layoutChoosePaymentMode"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:orientation="vertical">
-
-
-                        <RadioGroup
-                            android:id="@+id/radioGroup"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <RadioButton
-                                android:id="@+id/radioButton1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Internet Banking"
-                                android:checked="true" />
-
-                            <RadioButton
-                                android:id="@+id/radioButton2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Credit/Debit Cards" />
-
-                            <RadioButton
-                                android:id="@+id/radioButton3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="UPI" />
-
-                            <RadioButton
-                                android:id="@+id/radioButton4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Wallets" />
-                        </RadioGroup>
-
-
-                    </LinearLayout>
-
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -441,23 +411,7 @@
                         android:gravity="center"
                         android:textSize="@dimen/_13ssp"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="@dimen/_20sdp"
-                            android:layout_height="@dimen/_20sdp"
-                            android:src="@drawable/again_transaction"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/last_topup"
-                            android:layout_marginTop="@dimen/_3sdp"
-                            android:textSize="@dimen/_13ssp"/>
-                    </LinearLayout>
                     
                 </LinearLayout>
                 
@@ -466,4 +420,5 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    </LinearLayout>
 </FrameLayout>

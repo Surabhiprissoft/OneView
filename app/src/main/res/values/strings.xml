@@ -19,8 +19,8 @@
     <string name="the_certificate_is_not_an_x_509_certificate">The certificate is not an X.509 certificate.</string>
     <string name="server_certificate_matched_one_of_the_custom_certificates">Server certificate matched one of the custom certificates.</string>
     <string name="applyCard"> Don\'t have a prepaid card yet ?<u>Apply for card</u>.</string>
-    <string name="login_account">Login Account</string>
-    <string name="hello_welcome_back_to_our_account">Hello, welcome back to our account</string>
+    <string name="login_account">Login</string>
+    <string name="hello_welcome_back_to_our_account">Please Login to your One View Account</string>
     <string name="phone_number">Phone Number</string>
     <string name="requst_otp">Requst OTP</string>
     <string name="multiple_products">Multiple Products</string>
@@ -54,10 +54,21 @@
     <string name="viewAll"><u>View All</u>.</string>
     <string name="Rs">\u20B9</string>
     <string name="resendOtp"><u>Resend OTP</u></string>
-    <string name="eligible_topup">Eligible Balance for Topup :  <b>₹2000.00/-</b></string>
+    <string name="noInternet"><u>No Internet available at this moment, Please try again later.</u></string>
+    <string name="eligible_topup">Eligible Balance for Topup :  <b>\u20B9</b></string>
     <string name="last_topup">Last topup <b>₹500.00</b> on <b>03 Jan 2024</b></string>
     <string name="hotlist_reason_one">Please note that the Card will be permanently blocked after Hot listing.</string>
-    <string name="hotlist_reason_two">Please visit the Nearest Branch and Metro Tom counter for Issuance of New Card.</string>
+    <string name="hotlist_reason_two">Please visit the Nearest Branch for Issuance of New Card.</string>
+    <string name="reset_pin_reason_one">The reset function will reset the existing pin of your Transit/Prepaid Card.</string>
+    <string name="reset_pin_reason_two">You will be redirect to another bank portal to reset existing pin.</string>
+    <string name="reset_pin_reason_three">In case of any issue please inform the contact center or visit your nearest branch.</string>
+    <string name="block_note_one">Instantly stop all new transaction if you misplace your card or want extra security.</string>
+    <string name="block_note_two">Easily restore all functionalities when you are ready use your card again.</string>
+
+
+    <string name="transitCardInfo">\u2022 Cashless travels in all metro\n \u2022 Purchase tickets and store passes for your metro travel needs.\n\u2022 purchase tickets for busses using the same card\n  \u2022 Chip protection to ensure better security for your card.\n \u2022 Easy to use Tap-and-pay functionality</string>
+    <string name="inrPrepaidCardInfo">\u2022 Maximum amount of issue Rs:2,00,000/-\n \u2022 Operable by 4 digit PIN at ATM and by PIN/Signature at merchant establishment.\n\u2022 Free balance enquiry at State bank group ATMs and Visa ATM(at a charge)\n  \u2022 Add on card not exceeding two in number to be use by the card.\n</string>
+
 
     <string-array name="salutations_array">
         <item>Salutation</item>
@@ -98,5 +109,54 @@
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="quick_access">Quick Access</string>
+    <string name="card_top_up">Card Top up</string>
+    <string name="reset_pin">Reset Pin</string>
+    <string name="card_hotlist">Card Hotlist</string>
+    <string name="card_statement">Card Statement</string>
+    <string name="my_cards">My Cards</string>
+    <string name="card_details">Card Details</string>
+    <string name="card_number">Card Number</string>
+    <string name="no_value_dots">-----</string>
+    <string name="crn">CRN</string>
+    <string name="card_status">Card Status</string>
+    <string name="card_product_name">Card Product Name</string>
+    <string name="card_act_date">Card Act. Date</string>
+    <string name="card_exp_date">Card Exp. Date</string>
+    <string name="xx_xx">XX / XX</string>
+    <string name="card_bal">Card Bal.</string>
+    <string name="card_chip_bal">Card Chip Bal.</string>
+    <string name="recent_transaction">Recent Transaction</string>
+    <string name="card_limit">Card Limit</string>
+    <string name="transit">Transit</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="my_profile">My Profile</string>
+    <string name="card_management">Card Management</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="inr_prepaid">INR Prepaid</string>
+    <string name="customer_details">Customer Details</string>
+    <string name="first_name">First Name</string>
+    <string name="middle_name">Middle Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="ovd_type">OVD Type</string>
+    <string name="ovd_value">OVD Value</string>
+    <string name="kyc_type">KYC Type</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="top_up">Top-up</string>
+    <string name="how_much_would_you_like_top_up">How much would you like top-up?</string>
+    <string name="_5000">5000</string>
+    <string name="_10000">10000</string>
+    <string name="_20000">20000</string>
+    <string name="_50000">50000</string>
+    <string name="card_block">Card Block</string>
+    <string name="spend_limit">Spend Limit</string>
+    <string name="transaction">Transactions</string>
+    <string name="your_card_has_been_successfully">Your card has been successfully</string>
+    <string name="unblock_successfully">You card has been un-block successfully, now you can use your card functionalities again</string>
+    <string name="max_atm">Max: \u20B9 40000.00</string>
+    <string name="max_pos">Max: \u20B9 200000.00</string>
+    <string name="max_EComm">Max: \u20B9 200000.00</string>
+    <string name="max_ContactLess">Max: \u20B9 5000.00</string>
 
 </resources>

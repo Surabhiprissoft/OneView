@@ -22,13 +22,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#EAEAEA"
-                android:layout_marginBottom="@dimen/_30sdp"
                 android:orientation="vertical">
 
 
                 <TextView
                     android:id="@+id/tvQuickAccess"
-                    android:text="Quick Access"
+                    android:text="@string/quick_access"
                     tools:showIn="@layout/fragment_transit_card_dashboard"
                     style="@style/menuHeadingGradientTextStyle" />
 
@@ -46,13 +45,14 @@
                         android:weightSum="2">
 
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardCardTopup"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_5sdp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/white"
                             app:cardCornerRadius="@dimen/_7sdp"
-                            app:cardElevation="@dimen/_10sdp"
+                            app:cardElevation="@dimen/_7sdp"
                             app:strokeWidth="0dp">
 
                             <LinearLayout
@@ -72,20 +72,21 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textStyle="bold"
-                                    android:text="Card Top up" />
+                                    android:text="@string/card_top_up" />
 
                             </LinearLayout>
 
                         </com.google.android.material.card.MaterialCardView>
 
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardResetPin"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/white"
                             app:cardCornerRadius="@dimen/_7sdp"
-                            app:cardElevation="@dimen/_10sdp"
+                            app:cardElevation="@dimen/_7sdp"
                             app:strokeWidth="0dp">
 
                             <LinearLayout
@@ -105,7 +106,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textStyle="bold"
-                                    android:text="Reset Pin" />
+                                    android:text="@string/reset_pin" />
 
                             </LinearLayout>
 
@@ -121,6 +122,7 @@
                         android:weightSum="2">
 
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardHotlist"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/_5sdp"
@@ -147,13 +149,14 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textStyle="bold"
-                                    android:text="Card Hotlist"/>
+                                    android:text="@string/card_hotlist"/>
 
                             </LinearLayout>
 
                         </com.google.android.material.card.MaterialCardView>
 
                         <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardStatement"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"
@@ -173,7 +176,6 @@
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_height="@dimen/_40sdp"
                                     android:layout_margin="@dimen/_10sdp"
-                                    android:scaleType="fitXY"
                                     android:src="@drawable/card_statement_qa" />
 
                                 <TextView
@@ -181,9 +183,10 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textStyle="bold"
-                                    android:text="Card Statement" />
+                                    android:text="@string/card_hotlist"/>
 
                             </LinearLayout>
+
 
                         </com.google.android.material.card.MaterialCardView>
 
@@ -194,7 +197,7 @@
 
                 <TextView
                     android:id="@+id/tvMyCards"
-                    android:text="My Cards"
+                    android:text="@string/my_cards"
                     style="@style/menuHeadingGradientTextStyle" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -214,7 +217,7 @@
 
                 <TextView
                     android:id="@+id/tvCardDetails"
-                    android:text="Card Details"
+                    android:text="@string/card_details"
                     style="@style/menuHeadingGradientTextStyle"/>
 
                 <com.google.android.material.card.MaterialCardView
@@ -228,21 +231,21 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_20sdp"
+                        android:padding="@dimen/_10sdp"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/tvCN"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:text="Card Number"
+                            android:text="@string/card_number"
                             style="@style/cardDetailsHeadingTextStyle" />
 
                         <TextView
                             android:id="@+id/tvCardNumber"
                             app:layout_constraintTop_toBottomOf="@id/tvCN"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:text="Card Number"
+                            android:text="@string/no_value_dots"
                             style="@style/cardDetailsValueTextStyle" />
 
 
@@ -250,7 +253,7 @@
                             android:id="@+id/tvCRNTitle"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:text="CRN"
+                            android:text="@string/crn"
                             style="@style/cardDetailsHeadingTextStyle"/>
 
                         <TextView
@@ -258,7 +261,7 @@
                             app:layout_constraintTop_toBottomOf="@id/tvCN"
                             app:layout_constraintEnd_toEndOf="parent"
                             style="@style/cardDetailsValueTextStyle"
-                            android:text="12345"/>
+                            android:text="@string/no_value_dots"/>
 
 
                         <TextView
@@ -266,26 +269,35 @@
                             android:layout_marginTop="@dimen/_10sdp"
                             app:layout_constraintTop_toBottomOf="@id/tvCardNumber"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:text="Card Status"
+                            android:text="@string/card_status"
                             style="@style/cardDetailsHeadingTextStyle"/>
 
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/cardStatusCard"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:backgroundTint="#A8FBB5"
                             app:cardCornerRadius="@dimen/_13sdp"
                             app:layout_constraintTop_toBottomOf="@id/tvCS"
                             app:layout_constraintStart_toStartOf="parent">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/_3sdp"
-                                android:layout_marginTop="@dimen/_3sdp"
-                                android:layout_marginStart="@dimen/_15sdp"
-                                android:layout_marginEnd="@dimen/_15sdp"
-                                android:text="Active"/>
+                            <LinearLayout
+                                android:id="@+id/layoutCardStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/activeCardBackground"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvCardStatus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/_3sdp"
+                                    android:layout_marginTop="@dimen/_3sdp"
+                                    android:layout_marginStart="@dimen/_15sdp"
+                                    android:layout_marginEnd="@dimen/_15sdp"
+                                    android:text="@string/no_value_dots"/>
+
+                            </LinearLayout>
 
                         </com.google.android.material.card.MaterialCardView>
 
@@ -295,34 +307,40 @@
                             android:layout_marginTop="@dimen/_10sdp"
                             app:layout_constraintTop_toBottomOf="@id/tvCRNNumber"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:text="Card Product Name"
+                            android:text="@string/card_product_name"
                             style="@style/cardDetailsHeadingTextStyle"/>
 
                         <TextView
                             android:id="@+id/tvCardProductName"
                             app:layout_constraintTop_toBottomOf="@id/tvCPN"
                             app:layout_constraintEnd_toEndOf="parent"
-                            style="@style/cardDetailsValueTextStyle"
-                            android:text="Product Name"/>
+                            android:textColor="#AAAAAA"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/_12ssp"
+                            android:maxLines="1"
+                            android:gravity="end"
+                            android:ellipsize="end"
+                            android:layout_width="@dimen/_150sdp"
+                            android:text="@string/no_value_dots"/>
 
                         <TextView
                             android:id="@+id/tvAD"
                             android:layout_marginTop="@dimen/_10sdp"
                             app:layout_constraintTop_toBottomOf="@id/cardStatusCard"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:text="Card Act. Date"
+                            android:text="@string/card_act_date"
                             style="@style/cardDetailsHeadingTextStyle"/>
                         <TextView
                             android:id="@+id/tvCardActiveDate"
                             app:layout_constraintTop_toBottomOf="@id/tvAD"
                             app:layout_constraintStart_toStartOf="parent"
                             style="@style/cardDetailsValueTextStyle"
-                            android:text="1 Jan 2020"/>
+                            android:text="@string/no_value_dots"/>
 
                         <TextView
                             android:id="@+id/tvED"
                             android:layout_marginTop="@dimen/_17sdp"
-                            android:text="Card Exp. Date"
+                            android:text="@string/card_exp_date"
                             style="@style/cardDetailsHeadingTextStyle"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvCardProductName" />
@@ -339,34 +357,29 @@
                             app:layout_constraintTop_toBottomOf="@id/tvED"
                             app:layout_constraintEnd_toStartOf="@id/imgExpDate"
                             style="@style/cardDetailsValueTextStyle"
-                            android:text="XX / XX"/>
+                            android:text="@string/xx_xx"/>
 
                         <TextView
                             android:id="@+id/tvCB"
                             android:layout_marginTop="@dimen/_10sdp"
                             app:layout_constraintTop_toBottomOf="@id/tvCardActiveDate"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:text="Card Bal."
+                            android:text="@string/card_bal"
                             style="@style/cardDetailsHeadingTextStyle"/>
                         <TextView
                             android:id="@+id/tvCardBalance"
                             app:layout_constraintTop_toBottomOf="@id/tvCB"
                             app:layout_constraintStart_toStartOf="parent"
                             style="@style/cardDetailsValueTextStyle"
-                            android:text="$15000.00"/>
-                        <TextView
-                            android:id="@+id/tvCardBalanceDate"
-                            app:layout_constraintTop_toBottomOf="@id/tvCardBalance"
-                            app:layout_constraintStart_toStartOf="parent"
-                            style="@style/cardDetailsValueTextStyle"
-                            android:text="[As on 1/11/2024]"/>
+                            android:text="@string/no_value_dots"/>
+
 
                         <TextView
                             android:id="@+id/tvChipB"
                             android:layout_marginTop="@dimen/_10sdp"
                             app:layout_constraintTop_toBottomOf="@id/imgExpDate"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:text="Card Chip Bal."
+                            android:text="@string/card_chip_bal"
                             style="@style/cardDetailsHeadingTextStyle"/>
 
                         <TextView
@@ -374,18 +387,13 @@
                             app:layout_constraintTop_toBottomOf="@id/tvChipB"
                             app:layout_constraintEnd_toEndOf="parent"
                             style="@style/cardDetailsValueTextStyle"
-                            android:text="[$15000.00]"/>
-                        <TextView
-                            android:id="@+id/tvChipBalanceDate"
-                            app:layout_constraintTop_toBottomOf="@id/tvChipBalance"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            style="@style/cardDetailsValueTextStyle"
-                            android:text="[As on 1/11/2024]"/>
+                            android:text="@string/no_value_dots"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 </com.google.android.material.card.MaterialCardView>
+
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -398,7 +406,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         style="@style/menuHeadingGradientTextStyle"
-                        android:text="Recent Transaction"
+                        android:text="@string/recent_transaction"
                         tools:showIn="@layout/fragment_transit_card_dashboard" />
 
                     <TextView
@@ -416,9 +424,12 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_200sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    app:strokeWidth="0dp"
+                    android:layout_height="@dimen/_300sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_60sdp"
+                    app:cardElevation="@dimen/_7sdp"
                     android:backgroundTint="@color/white">
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -426,275 +437,11 @@
                         android:layout_width="match_parent"
                         android:layout_margin="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_8sdp"
-                        android:layout_height="@dimen/_200sdp"/>
+                        android:layout_height="@dimen/_300sdp"/>
 
                 </com.google.android.material.card.MaterialCardView>
 
 
-                <TextView
-                    android:id="@+id/tvAnalytics"
-                    android:text="Analytics"
-                    style="@style/menuHeadingGradientTextStyle" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10sdp"
-                    app:strokeWidth="0dp"
-                    android:padding="@dimen/_10sdp"
-                    android:backgroundTint="@color/white">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="@dimen/_10sdp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:weightSum="2"
-                            android:orientation="horizontal">
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="@dimen/_80sdp"
-                                android:layout_marginEnd="@dimen/_10sdp"
-                                app:cardCornerRadius="@dimen/_8sdp">
-
-                                <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_80sdp"
-                                android:background="@drawable/ovelay_file"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tvTopUpRupee"
-                                    android:text="@string/Rs"
-                                    style="@style/AnalyticsValueTextStyle" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/_10ssp"
-                                    android:textFontWeight="400"
-                                    android:text="Top Up"/>
-
-                            </LinearLayout>
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="@dimen/_80sdp"
-                                android:layout_marginStart="@dimen/_10sdp"
-                                app:cardCornerRadius="@dimen/_8sdp">
-
-                                <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_80sdp"
-                                android:gravity="center"
-                                    android:background="@drawable/ovelay_file"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tvSpendRupee"
-                                    style="@style/AnalyticsValueTextStyle"
-                                    android:text="@string/Rs"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/_10ssp"
-                                    android:textStyle="bold"
-                                    android:text="Spend"/>
-
-                            </LinearLayout>
-                            </com.google.android.material.card.MaterialCardView>
-
-                        </LinearLayout>
-
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/small_card_gradient_bg"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/_23ssp"
-                                    android:text="Parliment Canteen"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:text="Favorite : Merchant"/>
-
-                            </LinearLayout>
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                         <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:weightSum="2"
-                                android:layout_marginTop="@dimen/_10sdp"
-                                android:orientation="horizontal">
-
-                             <com.google.android.material.card.MaterialCardView
-                                 android:layout_width="0dp"
-                                 android:layout_weight="1"
-                                 android:layout_marginEnd="@dimen/_10sdp"
-                                 android:layout_height="@dimen/_80sdp"
-                                 app:cardCornerRadius="@dimen/_8sdp">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_80sdp"
-                                    android:gravity="center"
-                                    android:background="@drawable/ovelay_file"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/tvSinceLastTopUp"
-                                        style="@style/AnalyticsValueTextStyle"
-                                        android:text="21 Days"/>
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="@dimen/_10ssp"
-                                        android:textStyle="bold"
-                                        android:text="Since Last Topup"/>
-
-                                </LinearLayout>
-                             </com.google.android.material.card.MaterialCardView>
-
-                             <com.google.android.material.card.MaterialCardView
-                                 android:layout_width="0dp"
-                                 android:layout_weight="1"
-                                 android:layout_height="@dimen/_80sdp"
-                                 android:layout_marginStart="@dimen/_10sdp"
-                                 app:cardCornerRadius="@dimen/_8sdp">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_80sdp"
-                                    android:gravity="center"
-                                    android:background="@drawable/ovelay_file"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/tvSuccessTxns"
-                                        style="@style/AnalyticsValueTextStyle"
-                                        android:text="400+"/>
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="@dimen/_10ssp"
-                                        android:textStyle="bold"
-                                        android:text="Success TXNS"/>
-
-                                </LinearLayout>
-                             </com.google.android.material.card.MaterialCardView>
-
-                            </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:weightSum="2"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:orientation="horizontal">
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="@dimen/_80sdp"
-                                android:layout_marginEnd="@dimen/_10sdp"
-                                app:cardCornerRadius="@dimen/_8sdp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_80sdp"
-                                android:gravity="center"
-                                android:background="@drawable/ovelay_file"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tvSinceLastLogin"
-                                    style="@style/AnalyticsValueTextStyle"
-                                    android:text="40 Days"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/_10ssp"
-                                    android:textStyle="bold"
-                                    android:text="Since Last Login"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/_10ssp"
-                                    android:textStyle="bold"
-                                    android:text="on 22/02/2024"/>
-
-                            </LinearLayout>
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="@dimen/_80sdp"
-                                android:layout_marginStart="@dimen/_10sdp"
-                                app:cardCornerRadius="@dimen/_8sdp">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_80sdp"
-                                android:gravity="center"
-                                android:background="@drawable/ovelay_file"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/tvLastStatementGenerated"
-                                    style="@style/AnalyticsValueTextStyle"
-                                    android:text="32 Days"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/_10ssp"
-                                    android:textStyle="bold"
-                                    android:text="Since Last"/>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="@dimen/_10ssp"
-                                    android:textStyle="bold"
-                                    android:text="Statement Generated"/>
-
-                            </LinearLayout>
-                            </com.google.android.material.card.MaterialCardView>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 

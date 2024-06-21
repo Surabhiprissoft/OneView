@@ -6,6 +6,15 @@ import android.widget.Toast;
 
 
 import com.sbi.oneview.base.App;
+import com.sbi.oneview.base.RequestBaseModel;
+import com.sbi.oneview.network.RequestModel.CardBlockUnblockRequestModel;
+import com.sbi.oneview.network.RequestModel.CardHotlistRequestModel;
+import com.sbi.oneview.network.RequestModel.CardMiniStatementRequestModel;
+import com.sbi.oneview.network.RequestModel.LoginWithOtpRequestModel;
+import com.sbi.oneview.network.ResponseModel.BlockUnblockCard.CardBlockUnblockResponseModel;
+import com.sbi.oneview.network.ResponseModel.HotlistCard.CardHotlistResponseModel;
+import com.sbi.oneview.network.ResponseModel.LoginWithOtp.LoginWithOtpResponseModel;
+import com.sbi.oneview.network.ResponseModel.MiniStatement.CardMiniStatementResponseModel;
 import com.sbi.oneview.utils.SharedConfig;
 
 import retrofit2.Call;
@@ -13,331 +22,102 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class APIRequests {
-   /* public static void checkUserLogin(
+
+
+    public static void loginWithOTP(
             Context context,
-            String user,
-            String ChannelID,
-            NetworkResponseCallback<String> callback
-    ) {
+            LoginWithOtpRequestModel loginWithOtpRequestModel,
+            NetworkResponseCallback<LoginWithOtpResponseModel> callback
+    ){
+        App.apiClientencrypt.loginUserWithOtp(loginWithOtpRequestModel).enqueue(new Callback<LoginWithOtpResponseModel>() {
+            @Override
+            public void onResponse(Call<LoginWithOtpResponseModel> call, Response<LoginWithOtpResponseModel> response) {
+                callback.onSuccess(call,response);
+            }
 
-
-        try {
-            App.apiClientencrypt.authenticateUser(ChannelID, user).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(call, response);
-                    } else {
-                        callback.onInternalServerError();
-                        Toast.makeText(context, App.getAppContext().getString(R.string.internal_server_error_please_try_again_later), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    callback.onFailure(call, t);
-                }
-            });
-        }catch (Exception e) {
-            Log.d("EXCEPTION",""+e.getMessage());
-        }
-    }
-
-    public static void validateCardLinking(Context context,
-                                           String validateCardLinkingRequestModelRequestBaseModel, NetworkResponseCallback<String> callback) {
-
-        try {
-            App.apiClientencrypt.validatecardLinking(SharedConfig.getInstance(context).getChannelID(), validateCardLinkingRequestModelRequestBaseModel).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(call, response);
-                    } else {
-                        callback.onInternalServerError();
-                        Toast.makeText(context, App.getAppContext().getString(R.string.internal_server_error_please_try_again_later), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    callback.onFailure(call, t);
-                }
-            });
-        }catch (Exception e) {
-            Log.d("EXCEPTION",""+e.getMessage());
-        }
+            @Override
+            public void onFailure(Call<LoginWithOtpResponseModel> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
     }
 
 
-    public static void processCardLinking(
+    public static void cardMiniStatement(
             Context context,
-            String processCardLinkingRequestModelRequestBaseModel,
-            NetworkResponseCallback<String> callback
-    ) {
-        try {
-            App.apiClientencrypt.processcardLinking(SharedConfig.getInstance(context).getChannelID(), processCardLinkingRequestModelRequestBaseModel).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(call, response);
-                    } else {
-                        callback.onInternalServerError();
-                        Toast.makeText(context, App.getAppContext().getString(R.string.internal_server_error_please_try_again_later), Toast.LENGTH_SHORT).show();
-                    }
-                }
+            CardMiniStatementRequestModel cardMiniStatementRequestModel,
+            NetworkResponseCallback<CardMiniStatementResponseModel> callback
+    ){
+        App.apiClientencrypt.getCardMiniStatement(cardMiniStatementRequestModel).enqueue(new Callback<CardMiniStatementResponseModel>() {
+            @Override
+            public void onResponse(Call<CardMiniStatementResponseModel> call, Response<CardMiniStatementResponseModel> response) {
+                callback.onSuccess(call,response);
+            }
 
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    callback.onFailure(call, t);
-                }
-            });
-        }catch (Exception e) {
-            Log.d("EXCEPTION",""+e.getMessage());
-        }
+            @Override
+            public void onFailure(Call<CardMiniStatementResponseModel> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
     }
 
-    public static void getCustomerDetails(Context context, String customerDetailsRequestModelRequestBaseModel, NetworkResponseCallback<String> callback) {
-        try {
-            App.apiClientencrypt.getCustomerData(SharedConfig.getInstance(context).getChannelID(), customerDetailsRequestModelRequestBaseModel).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(call, response);
-                    } else {
-                        callback.onInternalServerError();
-                        Toast.makeText(context, App.getAppContext().getString(R.string.internal_server_error_please_try_again_later), Toast.LENGTH_SHORT).show();
-                    }
-                }
 
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    callback.onFailure(call, t);
-                }
-            });
-        }catch (Exception e) {
-            Log.d("EXCEPTION",""+e.getMessage());
-        }
-    }
-
-    public static void processEformLink(
+    public static void CardBlock(
             Context context,
-            String cardLinkingEformRequestModelRequestBaseModel,
-            NetworkResponseCallback<String> callback
-    ) {
-        try {
-            App.apiClientencrypt.processEcardLink(SharedConfig.getInstance(context).getChannelID(), cardLinkingEformRequestModelRequestBaseModel).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(call, response);
-                    } else {
-                        callback.onInternalServerError();
-                        Toast.makeText(context, App.getAppContext().getString(R.string.internal_server_error_please_try_again_later), Toast.LENGTH_SHORT).show();
-                    }
-                }
+            CardBlockUnblockRequestModel cardBlockUnblockRequestModel,
+            NetworkResponseCallback<CardBlockUnblockResponseModel> callback
+    ){
+        App.apiClientencrypt.getCardBlock(cardBlockUnblockRequestModel).enqueue(new Callback<CardBlockUnblockResponseModel>() {
+            @Override
+            public void onResponse(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+                callback.onSuccess(call,response);
+            }
 
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    callback.onFailure(call, t);
-                }
-            });
-        }catch (Exception e) {
-            Log.d("EXCEPTION",""+e.getMessage());
-        }
+            @Override
+            public void onFailure(Call<CardBlockUnblockResponseModel> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
     }
 
 
-    public static void getCustomerCardData(
-            Context context,
-            String customerCardDataRequestModelRequestBaseModel,
-            NetworkResponseCallback<String> callback
-    ) {
-        try {
-            App.apiClientencrypt.getCustomerCardData(SharedConfig.getInstance(context).getChannelID(), customerCardDataRequestModelRequestBaseModel).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(call, response);
-                    } else {
-                        callback.onInternalServerError();
-                        Toast.makeText(context, App.getAppContext().getString(R.string.internal_server_error_please_try_again_later), Toast.LENGTH_SHORT).show();
-                    }
-                }
 
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    callback.onFailure(call, t);
-                }
-            });
-        }catch (Exception e) {
-            Log.d("EXCEPTION",""+e.getMessage());
-        }
+    public static void CardUnBlock(
+            Context context,
+            CardBlockUnblockRequestModel cardBlockUnblockRequestModel,
+            NetworkResponseCallback<CardBlockUnblockResponseModel> callback
+    ){
+        App.apiClientencrypt.getCardUnBlock(cardBlockUnblockRequestModel).enqueue(new Callback<CardBlockUnblockResponseModel>() {
+            @Override
+            public void onResponse(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<CardBlockUnblockResponseModel> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
     }
 
 
-    public static void requestCardBlock(
-            Context context,
-            String requestCardBlockRequestModelRequestBaseModel,
-            NetworkResponseCallback<String> callback) {
-        try {
-            App.apiClientencrypt.requestCardBlock(SharedConfig.getInstance(context).getChannelID(), requestCardBlockRequestModelRequestBaseModel).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(call, response);
-                    } else {
-                        callback.onInternalServerError();
-                        Toast.makeText(context, App.getAppContext().getString(R.string.internal_server_error_please_try_again_later), Toast.LENGTH_SHORT).show();
-                    }
-                }
 
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    callback.onFailure(call, t);
-                }
-            });
-        }catch (Exception e) {
-            Log.d("EXCEPTION",""+e.getMessage());
-        }
+    public static void CardHotlist(
+            Context context,
+            CardHotlistRequestModel cardHotlistRequestModel,
+            NetworkResponseCallback<CardHotlistResponseModel> callback
+    ){
+        App.apiClientencrypt.getCardHotlist(cardHotlistRequestModel).enqueue(new Callback<CardHotlistResponseModel>() {
+            @Override
+            public void onResponse(Call<CardHotlistResponseModel> call, Response<CardHotlistResponseModel> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<CardHotlistResponseModel> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
     }
-
-
-    public static void processCardBlock(
-            Context context,
-            String processCardBlockRequestModelRequestBaseModel,
-            NetworkResponseCallback<String> callback
-    ) {
-        try {
-            App.apiClientencrypt.processCardBlock(SharedConfig.getInstance(context).getChannelID(), processCardBlockRequestModelRequestBaseModel).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(call, response);
-                    } else {
-                        callback.onInternalServerError();
-                        Toast.makeText(context, App.getAppContext().getString(R.string.internal_server_error_please_try_again_later), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    callback.onFailure(call, t);
-                }
-            });
-        }catch (Exception e) {
-            Log.d("EXCEPTION",""+e.getMessage());
-        }
-    }
-
-
-    public static void checkReplacementEligibility(
-            Context context,
-            String checkReplacementEligibilityRequestModelRequestBaseModel,
-            NetworkResponseCallback<String> callback
-    ) {
-        try {
-            App.apiClientencrypt.checkReplacementEligibility(SharedConfig.getInstance(context).getChannelID(), checkReplacementEligibilityRequestModelRequestBaseModel).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(call, response);
-                    } else {
-                        callback.onInternalServerError();
-                        Toast.makeText(context, App.getAppContext().getString(R.string.internal_server_error_please_try_again_later), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    callback.onFailure(call, t);
-                }
-            });
-        }catch (Exception e) {
-            Log.d("EXCEPTION",""+e.getMessage());
-        }
-    }
-
-    public static void resendOtp(
-            Context context,
-            String resendOtpRequestModelRequestBaseModel,
-            NetworkResponseCallback<String> callback
-    ) {
-        try {
-            App.apiClientencrypt.resendOtp(SharedConfig.getInstance(context).getChannelID(), resendOtpRequestModelRequestBaseModel).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(call, response);
-                    } else {
-                        callback.onInternalServerError();
-                        Toast.makeText(context, App.getAppContext().getString(R.string.internal_server_error_please_try_again_later), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    callback.onFailure(call, t);
-                }
-            });
-        }catch (Exception e) {
-            Log.d("EXCEPTION",""+e.getMessage());
-        }
-    }
-
-
-    public static void replaceCard(
-            Context context,
-            String replaceCardRequestModelRequestBaseModel,
-            NetworkResponseCallback<String> callback
-    ) {
-        try {
-            App.apiClientencrypt.replaceCard(SharedConfig.getInstance(context).getChannelID(), replaceCardRequestModelRequestBaseModel).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(call, response);
-                    } else {
-                        callback.onInternalServerError();
-                        Toast.makeText(context, App.getAppContext().getString(R.string.internal_server_error_please_try_again_later), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    callback.onFailure(call, t);
-                }
-            });
-        }catch (Exception e) {
-            Log.d("EXCEPTION",""+e.getMessage());
-        }
-    }
-
-
-    public static void logoutUser(
-            Context context,
-            String logoutRequestModelRequestBaseModel,
-            NetworkResponseCallback<String> callback
-    ) {
-        try {
-            App.apiClientencrypt.logoutUser(SharedConfig.getInstance(context).getChannelID(), logoutRequestModelRequestBaseModel).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        callback.onSuccess(call, response);
-                    } else {
-                        callback.onInternalServerError();
-                        Toast.makeText(context, App.getAppContext().getString(R.string.internal_server_error_please_try_again_later), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    callback.onFailure(call, t);
-                }
-            });
-        }catch (Exception e) {
-            Log.d("EXCEPTION",""+e.getMessage());
-        }
-    }*/
 }
 

@@ -1,0 +1,68 @@
+package com.sbi.oneview.utils.encryption;
+
+import android.util.Log;
+import android.widget.Toast;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+public class CipherEncryption {
+
+
+  /*  public String encryptMessage(String value, String key2) {
+
+//        final String key = "1234567890123456"; // 16-byte key
+        final String initVector = "1234567890123456"; // 16-byte IV
+
+        try {
+            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
+            SecretKeySpec skeySpec = new SecretKeySpec(key2.getBytes("UTF-8"), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+
+            byte[] encrypted = cipher.doFinal(value.getBytes());
+            return java.util.Base64.getEncoder().encodeToString(encrypted);
+        } catch (Exception ex) {
+            Log.d("Error",ex.getLocalizedMessage().toString());
+        }
+
+        return null;
+    }
+
+    public Object decryptMessage(String encrypted, String key2) {
+        try {
+
+//              final String key = "1234567890123456"; // 16-byte key
+            final String initVector = "1234567890123456"; // 16-byte IV
+
+            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
+            SecretKeySpec skeySpec = new SecretKeySpec(key2.getBytes("UTF-8"), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
+
+            byte[] original = cipher.doFinal(java.util.Base64.getDecoder().decode(encrypted));
+
+            String res = CommonUtils.convertToJson(new String(original ,StandardCharsets.UTF_8 ));
+
+            ObjectMapper om = new ObjectMapper();
+
+
+            try {
+                final ObjectMapper mapper = new ObjectMapper();
+                JsonNode node = om.readTree(res);
+                return node;
+            } catch (IOException e) {
+                return res;
+            }
+
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
+
+        return null;
+    }*/
+
+}
