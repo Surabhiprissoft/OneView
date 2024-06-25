@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,7 +22,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.RequestBaseModel;
-import com.sbi.oneview.network.APIClient;
 import com.sbi.oneview.network.APIRequests;
 import com.sbi.oneview.network.NetworkResponseCallback;
 import com.sbi.oneview.network.RequestModel.CardBlockUnblockRequestModel;
@@ -36,10 +34,7 @@ import com.sbi.oneview.ui.adapters.CourouselAdapter;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
 import com.sbi.oneview.utils.NetworkUtils;
-import com.sbi.oneview.utils.OTPVerificationDialog;
 import com.sbi.oneview.utils.SharedConfig;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

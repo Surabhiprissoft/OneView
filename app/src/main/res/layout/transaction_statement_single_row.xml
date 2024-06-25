@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/table_border">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:weightSum="7.5"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/tvDateTime"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:text="11/11/2001 1:21 AM"
+                style="@style/textStyle_14_400_statement_table" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                style="@style/textStyle_14_400_statement_table"
+                android:text="piad to : merchant Name" />
+
+            <TextView
+                android:id="@+id/tvForm"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                style="@style/textStyle_14_400_statement_table"
+                android:text="Form" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                style="@style/textStyle_14_400_statement_table"
+                android:text="Status" />
+
+        </TableRow>
+
+
+    </TableLayout>
+
+
+</LinearLayout>

@@ -1,21 +1,19 @@
 package com.sbi.oneview.network;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
 
 import com.sbi.oneview.base.App;
-import com.sbi.oneview.base.RequestBaseModel;
 import com.sbi.oneview.network.RequestModel.CardBlockUnblockRequestModel;
 import com.sbi.oneview.network.RequestModel.CardHotlistRequestModel;
 import com.sbi.oneview.network.RequestModel.CardMiniStatementRequestModel;
+import com.sbi.oneview.network.RequestModel.LimitEnquiryRequestModel;
 import com.sbi.oneview.network.RequestModel.LoginWithOtpRequestModel;
 import com.sbi.oneview.network.ResponseModel.BlockUnblockCard.CardBlockUnblockResponseModel;
 import com.sbi.oneview.network.ResponseModel.HotlistCard.CardHotlistResponseModel;
+import com.sbi.oneview.network.ResponseModel.InrLimitEnquiry.InrLimitEnquiryResponseModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.LoginWithOtpResponseModel;
 import com.sbi.oneview.network.ResponseModel.MiniStatement.CardMiniStatementResponseModel;
-import com.sbi.oneview.utils.SharedConfig;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -115,6 +113,25 @@ public class APIRequests {
 
             @Override
             public void onFailure(Call<CardHotlistResponseModel> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+    public static void CardLimitEnquiry(
+            Context context,
+            LimitEnquiryRequestModel limitEnquiryRequestModel,
+            NetworkResponseCallback<InrLimitEnquiryResponseModel> callback
+    ){
+        App.apiClientencrypt.getInrLimitEnquiry(limitEnquiryRequestModel).enqueue(new Callback<InrLimitEnquiryResponseModel>() {
+            @Override
+            public void onResponse(Call<InrLimitEnquiryResponseModel> call, Response<InrLimitEnquiryResponseModel> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<InrLimitEnquiryResponseModel> call, Throwable t) {
                 callback.onFailure(call,t);
             }
         });

@@ -3,7 +3,7 @@ package com.sbi.oneview.network.ResponseModel.LoginWithOtp;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class Prepaid{
+public class Ftc{
 
 	@SerializedName("firstName")
 	private String firstName;
@@ -24,7 +24,7 @@ public class Prepaid{
 	private String dob;
 
 	@SerializedName("cardDetails")
-	public List<CardDetailsItem> cardDetails;
+	private List<CardDetailsItem> cardDetails;
 
 	@SerializedName("middleName")
 	private String middleName;
@@ -37,50 +37,6 @@ public class Prepaid{
 
 	@SerializedName("sid")
 	private String sid;
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public void setOvdValue(String ovdValue) {
-		this.ovdValue = ovdValue;
-	}
-
-	public void setKyc(String kyc) {
-		this.kyc = kyc;
-	}
-
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
-
-	public void setDob(String dob) {
-		this.dob = dob;
-	}
-
-	public void setCardDetails(List<CardDetailsItem> cardDetails) {
-		this.cardDetails = cardDetails;
-	}
-
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setOvdType(String ovdType) {
-		this.ovdType = ovdType;
-	}
-
-	public void setSid(String sid) {
-		this.sid = sid;
-	}
 
 	public String getFirstName(){
 		return firstName;
@@ -124,5 +80,50 @@ public class Prepaid{
 
 	public String getSid(){
 		return sid;
+	}
+
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setOvdValue(String ovdValue) {
+		this.ovdValue = ovdValue;
+	}
+
+	public void setKyc(String kyc) {
+		this.kyc = kyc;
+	}
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+
+	public void setCardDetails(List<CardDetailsItem> cardDetails) {
+		this.cardDetails = cardDetails;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setOvdType(String ovdType) {
+		this.ovdType = ovdType;
+	}
+
+	public void setSid(String sid) {
+		this.sid = sid;
 	}
 }

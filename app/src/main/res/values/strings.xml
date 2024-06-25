@@ -12,6 +12,7 @@
     <string name="userid">USERID</string>
     <string name="password">PASSWORD</string>
     <string name="ca">ca</string>
+    <string name="dialog">dialog</string>
     <string name="error_creating_sslsocketfactory">Error creating SSLSocketFactory</string>
     <string name="certificate_factory_type">X.509</string>
     <string name="error_loading_certificate">Error loading certificate</string>
@@ -158,5 +159,6 @@
     <string name="max_pos">Max: \u20B9 200000.00</string>
     <string name="max_EComm">Max: \u20B9 200000.00</string>
     <string name="max_ContactLess">Max: \u20B9 5000.00</string>
+    <string name="balances">Balances</string>
 
 </resources>

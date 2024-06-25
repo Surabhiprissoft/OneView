@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="?attr/actionBarSize"
-    tools:context=".TransitCardDashboardFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.FtcScreen.FtcDashboardFragment">
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <include layout="@layout/common_header" />
@@ -32,6 +33,11 @@
                     style="@style/menuHeadingGradientTextStyle" />
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -39,17 +45,18 @@
                         android:weightSum="2">
 
                         <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/cardCardTopup"
+                            android:id="@+id/cardBlock"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_5sdp"
                             android:layout_marginBottom="@dimen/_10sdp"
+                            android:layout_weight="1"
                             android:backgroundTint="@color/white"
                             app:cardCornerRadius="@dimen/_7sdp"
-                            app:cardElevation="@dimen/_7sdp">
+                            app:cardElevation="@dimen/_7sdp"
+                            app:strokeWidth="0dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -68,7 +75,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textStyle="bold"
-                                    android:text="@string/card_top_up" />
+                                    android:text="@string/card_block" />
 
                             </LinearLayout>
 
@@ -120,9 +127,10 @@
                         android:weightSum="2">
 
                         <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/cardHotlist"
+                            android:id="@+id/cardLimit"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_5sdp"
                             android:layout_marginBottom="@dimen/_20sdp"
@@ -149,7 +157,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textStyle="bold"
-                                    android:text="@string/card_hotlist"/>
+                                    android:text="@string/card_limit"/>
 
                             </LinearLayout>
 
@@ -159,6 +167,7 @@
                             android:id="@+id/cardStatement"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
                             android:layout_marginBottom="@dimen/_20sdp"
@@ -178,6 +187,7 @@
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_height="@dimen/_40sdp"
                                     android:layout_margin="@dimen/_10sdp"
+                                    android:scaleType="fitXY"
                                     android:src="@drawable/card_statement_qa" />
 
                                 <TextView
@@ -185,16 +195,16 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textStyle="bold"
-                                    android:text="@string/card_hotlist"/>
+                                    android:text="@string/card_statement" />
 
                             </LinearLayout>
-
 
                         </com.google.android.material.card.MaterialCardView>
 
                     </LinearLayout>
 
 
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvMyCards"
@@ -360,35 +370,6 @@
                             style="@style/cardDetailsValueTextStyle"
                             android:text="@string/xx_xx"/>
 
-                        <TextView
-                            android:id="@+id/tvCB"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            app:layout_constraintTop_toBottomOf="@id/tvCardActiveDate"
-                            app:layout_constraintStart_toStartOf="parent"
-                            android:text="@string/card_bal"
-                            style="@style/cardDetailsHeadingTextStyle"/>
-                        <TextView
-                            android:id="@+id/tvCardBalance"
-                            app:layout_constraintTop_toBottomOf="@id/tvCB"
-                            app:layout_constraintStart_toStartOf="parent"
-                            style="@style/cardDetailsValueTextStyle"
-                            android:text="@string/no_value_dots"/>
-
-
-                        <TextView
-                            android:id="@+id/tvChipB"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            app:layout_constraintTop_toBottomOf="@id/imgExpDate"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:text="@string/card_chip_bal"
-                            style="@style/cardDetailsHeadingTextStyle"/>
-
-                        <TextView
-                            android:id="@+id/tvChipBalance"
-                            app:layout_constraintTop_toBottomOf="@id/tvChipB"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            style="@style/cardDetailsValueTextStyle"
-                            android:text="@string/no_value_dots"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -397,31 +378,15 @@
 
 
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp">
 
                     <TextView
-                        android:id="@+id/tvRecentTransaction"
+                        android:id="@+id/tvBalance"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         style="@style/menuHeadingGradientTextStyle"
-                        android:text="@string/recent_transaction"
+                        android:text="@string/balances"
                         tools:showIn="@layout/fragment_transit_card_dashboard" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:textSize="@dimen/_10ssp"
-                        android:textColor="#D6224F"
-                        android:text="@string/viewAll"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -434,11 +399,11 @@
                     android:backgroundTint="@color/white">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvRecentTransaction"
+                        android:id="@+id/rvBalance"
                         android:layout_width="match_parent"
                         android:layout_margin="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_8sdp"
-                        android:layout_height="@dimen/_300sdp"/>
+                        android:layout_height="@dimen/_280sdp"/>
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -449,6 +414,7 @@
         </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
+
 
 
 </FrameLayout>

@@ -27,7 +27,6 @@ import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
 import com.sbi.oneview.utils.SharedConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TopUpFragment extends Fragment implements MyFragmentCallback {

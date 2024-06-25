@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
+import com.sbi.oneview.ui.FtcScreen.FtcHomeActivity;
 import com.sbi.oneview.ui.inrPrepaid.InrPrepaidHomeActivity;
 import com.sbi.oneview.ui.registration.ApplyTransitCardActivity;
 import com.sbi.oneview.ui.registration.LoginActivity;
@@ -65,7 +65,7 @@ public class DashboardCardSelectionActivity extends AppCompatActivity {
 
 
             if (loginResponse.getPrepaid()!=null){
-                transitStatus=true;
+                inrStatus=true;
                }
             else{
                 btnInrProceed.setBackgroundColor(getResources().getColor(R.color.faintPurple));
@@ -74,7 +74,7 @@ public class DashboardCardSelectionActivity extends AppCompatActivity {
             }
 
             if (loginResponse.getFtc()!=null){
-                inrStatus=true;
+                ftcStatus=true;
 
             }else{
                 btnFtcProceed.setBackgroundColor(getResources().getColor(R.color.faintPurple));
@@ -190,9 +190,9 @@ public class DashboardCardSelectionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (inrStatus){
-                    /*Intent intent = new Intent(DashboardCardSelectionActivity.this, InrPrepaidHomeActivity.class);
-                    startActivity(intent);*/
+                if (ftcStatus){
+                    Intent intent = new Intent(DashboardCardSelectionActivity.this, FtcHomeActivity.class);
+                    startActivity(intent);
                 }else{
                     Toast.makeText(DashboardCardSelectionActivity.this, "You don't have any FTC card linked with your mobile number", Toast.LENGTH_SHORT).show();
                 }

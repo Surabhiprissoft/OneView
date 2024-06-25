@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.App;
+import com.sbi.oneview.base.BaseActivity;
 import com.sbi.oneview.base.RequestBaseModel;
 import com.sbi.oneview.network.APIRequests;
 import com.sbi.oneview.network.NetworkResponseCallback;
@@ -37,7 +38,7 @@ import com.sbi.oneview.utils.SharedConfig;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class EnterOtp extends AppCompatActivity {
+public class EnterOtp extends BaseActivity {
 
     EditText etFirstOTP, etSecondOTP, etThirdOTP, etFourthOTP;
     MaterialButton btnVerify;
@@ -54,7 +55,6 @@ public class EnterOtp extends AppCompatActivity {
         initWidgets();
         clickListners();
         CommonUtils.changeBallPosition(topRightImg,bottomRightImg,bottomLeftImg);
-
     }
 
 
@@ -247,6 +247,7 @@ public class EnterOtp extends AppCompatActivity {
                     /*Intent i=new Intent(EnterOtp.this, DashboardCardSelectionActivity.class);
                     startActivity(i);*/
 
+                    showLoading();
 
                     //-------------- Login API Integration -----------------------
                     RequestBaseModel<LoginWithOtpRequestModel> data =  new RequestBaseModel<>();
@@ -267,12 +268,12 @@ public class EnterOtp extends AppCompatActivity {
                         APIRequests.loginWithOTP(EnterOtp.this, loginWithOtpRequestModel, new NetworkResponseCallback<LoginWithOtpResponseModel>() {
                             @Override
                             public void onSuccess(Call<LoginWithOtpResponseModel> call, Response<LoginWithOtpResponseModel> response) {
-
                                 Log.d("MSG","SUCCESS");
                                 Toast.makeText(EnterOtp.this, "Success "+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 //testEdt.setText("Success");
                                 if (response.body().getStatusCode()==200){
 
+                                    hideLoading();
                                     SharedConfig.getInstance(EnterOtp.this).saveLoginResponse(EnterOtp.this,response.body().getData());
 
                                     Intent i=new Intent(EnterOtp.this, DashboardCardSelectionActivity.class);
@@ -288,6 +289,7 @@ public class EnterOtp extends AppCompatActivity {
                             @Override
                             public void onResponseBodyNull(Call<LoginWithOtpResponseModel> call, Response<LoginWithOtpResponseModel> response) {
                                 Log.d("MSG","NULL RESPONSE");
+                                hideLoading();
                                 Toast.makeText(EnterOtp.this, "Null "+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 //testEdt.setText("null response "+ response.body().getMessage().toString());
                             }
@@ -295,6 +297,7 @@ public class EnterOtp extends AppCompatActivity {
                             @Override
                             public void onResponseUnsuccessful(Call<LoginWithOtpResponseModel> call, Response<LoginWithOtpResponseModel> response) {
                                 Log.d("MSG","UNSUCCESSFULL");
+                                hideLoading();
                                 Toast.makeText(EnterOtp.this, "Unsuccessfull "+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 //testEdt.setText("unSuccessfull"+response.body().getMessage().toString());
 
@@ -303,6 +306,7 @@ public class EnterOtp extends AppCompatActivity {
                             @Override
                             public void onFailure(Call<LoginWithOtpResponseModel> call, Throwable t) {
                                 Log.d("MSG","On FAILURE"+t.getLocalizedMessage());
+                                hideLoading();
                                 Toast.makeText(EnterOtp.this, "Failure "+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                 //testEdt.setText("FAILURE"+t.getLocalizedMessage());
                             }
@@ -311,6 +315,7 @@ public class EnterOtp extends AppCompatActivity {
                             @Override
                             public void onInternalServerError() {
                                 Log.d("MSG","INTERNAL SERVER ERROR");
+                                hideLoading();
                                 Toast.makeText(EnterOtp.this, "INTERNAL SERVER ERROR", Toast.LENGTH_SHORT).show();
                                 //testEdt.setText("INTERNAL SERVER ERROR");
 
@@ -318,6 +323,7 @@ public class EnterOtp extends AppCompatActivity {
                         });
                     }
                     else{
+                        hideLoading();
                         Toast.makeText(EnterOtp.this,  getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
                     }
 

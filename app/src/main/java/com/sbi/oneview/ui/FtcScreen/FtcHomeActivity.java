@@ -1,4 +1,4 @@
-package com.sbi.oneview.ui.inrPrepaid;
+package com.sbi.oneview.ui.FtcScreen;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,43 +22,53 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
+import com.sbi.oneview.ui.inrPrepaid.InrBlockCardFragment;
+import com.sbi.oneview.ui.inrPrepaid.InrCardLimitFragment;
+import com.sbi.oneview.ui.inrPrepaid.InrCardStatementFragment;
+import com.sbi.oneview.ui.inrPrepaid.InrCardTopupFragment;
+import com.sbi.oneview.ui.inrPrepaid.InrDashboardFragment;
+import com.sbi.oneview.ui.inrPrepaid.InrMyProfileFragment;
+import com.sbi.oneview.ui.inrPrepaid.InrResetPinFragment;
 import com.sbi.oneview.ui.transitScreen.ContactUsBlankFragment;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.SharedConfig;
 
-public class InrPrepaidHomeActivity extends AppCompatActivity {
+public class FtcHomeActivity extends AppCompatActivity {
+
 
     private ImageView openIcon;
     private DrawerLayout drawerLayout;
 
-    LinearLayout dashboardLayout,myProfileLayout,viewProfileLayout,editProfileLayout,accountDetailsLayout,cardTopUpLayout,cardStatementLayout,cardBlockLayout,cardLimitLayout,resetpinLayout,cardBlockUnblockLayout,cardHotListLayout;
+    LinearLayout dashboardLayout,myProfileLayout,viewProfileLayout,editProfileLayout,accountDetailsLayout,cardStatementLayout,cardBlockLayout,cardLimitLayout,resetpinLayout,cardBlockUnblockLayout,cardHotListLayout;
     MaterialCardView DashboardCardView,myProfileCardView,cardManagementCardView,contactUsCardView;
     ImageView iconDashboard,iconMyProfile,iconCardManagement,iconContactUs;
     TextView tvDashboard,tvMyProfile,tvCardManagement,tvContactUs,tvTransit,tvUserNameChar;
-    MaterialCardView cardTopUpCard,cardStatementCard,cardhotlistCard,cardLimitCard,resetpinCard,cardBlockUnblockCard,cardHotListCard;
+    MaterialCardView cardStatementCard,cardhotlistCard,cardLimitCard,resetpinCard,cardBlockUnblockCard,cardHotListCard;
     Data loginResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_inr_prepaid_home);
+        setContentView(R.layout.activity_ftc_home);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+
         });
-        loginResponse = SharedConfig.getInstance(InrPrepaidHomeActivity.this).getLoginResponse(InrPrepaidHomeActivity.this);
+
+
+        loginResponse = SharedConfig.getInstance(FtcHomeActivity.this).getLoginResponse(FtcHomeActivity.this);
         initWidget();
         clickListener();
-        replaceFragment(new InrDashboardFragment());
+        replaceFragment(new FtcDashboardFragment());
 
     }
 
-    private void initWidget() {
+    public void initWidget(){
 
-
-        tvTransit = findViewById(R.id.tvTransit);
+        tvTransit = findViewById(R.id.tvFtc);
         drawerLayout = findViewById(R.id.drawer_layout);
         DashboardCardView = findViewById(R.id.DashboardCardView);
         myProfileCardView = findViewById(R.id.myProfileCardView);
@@ -75,10 +85,8 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
         tvUserNameChar = findViewById(R.id.tvUserNameChar);
         myProfileLayout = findViewById(R.id.myProfileLayout);
         dashboardLayout = findViewById(R.id.dashboardLayout);
-        /*viewProfileLayout = findViewById(R.id.viewProfileLayout);
-        editProfileLayout = findViewById(R.id.editProfileLayout);
-        accountDetailsLayout = findViewById(R.id.accountDetailsLayout);*/
-        cardTopUpLayout = findViewById(R.id.cardTopUpLayout);
+
+
         cardStatementLayout = findViewById(R.id.cardStatementLayout);
         cardBlockLayout = findViewById(R.id.cardBlockLayout);
         cardLimitLayout = findViewById(R.id.cardLimitLayout);
@@ -86,7 +94,6 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
         cardBlockUnblockLayout = findViewById(R.id.cardBlockUnblockLayout);
         cardHotListLayout = findViewById(R.id.cardHotlistLayout);
 
-        cardTopUpCard = findViewById(R.id.cardTopUpCard);
         cardStatementCard = findViewById(R.id.cardStatementCard);
         cardhotlistCard = findViewById(R.id.cardBlockCard);
         cardLimitCard = findViewById(R.id.cardlimitCard);
@@ -95,22 +102,22 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
         cardHotListCard = findViewById(R.id.cardHotListCard);
 
         openIcon = findViewById(R.id.openIcon);
-        tvUserNameChar.setText(loginResponse.getPrepaid().getFirstName().charAt(0)+""+loginResponse.getPrepaid().getLastName().charAt(0));
+        tvUserNameChar.setText(loginResponse.getFtc().getFirstName().charAt(0)+""+loginResponse.getFtc().getLastName().charAt(0));
 
     }
 
     public void clickListener(){
+
         CommonUtils.setGradientColor(tvTransit);
         openIcon.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
-
 
 
         dashboardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerItemClick("dashboard");
-                subMenuClicked(cardTopUpCard,false);
-                replaceFragment(new InrDashboardFragment());
+                subMenuClicked(cardStatementCard,false);
+                replaceFragment(new FtcDashboardFragment());
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
@@ -118,8 +125,8 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 drawerItemClick("myProfile");
-                subMenuClicked(cardTopUpCard,false);
-                replaceFragment(new InrMyProfileFragment());
+                subMenuClicked(cardStatementCard,false);
+                replaceFragment(new FtcMyProfileFragment());
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
@@ -127,26 +134,18 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 drawerItemClick("contactUs");
-                subMenuClicked(cardTopUpCard,false);
+                subMenuClicked(cardStatementCard,false);
                 replaceFragment(new ContactUsBlankFragment());
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
-        cardTopUpLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerItemClick("cardManagement");
-                subMenuClicked(cardTopUpCard,true);
-                replaceFragment(new InrCardTopupFragment());
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }
-        });
+
         cardStatementLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerItemClick("cardManagement");
                 subMenuClicked(cardStatementCard,true);
-                replaceFragment(new InrCardStatementFragment());
+                replaceFragment(new FtcCardStatementFragment());
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
@@ -155,7 +154,7 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 drawerItemClick("cardManagement");
                 subMenuClicked(resetpinCard,true);
-                replaceFragment(new InrResetPinFragment());
+                replaceFragment(new FtcResetPinFragment());
                 drawerLayout.closeDrawer(GravityCompat.START);
 
             }
@@ -165,7 +164,7 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 drawerItemClick("cardManagement");
                 subMenuClicked(cardhotlistCard,true);
-                replaceFragment(new InrBlockCardFragment());
+                replaceFragment(new FtcCardBlockFragment());
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
@@ -174,7 +173,7 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 drawerItemClick("cardManagement");
                 subMenuClicked(cardLimitCard,true);
-                replaceFragment(new InrCardLimitFragment());
+                replaceFragment(new FtcCardLimitFragment());
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
@@ -217,14 +216,16 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
 
             }
         });
+
     }
+
 
 
     private void handleDrawerOpen() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_container); // Assuming your container ID here
 
-       // String fragmentName = currentFragment.getClass().getSimpleName();
+        // String fragmentName = currentFragment.getClass().getSimpleName();
 
 
        /* if (fragmentName.equalsIgnoreCase(getString(R.string.cardissuanceminkycfragment))) {
@@ -416,8 +417,6 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
         accountDetailsCard.setCardBackgroundColor(Color.TRANSPARENT);
         accountDetailsCard.setStrokeWidth(0);*/
 
-        cardTopUpCard.setCardBackgroundColor(Color.TRANSPARENT);
-        cardTopUpCard.setStrokeWidth(0);
 
         cardStatementCard.setCardBackgroundColor(Color.TRANSPARENT);
         cardStatementCard.setStrokeWidth(0);
@@ -441,6 +440,7 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
             cardName.setCardBackgroundColor(Color.parseColor("#7A477f"));
         }
     }
+
 
     public void replaceFragment(Fragment fragment) {
 

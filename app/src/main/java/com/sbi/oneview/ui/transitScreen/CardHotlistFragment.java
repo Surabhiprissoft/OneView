@@ -30,7 +30,6 @@ import com.sbi.oneview.utils.CustomIndicatorView;
 import com.sbi.oneview.utils.OTPVerificationDialog;
 import com.sbi.oneview.utils.SharedConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

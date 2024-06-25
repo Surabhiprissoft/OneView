@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
+import com.sbi.oneview.utils.CommonUtils;
 
 
 public class BaseActivity extends AppCompatActivity {
@@ -25,7 +25,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showLoading() {
         hideLoading();
-       // mProgressDialog = CommonUtils.showLoadingDialog(this);
+        mProgressDialog = CommonUtils.showLoadingDialog(this);
     }
 
     public void hideLoading() {

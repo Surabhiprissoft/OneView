@@ -1,14 +1,15 @@
 package com.sbi.oneview.network;
 
 
-import com.sbi.oneview.base.RequestBaseModel;
 import com.sbi.oneview.network.RequestModel.CardBlockUnblockRequestModel;
 import com.sbi.oneview.network.RequestModel.CardHotlistRequestModel;
 import com.sbi.oneview.network.RequestModel.CardMiniStatementRequestModel;
+import com.sbi.oneview.network.RequestModel.LimitEnquiryRequestModel;
 import com.sbi.oneview.network.RequestModel.LoginRequestModel;
 import com.sbi.oneview.network.RequestModel.LoginWithOtpRequestModel;
 import com.sbi.oneview.network.ResponseModel.BlockUnblockCard.CardBlockUnblockResponseModel;
 import com.sbi.oneview.network.ResponseModel.HotlistCard.CardHotlistResponseModel;
+import com.sbi.oneview.network.ResponseModel.InrLimitEnquiry.InrLimitEnquiryResponseModel;
 import com.sbi.oneview.network.ResponseModel.LoginResponseModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.LoginWithOtpResponseModel;
 import com.sbi.oneview.network.ResponseModel.MiniStatement.CardMiniStatementResponseModel;
@@ -38,6 +39,9 @@ public interface APIInterface {
 
     @POST(Constants.CARDHOTLIST)
     Call<CardHotlistResponseModel> getCardHotlist(@Body CardHotlistRequestModel cardHotlistRequestModel);
+
+    @POST(Constants.LIMITENQUIRY)
+    Call<InrLimitEnquiryResponseModel> getInrLimitEnquiry(@Body LimitEnquiryRequestModel limitEnquiryRequestModel);
 
  /*   @POST(Constants.AUTHENTICATEUSER)
     Call<String> authenticateUser(@Query("channelId") String channelID, @Body String loginRequest);

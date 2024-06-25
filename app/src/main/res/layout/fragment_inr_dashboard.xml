@@ -35,8 +35,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/_10sdp">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -48,7 +47,10 @@
                             android:id="@+id/cardTopUP"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/white"
                             app:cardCornerRadius="@dimen/_7sdp"
@@ -82,7 +84,10 @@
                             android:id="@+id/cardResetPin"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/white"
                             app:cardCornerRadius="@dimen/_7sdp"
@@ -117,7 +122,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
@@ -125,7 +129,10 @@
                             android:id="@+id/cardLimit"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_20sdp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/white"
                             app:cardCornerRadius="@dimen/_7sdp"
@@ -159,7 +166,10 @@
                             android:id="@+id/cardStatement"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_20sdp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/white"
                             app:cardCornerRadius="@dimen/_7sdp"

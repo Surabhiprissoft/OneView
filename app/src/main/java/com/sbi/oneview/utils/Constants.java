@@ -30,5 +30,7 @@ public class Constants {
     public static final String CARDBLOCK = "s2/cardBlock";
     public static final String CARDUNBLOCK = "s2/cardUnblock";
     public static final String CARDHOTLIST = "s2/hotlist";
+    public static final String LIMITENQUIRY = "s2/limitEnquiry";
+    public static final String LIMITUPDATE = "s2/limitUpdate";
 
 }

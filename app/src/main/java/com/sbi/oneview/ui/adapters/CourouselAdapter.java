@@ -13,13 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.sbi.oneview.R;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
 import com.sbi.oneview.utils.CustomIndicatorView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.ViewHolder> {

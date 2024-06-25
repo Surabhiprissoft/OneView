@@ -31,7 +31,6 @@ import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
 import com.sbi.oneview.utils.SharedConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResetPinFragment extends Fragment implements MyFragmentCallback {

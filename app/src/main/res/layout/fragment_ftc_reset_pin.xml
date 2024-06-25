@@ -5,24 +5,23 @@
     android:layout_height="match_parent"
     android:layout_marginTop="?attr/actionBarSize"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.inrPrepaid.InrCardTopupFragment">
+    tools:context=".ui.FtcScreen.FtcResetPinFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/common_header"/>
+        <include layout="@layout/common_header" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#EAEAEA"
                 android:orientation="vertical">
 
 
@@ -62,7 +61,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/_20sdp"
+                        android:padding="@dimen/_10sdp"
                         android:orientation="vertical">
 
                         <TextView
@@ -190,35 +189,6 @@
                             style="@style/cardDetailsValueTextStyle"
                             android:text="@string/xx_xx"/>
 
-                        <TextView
-                            android:id="@+id/tvCB"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            app:layout_constraintTop_toBottomOf="@id/tvCardActiveDate"
-                            app:layout_constraintStart_toStartOf="parent"
-                            android:text="@string/card_bal"
-                            style="@style/cardDetailsHeadingTextStyle"/>
-                        <TextView
-                            android:id="@+id/tvCardBalance"
-                            app:layout_constraintTop_toBottomOf="@id/tvCB"
-                            app:layout_constraintStart_toStartOf="parent"
-                            style="@style/cardDetailsValueTextStyle"
-                            android:text="@string/no_value_dots"/>
-
-
-                        <TextView
-                            android:id="@+id/tvChipB"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            app:layout_constraintTop_toBottomOf="@id/imgExpDate"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:text="@string/card_chip_bal"
-                            style="@style/cardDetailsHeadingTextStyle"/>
-
-                        <TextView
-                            android:id="@+id/tvChipBalance"
-                            app:layout_constraintTop_toBottomOf="@id/tvChipB"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            style="@style/cardDetailsValueTextStyle"
-                            android:text="@string/no_value_dots"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -226,183 +196,59 @@
                 </com.google.android.material.card.MaterialCardView>
 
 
+
                 <TextView
-                    android:id="@+id/tvTopUp"
-                    android:text="@string/top_up"
-                    style="@style/menuHeadingGradientTextStyle"/>
+                    android:id="@+id/tvResetPin"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/menuHeadingGradientTextStyle"
+                    android:text="@string/reset_pin"
+                    tools:showIn="@layout/fragment_transit_card_dashboard" />
+
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardElevation="@dimen/_7sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:backgroundTint="@color/white"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_60sdp">
+                    android:layout_marginBottom="@dimen/_60sdp"
+                    app:cardElevation="@dimen/_7sdp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:padding="@dimen/_10sdp"
+                        android:layout_margin="@dimen/_10sdp"
                         android:orientation="vertical">
 
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnResetPin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            app:cornerRadius="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_25sdp"
+                            android:layout_marginEnd="@dimen/_25sdp"
+                            style="@style/purpleButtonStyle"
+                            android:text="Reset Pin"/>
+
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/tvCardStatusNote"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:textSize="@dimen/_13ssp"
-                            android:text="@string/how_much_would_you_like_top_up"/>
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            android:textColor="@color/failedTransaction"/>
 
-
-                        <LinearLayout
-                            android:id="@+id/layoutChooseMoney"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:weightSum="3"
-                                android:orientation="horizontal">
-
-                                <com.google.android.material.card.MaterialCardView
-                                    android:id="@+id/card500"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:backgroundTint="#662D91"
-                                    app:cardCornerRadius="@dimen/_10sdp"
-                                    android:layout_weight="1">
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_margin="@dimen/_7sdp"
-                                        android:textColor="@color/white"
-                                        android:gravity="center"
-                                        android:text="@string/_5000"/>
-
-                                </com.google.android.material.card.MaterialCardView>
-                                <com.google.android.material.card.MaterialCardView
-                                    android:id="@+id/card1000"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:backgroundTint="#662D91"
-                                    android:layout_marginStart="@dimen/_7sdp"
-                                    android:layout_marginEnd="@dimen/_7sdp"
-                                    app:cardCornerRadius="@dimen/_10sdp"
-                                    android:layout_weight="1">
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_margin="@dimen/_7sdp"
-                                        android:textColor="@color/white"
-                                        android:gravity="center"
-                                        android:text="@string/_10000"/>
-
-                                </com.google.android.material.card.MaterialCardView>
-                                <com.google.android.material.card.MaterialCardView
-                                    android:id="@+id/card2000"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:backgroundTint="#662D91"
-                                    app:cardCornerRadius="@dimen/_10sdp"
-                                    android:layout_weight="1">
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_margin="@dimen/_7sdp"
-                                        android:textColor="@color/white"
-                                        android:gravity="center"
-                                        android:text="@string/_20000"/>
-
-                                </com.google.android.material.card.MaterialCardView>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:weightSum="3"
-                                android:layout_marginTop="@dimen/_5sdp"
-                                android:orientation="horizontal">
-
-                                <com.google.android.material.card.MaterialCardView
-                                    android:id="@+id/card5000"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:backgroundTint="#662D91"
-                                    app:cardCornerRadius="@dimen/_10sdp"
-                                    android:layout_weight="1">
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_margin="@dimen/_7sdp"
-                                        android:textColor="@color/white"
-                                        android:gravity="center"
-                                        android:text="@string/_50000"/>
-
-                                </com.google.android.material.card.MaterialCardView>
-                                <com.google.android.material.card.MaterialCardView
-                                    android:id="@+id/card10000"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:backgroundTint="#662D91"
-                                    android:layout_marginStart="@dimen/_4sdp"
-                                    android:layout_marginEnd="@dimen/_4sdp"
-                                    app:cardCornerRadius="@dimen/_10sdp"
-                                    android:layout_weight="1">
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_margin="@dimen/_7sdp"
-                                        android:textColor="@color/white"
-                                        android:gravity="center"
-                                        android:text="10000"/>
-
-                                </com.google.android.material.card.MaterialCardView>
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:text="*Note:"
+                            android:textStyle="bold"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:orientation="horizontal">
-
-                            <EditText
-                                android:id="@+id/etMoney"
-                                android:layout_width="@dimen/_150sdp"
-                                android:layout_height="@dimen/_30sdp"
-                                android:paddingStart="@dimen/_7sdp"
-                                android:paddingEnd="@dimen/_7sdp"
-                                android:background="@drawable/edit_text_border_bg"
-                                app:layout_constraintStart_toStartOf="parent"
-                                android:textSize="@dimen/_12ssp"
-                                app:layout_constraintBottom_toBottomOf="@id/btnProceedWithMoney"
-                                app:layout_constraintTop_toTopOf="@id/btnProceedWithMoney"/>
-
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/btnProceedWithMoney"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:cornerRadius="@dimen/_10sdp"
-                                android:text="Proceed"
-                                style="@style/purpleButtonStyle" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                            style="@style/cardDetailsHeadingTextStyle"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -412,29 +258,72 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/eligible_topup"
-                                android:layout_marginTop="@dimen/_10sdp"
-                                android:textSize="@dimen/_13ssp"/>
+                                android:text="1. "
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
 
                             <TextView
-                                android:id="@+id/tvEligibleTopUpAmount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textStyle="bold"
-                                android:layout_marginTop="@dimen/_10sdp"
-                                android:textSize="@dimen/_13ssp"/>
+                                android:text="@string/reset_pin_reason_one"
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
 
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2. "
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/reset_pin_reason_two"
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="3. "
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/reset_pin_reason_three"
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
+
+
+
+
             </LinearLayout>
-
         </androidx.core.widget.NestedScrollView>
-
     </LinearLayout>
+
 
 </FrameLayout>

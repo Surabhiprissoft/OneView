@@ -236,7 +236,6 @@
                 android:layout_height="wrap_content"
                 android:weightSum="10"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_60sdp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.card.MaterialCardView
@@ -312,6 +311,63 @@
             </LinearLayout>
 
 
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:background="@drawable/table_border">
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:weightSum="7.5"
+                    android:layout_height="match_parent" >
+
+                    <TextView
+                        android:id="@+id/first_name_label"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:text="Date Time"
+                        android:backgroundTint="#B9B9B9"
+                        style="@style/textStyle_14_600_statement_table" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:backgroundTint="#B9B9B9"
+                        style="@style/textStyle_14_600_statement_table"
+                        android:text="Transaction Details" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:backgroundTint="#B9B9B9"
+                        style="@style/textStyle_14_600_statement_table"
+                        android:text="Form" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:backgroundTint="#B9B9B9"
+                        style="@style/textStyle_14_600_statement_table"
+                        android:text="Status" />
+                </TableRow>
+
+
+            </TableLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTransactionStatement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_60sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"/>
 
     </LinearLayout>
 

@@ -21,21 +21,16 @@ import com.sbi.oneview.base.RequestBaseModel;
 import com.sbi.oneview.network.APIRequests;
 import com.sbi.oneview.network.NetworkResponseCallback;
 import com.sbi.oneview.network.RequestModel.CardMiniStatementRequestModel;
-import com.sbi.oneview.network.RequestModel.LoginWithOtpRequestModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
 import com.sbi.oneview.network.ResponseModel.MiniStatement.CardMiniStatementResponseModel;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
 import com.sbi.oneview.ui.adapters.RecentTransactionAdapter;
-import com.sbi.oneview.ui.transitScreen.ResetPinFragment;
-import com.sbi.oneview.ui.transitScreen.TopUpFragment;
-import com.sbi.oneview.ui.transitScreen.TransitHomeActivity;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
 import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

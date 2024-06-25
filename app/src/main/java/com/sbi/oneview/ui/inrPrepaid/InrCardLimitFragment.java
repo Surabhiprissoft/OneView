@@ -16,18 +16,30 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.BaseFragment;
+import com.sbi.oneview.base.RequestBaseModel;
+import com.sbi.oneview.network.APIRequests;
+import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.CardHotlistRequestModel;
+import com.sbi.oneview.network.RequestModel.LimitEnquiryRequestModel;
+import com.sbi.oneview.network.ResponseModel.InrLimitEnquiry.InrLimitEnquiryResponseModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
+import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
 
 import java.util.List;
 
-public class InrCardLimitFragment extends Fragment implements  MyFragmentCallback{
+import retrofit2.Call;
+import retrofit2.Response;
+
+public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCallback{
 
     TextView tvCardLimit,tvCardStatusNote;
     private SeekBar seekBarAtm;
@@ -192,7 +204,70 @@ public class InrCardLimitFragment extends Fragment implements  MyFragmentCallbac
 
             }
 
+            cardLimitEnquiry(loginResponse.getPrepaid().getCardDetails().get(position).getProxyNumber());
+
+
 
         }
+    }
+
+    public void cardLimitEnquiry(String proxyNumber){
+
+        Toast.makeText(getActivity(), ""+proxyNumber, Toast.LENGTH_SHORT).show();
+        showLoading();
+
+        RequestBaseModel<LimitEnquiryRequestModel> data = new RequestBaseModel<>();
+        LimitEnquiryRequestModel limitEnquiryRequestModel = new LimitEnquiryRequestModel();
+
+        limitEnquiryRequestModel.setProxyNumber(proxyNumber);
+        limitEnquiryRequestModel.setSId("");
+
+        data.setRequest(limitEnquiryRequestModel);
+
+
+        if (NetworkUtils.isNetworkConnected(getActivity())){
+
+            APIRequests.CardLimitEnquiry(getActivity(), limitEnquiryRequestModel, new NetworkResponseCallback<InrLimitEnquiryResponseModel>() {
+                @Override
+                public void onSuccess(Call<InrLimitEnquiryResponseModel> call, Response<InrLimitEnquiryResponseModel> response) {
+                    hideLoading();
+
+                    if (response.body().getStatusCode()==200){
+
+                        tvAtmValue.setText(response.body().getData().getAtmTxnAmount());
+                        seekBarAtm.setProgress(Integer.parseInt(response.body().getData().getAtmTxnAmount()),true);
+                    }
+
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<InrLimitEnquiryResponseModel> call, Response<InrLimitEnquiryResponseModel> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<InrLimitEnquiryResponseModel> call, Response<InrLimitEnquiryResponseModel> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onFailure(Call<InrLimitEnquiryResponseModel> call, Throwable t) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onInternalServerError() {
+                    hideLoading();
+
+                }
+            });
+
+        }else{
+            Toast.makeText(getActivity(), ""+getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

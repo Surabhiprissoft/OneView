@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-
+import com.sbi.oneview.utils.CommonUtils;
 
 
 public class BaseFragment extends Fragment implements SessionManager.SessionExpiredListener {
@@ -43,7 +43,7 @@ public class BaseFragment extends Fragment implements SessionManager.SessionExpi
 
     public void showLoading() {
         hideLoading();
-       // mProgressDialog = CommonUtils.showLoadingDialog(getActivity());
+        mProgressDialog = CommonUtils.showLoadingDialog(getActivity());
     }
 
     public void hideLoading() {

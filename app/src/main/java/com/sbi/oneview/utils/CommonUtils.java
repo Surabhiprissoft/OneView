@@ -2,11 +2,14 @@ package com.sbi.oneview.utils;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
+import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -26,6 +29,7 @@ import java.util.Random;
 
 public class CommonUtils {
     static String formattedDate = "";
+
     public static void changeBallPosition(ImageView topRightImg, ImageView bottomRightImg, ImageView bottomLeftImg){
         // Random number generator with a seed for potentially more predictable behavior
         Random random = new Random(System.currentTimeMillis());
@@ -227,18 +231,22 @@ public class CommonUtils {
     }
 
 
-    public static void showSuccessDialogue(Context context){
 
-        Dialog dialog = new Dialog(context);
-
-        dialog.setContentView(R.layout.dialog_hotlist_success);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
-
-
-
-
-
-        dialog.show();
+    public static ProgressDialog showLoadingDialog(Context context) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        try {
+            progressDialog.show();
+            if (progressDialog.getWindow() != null) {
+                progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            }
+            progressDialog.setContentView(R.layout.layout_progress_dialog);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+        } catch (Exception ex) {
+            Log.e(App.getAppContext().getString(R.string.dialog), ex.getMessage());
+        }
+        return progressDialog;
     }
+
 }

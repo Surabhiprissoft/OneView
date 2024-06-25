@@ -19,6 +19,7 @@ import com.sbi.oneview.R;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
+import com.sbi.oneview.ui.adapters.TransactionStatementAdapter;
 import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
@@ -26,7 +27,6 @@ import com.sbi.oneview.utils.SharedConfig;
 
 import java.time.LocalDate;
 import java.time.format.TextStyle;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -37,6 +37,7 @@ public class CardStatementFragment extends Fragment implements MyFragmentCallbac
     TextView tvMyCards,tvCardDetails,tvTransaction,tvCardStatement,tvCurrentDate;
 
     int currentYear,currentDay,preYear,preDay;
+    RecyclerView rvTransactionStatement;
     String currentMonth,preMonth;
 
     Data loginResponse;
@@ -87,6 +88,10 @@ public class CardStatementFragment extends Fragment implements MyFragmentCallbac
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
 
+
+        TransactionStatementAdapter transactionStatementAdapter = new TransactionStatementAdapter();
+        rvTransactionStatement.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        rvTransactionStatement.setAdapter(transactionStatementAdapter);
     }
 
     public void clickListner() {
@@ -110,6 +115,7 @@ public class CardStatementFragment extends Fragment implements MyFragmentCallbac
         CommonUtils.setGradientColor(tvTransaction);
         CommonUtils.setGradientColor(tvCardDetails);
 
+        rvTransactionStatement = view.findViewById(R.id.rvTransactionStatement);
         tvCurrentDate = view.findViewById(R.id.tvDate);
         tvCurrentDate.setText(CommonUtils.setCurrentDate());
 

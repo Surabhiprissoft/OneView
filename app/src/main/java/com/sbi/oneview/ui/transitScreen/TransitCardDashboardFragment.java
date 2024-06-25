@@ -20,13 +20,11 @@ import com.sbi.oneview.R;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
-import com.sbi.oneview.ui.adapters.RecentTransactionAdapter;
 import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
 import com.sbi.oneview.utils.SharedConfig;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
