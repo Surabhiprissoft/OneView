@@ -1,5 +1,6 @@
 package com.sbi.oneview.utils;
 
+import android.animation.ObjectAnimator;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -12,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +23,7 @@ import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.App;
 
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,6 +32,8 @@ import java.util.Random;
 
 public class CommonUtils {
     static String formattedDate = "";
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
 
     public static void changeBallPosition(ImageView topRightImg, ImageView bottomRightImg, ImageView bottomLeftImg){
         // Random number generator with a seed for potentially more predictable behavior
@@ -208,6 +213,59 @@ public class CommonUtils {
         return formattedDate;
     }
 
+    public static String showDatePickerDialogOnTextView(Context context, TextView textView) {
+
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                context,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        // Month is 0-based, so add 1 to get the correct month
+                        Calendar selectedDate = Calendar.getInstance();
+                        selectedDate.set(year, monthOfYear, dayOfMonth);
+                        String formattedDate = formatDate(selectedDate);
+                        textView.setText(formattedDate);
+
+
+                    }
+                },
+                year,
+                month,
+                day
+        );
+
+
+        datePickerDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "clear", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                textView.setText("");
+            }
+        });
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        Calendar minDate = getDate180DaysBack();
+        datePickerDialog.getDatePicker().setMinDate(minDate.getTimeInMillis());
+        datePickerDialog.show();
+
+        return formattedDate;
+    }
+
+    public static Calendar getDate180DaysBack() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -180);
+        return calendar;
+    }
+
+    private static String formatDate(Calendar date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return sdf.format(date.getTime());
+    }
+
+
     public static String setCurrentDate()
     {
         Date currentDate = new Date();
@@ -240,6 +298,15 @@ public class CommonUtils {
                 progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
             progressDialog.setContentView(R.layout.layout_progress_dialog);
+
+            ImageView imgLoading = progressDialog.findViewById(R.id.imgLaoding);
+            imgLoading.setImageResource(R.drawable.rotate_anim_vector);
+            ObjectAnimator flipAnimator = ObjectAnimator.ofFloat(imgLoading, "rotationY", 0f, 360f);
+            flipAnimator.setDuration(1000); // Duration for one flip
+            flipAnimator.setRepeatCount(ObjectAnimator.INFINITE); // Repeat indefinitely
+            flipAnimator.setInterpolator(new LinearInterpolator());
+            flipAnimator.start();
+
             progressDialog.setIndeterminate(true);
             progressDialog.setCancelable(false);
             progressDialog.setCanceledOnTouchOutside(false);
@@ -247,6 +314,43 @@ public class CommonUtils {
             Log.e(App.getAppContext().getString(R.string.dialog), ex.getMessage());
         }
         return progressDialog;
+    }
+
+
+    // next two methods to generate 16 byte random key
+    public static byte[] generateRandomKey() {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] key = new byte[16]; // 4 bytes = 32 bits
+        secureRandom.nextBytes(key);
+        return key;
+    }
+
+    public static String bytesToHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    }
+
+    public static String generateRandomString() {
+        SecureRandom random = new SecureRandom();
+        StringBuilder stringBuilder = new StringBuilder(32);
+
+        for (int i = 0; i < 32; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            stringBuilder.append(CHARACTERS.charAt(randomIndex));
+        }
+
+        return stringBuilder.toString();
+    }
+
+
+    public static String convertToJson(String input) {
+
+        String json = input.replaceAll("\\b(\\w+)\\s*=\\s*", "\"$1\": ");
+        json = json.replaceAll("(?<=\": )(?!\\[|\\{|(?:(?:null)[,}\n]))([^,}\n]*)", "\"$1\"");
+        return json;
     }
 
 }

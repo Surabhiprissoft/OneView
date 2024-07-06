@@ -438,7 +438,7 @@
                         android:layout_width="match_parent"
                         android:layout_margin="@dimen/_10sdp"
                         android:paddingBottom="@dimen/_8sdp"
-                        android:layout_height="@dimen/_300sdp"/>
+                        android:layout_height="match_parent"/>
 
                 </com.google.android.material.card.MaterialCardView>
 

@@ -36,7 +36,7 @@ public class Data{
 	private String prepaidStatus;
 
 	@SerializedName("ftc")
-	private Ftc ftc;
+	public Ftc ftc;
 
 	@SerializedName("transit")
 	private Transit transit;

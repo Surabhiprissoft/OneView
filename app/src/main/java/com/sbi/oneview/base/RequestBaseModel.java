@@ -4,15 +4,15 @@ import com.google.gson.Gson;
 
 public class RequestBaseModel<T> {
 
-    private Header header;
+    private HeaderRequestModel headerRequestModel;
     private T request;
 
-    public Header getHeader() {
-        return header;
+    public HeaderRequestModel getHeader() {
+        return headerRequestModel;
     }
 
-    public void setHeader(Header header) {
-        this.header = header;
+    public void setHeader(HeaderRequestModel headerRequestModel) {
+        this.headerRequestModel = headerRequestModel;
     }
 
     public T getRequest() {

@@ -2,15 +2,19 @@ package com.sbi.oneview.ui.registration;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,13 +22,27 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.BaseActivity;
+import com.sbi.oneview.base.RequestBaseModel;
+import com.sbi.oneview.network.APIRequests;
+import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.LoginWithOtpRequestModel;
+import com.sbi.oneview.network.RequestModel.ValidateCaptchaRequestModel;
+import com.sbi.oneview.network.ResponseModel.GetCaptcha.GetCaptchaResponseModel;
+import com.sbi.oneview.network.ResponseModel.ValidateCaptcha.ValidateCaptchaResponseModel;
 import com.sbi.oneview.utils.CommonUtils;
+import com.sbi.oneview.utils.NetworkUtils;
 
-public class LoginActivity extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Response;
 
-    EditText etPhoneNumber;
+public class LoginActivity extends BaseActivity {
+
+    EditText etPhoneNumber,etCaptcha;
     MaterialButton btnRequestOtp;
+    int currentImageId;
     ImageView topRightImg,bottomLeftImg,bottomRightImg;
+    ImageView imgCaptcha;
     TextView txt_applyforcard;
     boolean isNumberValid=false;
     ConstraintLayout contentLogin;
@@ -60,9 +78,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         }, 500); // Delay in milliseconds
 
-
-
-
+        //--------------------- calling captcha and displaying ----------------------------
+       // implementCaptcha();
 
     }
 
@@ -75,6 +92,8 @@ public class LoginActivity extends AppCompatActivity {
         bottomRightImg = findViewById(R.id.bottomRight_image);
         txt_applyforcard = findViewById(R.id.txt_applyforcard);
         contentLogin = findViewById(R.id.contentLogin);
+        etCaptcha = findViewById(R.id.etCaptcha);
+        imgCaptcha = findViewById(R.id.imgCaptcha);
 
     }
 
@@ -99,10 +118,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isNumberValid){
-                    Intent requestOtpIntent = new Intent(LoginActivity.this, EnterOtp.class);
-                    String message = etPhoneNumber.getText().toString();
-                    requestOtpIntent.putExtra("PHONE_NUMBER", message);
-                    startActivity(requestOtpIntent);
+
+                    if (etCaptcha.getText().toString().isEmpty()){
+                        Toast.makeText(LoginActivity.this, "Please enter captcha", Toast.LENGTH_SHORT).show();
+                    }else{
+                        //validateCaptcha();
+                        Intent requestOtpIntent = new Intent(LoginActivity.this, EnterOtp.class);
+                        String message = etPhoneNumber.getText().toString();
+                        requestOtpIntent.putExtra("PHONE_NUMBER", message);
+                        startActivity(requestOtpIntent);
+                    }
+
 
 
 
@@ -144,6 +170,156 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    public void implementCaptcha(){
+
+        showLoading();
+        /*RequestBaseModel<> data =  new RequestBaseModel<>();
+        LoginWithOtpRequestModel loginWithOtpRequestModel = new LoginWithOtpRequestModel();
+
+        loginWithOtpRequestModel.setUsername(number);
+        loginWithOtpRequestModel.setOtp("3241");
+        loginWithOtpRequestModel.setSId("");*/
+
+
+        if(NetworkUtils.isNetworkConnected(LoginActivity.this)){
+            Toast.makeText(this, "Called captch", Toast.LENGTH_SHORT).show();
+
+            APIRequests.getCaptcha(LoginActivity.this, new NetworkResponseCallback<GetCaptchaResponseModel>() {
+                @Override
+                public void onSuccess(Call<GetCaptchaResponseModel> call, Response<GetCaptchaResponseModel> response) {
+
+                    hideLoading();
+                    Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
+
+                    if (response.body()!=null) {
+                        if (response.body().getStatusCode() == 200) {
+
+                            if (response.body().getData().getImage() != null) {
+                                setBase64Image(response.body().getData().getImage());
+                            }
+                            currentImageId = response.body().getData().getId();
+
+
+                        } else {
+
+                            Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(LoginActivity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<GetCaptchaResponseModel> call, Response<GetCaptchaResponseModel> response) {
+                    hideLoading();
+                    Toast.makeText(LoginActivity.this, "null body", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<GetCaptchaResponseModel> call, Response<GetCaptchaResponseModel> response) {
+                    Toast.makeText(LoginActivity.this, "unsuccess", Toast.LENGTH_SHORT).show();
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onFailure(Call<GetCaptchaResponseModel> call, Throwable t) {
+                    Toast.makeText(LoginActivity.this, "failure "+ t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onInternalServerError() {
+                    Toast.makeText(LoginActivity.this, "server error", Toast.LENGTH_SHORT).show();
+                    hideLoading();
+
+                }
+            });
+
+        }else{
+            hideLoading();
+            Toast.makeText(this, getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void validateCaptcha(){
+
+        showLoading();
+
+        //RequestBaseModel<LoginWithOtpRequestModel> data =  new RequestBaseModel<>();
+        ValidateCaptchaRequestModel validateCaptchaRequestModel = new ValidateCaptchaRequestModel();
+
+        validateCaptchaRequestModel.setUsername(etPhoneNumber.getText().toString());
+        validateCaptchaRequestModel.setText(etCaptcha.getText().toString().trim());
+        validateCaptchaRequestModel.setId(currentImageId);
+
+        if (NetworkUtils.isNetworkConnected(LoginActivity.this)){
+
+            APIRequests.validateCaptcha(LoginActivity.this, validateCaptchaRequestModel, new NetworkResponseCallback<ValidateCaptchaResponseModel>() {
+                @Override
+                public void onSuccess(Call<ValidateCaptchaResponseModel> call, Response<ValidateCaptchaResponseModel> response) {
+
+                    hideLoading();
+                    if (response.body()!=null) {
+
+                        if (response.body().getStatusCode()==200){
+                            Intent requestOtpIntent = new Intent(LoginActivity.this, EnterOtp.class);
+                            String message = etPhoneNumber.getText().toString();
+                            requestOtpIntent.putExtra("PHONE_NUMBER", message);
+                            startActivity(requestOtpIntent);
+                        }else{
+                            Toast.makeText(LoginActivity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }else{
+
+                    }
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<ValidateCaptchaResponseModel> call, Response<ValidateCaptchaResponseModel> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<ValidateCaptchaResponseModel> call, Response<ValidateCaptchaResponseModel> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onFailure(Call<ValidateCaptchaResponseModel> call, Throwable t) {
+                    hideLoading();
+                    Toast.makeText(LoginActivity.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onInternalServerError() {
+                    hideLoading();
+                }
+            });
+
+        }else{
+            hideLoading();
+            Toast.makeText(this, getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void setBase64Image(String base64String) {
+        // Decode Base64 string to byte array
+        byte[] decodedString = Base64.decode(base64String, Base64.DEFAULT);
+
+        // Convert byte array to Bitmap
+        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+        // Set the Bitmap to an ImageView
+        imgCaptcha.setImageBitmap(decodedBitmap);
     }
 
 

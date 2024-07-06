@@ -206,6 +206,316 @@
                     tools:showIn="@layout/fragment_transit_card_dashboard" />
 
 
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    app:cardElevation="@dimen/_7sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_60sdp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_15sdp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvCardStatusNote"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            android:textColor="@color/failedTransaction"/>
+
+                        <LinearLayout
+                            android:id="@+id/layoutSpendLimitController"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tvLabelAtm"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        android:textSize="@dimen/_12ssp"
+                                        android:textStyle="bold"
+                                        android:text="ATM"/>
+
+                                    <Switch
+                                        android:id="@+id/switchAtm"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:layout_constraintStart_toEndOf="@id/tvLabelAtm"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        android:layout_marginStart="@dimen/_10sdp" />
+
+                                    <EditText
+                                        android:id="@+id/etAtmValue"
+                                        android:layout_width="@dimen/_100sdp"
+                                        android:layout_height="wrap_content"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        android:background="@drawable/ovelay_file"
+                                        android:inputType="number"
+                                        android:paddingRight="@dimen/_10sdp"
+                                        android:paddingTop="@dimen/_3sdp"
+                                        android:paddingBottom="@dimen/_3sdp"
+                                        android:maxLines="1"
+                                        android:textStyle="bold"
+                                        android:gravity="end"
+                                        android:text="0"/>
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+                                <SeekBar
+                                    android:id="@+id/seekBarAtm"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:progressTint="@color/failedTransaction"
+                                    android:thumb="@drawable/seekbar_thumb_background"
+                                    android:layout_marginTop="@dimen/_5sdp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/max_atm"
+                                    android:layout_marginTop="@dimen/_3sdp"
+                                    android:textStyle="bold"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_30sdp"
+                                android:orientation="vertical">
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tvLabelPos"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        android:textSize="@dimen/_12ssp"
+                                        android:textStyle="bold"
+                                        android:text="POS"/>
+
+                                    <Switch
+                                        android:id="@+id/switchPos"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:layout_constraintStart_toEndOf="@id/tvLabelPos"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        android:layout_marginStart="@dimen/_10sdp" />
+
+                                    <EditText
+                                        android:id="@+id/etPosValue"
+                                        android:layout_width="@dimen/_100sdp"
+                                        android:layout_height="wrap_content"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        android:background="@drawable/ovelay_file"
+                                        android:inputType="number"
+                                        android:paddingRight="@dimen/_10sdp"
+                                        android:paddingTop="@dimen/_3sdp"
+                                        android:paddingBottom="@dimen/_3sdp"
+                                        android:maxLines="1"
+                                        android:textStyle="bold"
+                                        android:gravity="end"
+                                        android:text="0"/>
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+                                <SeekBar
+                                    android:id="@+id/seekBarPos"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:progressTint="@color/failedTransaction"
+                                    android:thumb="@drawable/seekbar_thumb_background"
+                                    android:layout_marginTop="@dimen/_5sdp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/max_pos"
+                                    android:layout_marginTop="@dimen/_3sdp"
+                                    android:textStyle="bold"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_30sdp"
+                                android:orientation="vertical">
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tvLabelEcomm"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        android:textSize="@dimen/_12ssp"
+                                        android:textStyle="bold"
+                                        android:text="EComm"/>
+
+                                    <Switch
+                                        android:id="@+id/switchEComm"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:layout_constraintStart_toEndOf="@id/tvLabelEcomm"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        android:layout_marginStart="@dimen/_10sdp" />
+
+                                    <EditText
+                                        android:id="@+id/etEcommValue"
+                                        android:layout_width="@dimen/_100sdp"
+                                        android:layout_height="wrap_content"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        android:background="@drawable/ovelay_file"
+                                        android:inputType="number"
+                                        android:paddingRight="@dimen/_10sdp"
+                                        android:paddingTop="@dimen/_3sdp"
+                                        android:paddingBottom="@dimen/_3sdp"
+                                        android:maxLines="1"
+                                        android:textStyle="bold"
+                                        android:gravity="end"
+                                        android:text="0"/>
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+                                <SeekBar
+                                    android:id="@+id/seekBarEcomm"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:progressTint="@color/failedTransaction"
+                                    android:thumb="@drawable/seekbar_thumb_background"
+                                    android:layout_marginTop="@dimen/_5sdp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/max_EComm"
+                                    android:layout_marginTop="@dimen/_3sdp"
+                                    android:textStyle="bold"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_30sdp"
+                                android:visibility="gone"
+                                android:orientation="vertical">
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/tvLabelContactless"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        android:textSize="@dimen/_12ssp"
+                                        android:textStyle="bold"
+                                        android:text="Contactless"/>
+
+                                    <Switch
+                                        android:id="@+id/switchContactless"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:layout_constraintStart_toEndOf="@id/tvLabelContactless"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        android:layout_marginStart="@dimen/_10sdp" />
+
+                                    <EditText
+                                        android:id="@+id/etContactlessValue"
+                                        android:layout_width="@dimen/_100sdp"
+                                        android:layout_height="wrap_content"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        android:background="@drawable/ovelay_file"
+                                        android:inputType="number"
+                                        android:paddingRight="@dimen/_10sdp"
+                                        android:paddingTop="@dimen/_3sdp"
+                                        android:paddingBottom="@dimen/_3sdp"
+                                        android:maxLines="1"
+                                        android:textStyle="bold"
+                                        android:gravity="end"
+                                        android:text="0"/>
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+                                <SeekBar
+                                    android:id="@+id/seekBarContactless"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:progressTint="@color/failedTransaction"
+                                    android:thumb="@drawable/seekbar_thumb_background"
+                                    android:layout_marginTop="@dimen/_5sdp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/max_ContactLess"
+                                    android:layout_marginTop="@dimen/_3sdp"
+                                    android:textStyle="bold"/>
+
+                            </LinearLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnTransitProceed"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_15sdp"
+                                app:cornerRadius="@dimen/_10sdp"
+                                android:layout_marginStart="@dimen/_25sdp"
+                                android:layout_marginEnd="@dimen/_25sdp"
+                                style="@style/purpleButtonStyle"
+                                android:text="Save"/>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+
 
 
             </LinearLayout>

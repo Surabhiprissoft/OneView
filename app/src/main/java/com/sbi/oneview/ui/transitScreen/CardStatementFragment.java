@@ -89,9 +89,9 @@ public class CardStatementFragment extends Fragment implements MyFragmentCallbac
         recyclerView.setAdapter(adapter);
 
 
-        TransactionStatementAdapter transactionStatementAdapter = new TransactionStatementAdapter();
+        /*TransactionStatementAdapter transactionStatementAdapter = new TransactionStatementAdapter();
         rvTransactionStatement.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        rvTransactionStatement.setAdapter(transactionStatementAdapter);
+        rvTransactionStatement.setAdapter(transactionStatementAdapter);*/
     }
 
     public void clickListner() {

@@ -7,13 +7,22 @@ import com.sbi.oneview.base.App;
 import com.sbi.oneview.network.RequestModel.CardBlockUnblockRequestModel;
 import com.sbi.oneview.network.RequestModel.CardHotlistRequestModel;
 import com.sbi.oneview.network.RequestModel.CardMiniStatementRequestModel;
+import com.sbi.oneview.network.RequestModel.InrCardStatementRequestModel;
 import com.sbi.oneview.network.RequestModel.LimitEnquiryRequestModel;
 import com.sbi.oneview.network.RequestModel.LoginWithOtpRequestModel;
+import com.sbi.oneview.network.RequestModel.SetPinRequestModel;
+import com.sbi.oneview.network.RequestModel.TransitMiniStatementRequestModel;
+import com.sbi.oneview.network.RequestModel.ValidateCaptchaRequestModel;
 import com.sbi.oneview.network.ResponseModel.BlockUnblockCard.CardBlockUnblockResponseModel;
+import com.sbi.oneview.network.ResponseModel.GetCaptcha.GetCaptchaResponseModel;
 import com.sbi.oneview.network.ResponseModel.HotlistCard.CardHotlistResponseModel;
+import com.sbi.oneview.network.ResponseModel.InrCardStatement.InrCardStatementResponseModel;
 import com.sbi.oneview.network.ResponseModel.InrLimitEnquiry.InrLimitEnquiryResponseModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.LoginWithOtpResponseModel;
 import com.sbi.oneview.network.ResponseModel.MiniStatement.CardMiniStatementResponseModel;
+import com.sbi.oneview.network.ResponseModel.SetPin.SetPinResponseModel;
+import com.sbi.oneview.network.ResponseModel.TransitMiniStatement.TransitMiniStatementResponseModel;
+import com.sbi.oneview.network.ResponseModel.ValidateCaptcha.ValidateCaptchaResponseModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,20 +30,78 @@ import retrofit2.Response;
 
 public class APIRequests {
 
-
-    public static void loginWithOTP(
+    public static void getCaptcha(
             Context context,
-            LoginWithOtpRequestModel loginWithOtpRequestModel,
-            NetworkResponseCallback<LoginWithOtpResponseModel> callback
+            NetworkResponseCallback<GetCaptchaResponseModel> callback
     ){
-        App.apiClientencrypt.loginUserWithOtp(loginWithOtpRequestModel).enqueue(new Callback<LoginWithOtpResponseModel>() {
+        App.apiClientencrypt.getCaptcha().enqueue(new Callback<GetCaptchaResponseModel>() {
             @Override
-            public void onResponse(Call<LoginWithOtpResponseModel> call, Response<LoginWithOtpResponseModel> response) {
+            public void onResponse(Call<GetCaptchaResponseModel> call, Response<GetCaptchaResponseModel> response) {
                 callback.onSuccess(call,response);
             }
 
             @Override
-            public void onFailure(Call<LoginWithOtpResponseModel> call, Throwable t) {
+            public void onFailure(Call<GetCaptchaResponseModel> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+    public static void validateCaptcha(
+            Context context,
+            ValidateCaptchaRequestModel validateCaptchaRequestModel,
+            NetworkResponseCallback<ValidateCaptchaResponseModel> callback
+    ){
+        App.apiClientencrypt.ValidateCaptcha(validateCaptchaRequestModel).enqueue(new Callback<ValidateCaptchaResponseModel>() {
+            @Override
+            public void onResponse(Call<ValidateCaptchaResponseModel> call, Response<ValidateCaptchaResponseModel> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<ValidateCaptchaResponseModel> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+    public static void loginWithOTP(
+            Context context,
+            String loginWithOtpRequestModel,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.loginUserWithOtp(loginWithOtpRequestModel).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(call, response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+
+            }
+        });
+    }
+
+
+    public static void transitMiniStatement(
+            Context context,
+            TransitMiniStatementRequestModel transitMiniStatementRequestModel,
+            NetworkResponseCallback<TransitMiniStatementResponseModel> callback
+    ){
+        App.apiClientencrypt.getTransitMiniStatement(transitMiniStatementRequestModel).enqueue(new Callback<TransitMiniStatementResponseModel>() {
+            @Override
+            public void onResponse(Call<TransitMiniStatementResponseModel> call, Response<TransitMiniStatementResponseModel> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<TransitMiniStatementResponseModel> call, Throwable t) {
                 callback.onFailure(call,t);
             }
         });
@@ -54,6 +121,25 @@ public class APIRequests {
 
             @Override
             public void onFailure(Call<CardMiniStatementResponseModel> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+    public static void cardStatement(
+            Context context,
+            InrCardStatementRequestModel inrCardStatementRequestModel,
+            NetworkResponseCallback<InrCardStatementResponseModel> callback
+    ){
+        App.apiClientencrypt.getCardStatement(inrCardStatementRequestModel).enqueue(new Callback<InrCardStatementResponseModel>() {
+            @Override
+            public void onResponse(Call<InrCardStatementResponseModel> call, Response<InrCardStatementResponseModel> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<InrCardStatementResponseModel> call, Throwable t) {
                 callback.onFailure(call,t);
             }
         });
@@ -136,5 +222,25 @@ public class APIRequests {
             }
         });
     }
+
+
+    public static void SetPin(
+            Context context,
+            SetPinRequestModel setPinRequestModel,
+            NetworkResponseCallback<SetPinResponseModel> callback
+    ){
+        App.apiClientencrypt.getSetPin(setPinRequestModel).enqueue(new Callback<SetPinResponseModel>() {
+            @Override
+            public void onResponse(Call<SetPinResponseModel> call, Response<SetPinResponseModel> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<SetPinResponseModel> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
 }
 

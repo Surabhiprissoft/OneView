@@ -16,26 +16,39 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.BaseFragment;
+import com.sbi.oneview.base.RequestBaseModel;
+import com.sbi.oneview.network.APIRequests;
+import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.CardHotlistRequestModel;
+import com.sbi.oneview.network.RequestModel.InrCardStatementRequestModel;
+import com.sbi.oneview.network.ResponseModel.InrCardStatement.InrCardStatementResponseModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
+import com.sbi.oneview.ui.adapters.TransactionStatementAdapter;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
+import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Response;
 
-public class InrCardStatementFragment extends Fragment implements MyFragmentCallback{
+
+public class InrCardStatementFragment extends BaseFragment implements MyFragmentCallback{
 
 
     TextView tvCardStatement;
     Data loginResponse;
     String currentCardStatus;
-
+    RecyclerView rvTransactionStatement;
     String CardProxyNumber;
     int cardPosition;
     TextView tvCurrentDate,tvMyCards,tvCardDetails,tvTransaction;
@@ -43,7 +56,7 @@ public class InrCardStatementFragment extends Fragment implements MyFragmentCall
     TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal;
 
     MaterialCardView cardStartDate,cardEndDate;
-    EditText etStartDate,etEndDate;
+    TextView tvStartDate,tvEndDate;
     ImageView imgSearchIcon;
 
     @Override
@@ -89,9 +102,10 @@ public class InrCardStatementFragment extends Fragment implements MyFragmentCall
 
         cardStartDate = view.findViewById(R.id.cardStartDate);
         cardEndDate = view.findViewById(R.id.cardEndDate);
-        etStartDate = view.findViewById(R.id.etStartDate);
-        etEndDate = view.findViewById(R.id.etEndDate);
+        tvStartDate = view.findViewById(R.id.tvStartDate);
+        tvEndDate = view.findViewById(R.id.tvEndDate);
         imgSearchIcon = view.findViewById(R.id.imgSearchIcon);
+        rvTransactionStatement = view.findViewById(R.id.rvTransactionStatement);
 
         tvCardStatement = view.findViewById(R.id.tvHeader);
         tvCardStatement.setText("Card Statement");
@@ -121,7 +135,7 @@ public class InrCardStatementFragment extends Fragment implements MyFragmentCall
         cardStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.showDatePickerDialog(getActivity(),etStartDate);
+                CommonUtils.showDatePickerDialogOnTextView(getActivity(),tvStartDate);
             }
         });
 
@@ -129,9 +143,27 @@ public class InrCardStatementFragment extends Fragment implements MyFragmentCall
         cardEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.showDatePickerDialog(getActivity(),etEndDate);
+                CommonUtils.showDatePickerDialogOnTextView(getActivity(),tvEndDate);
             }
         });
+
+        imgSearchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (currentCardStatus.equals("ACTIVE")){
+                    if (!tvStartDate.getText().toString().isEmpty() && !tvEndDate.getText().toString().isEmpty()){
+                        getCardStatement();
+                    }else{
+                        Toast.makeText(getActivity(), "Please enter valid date in both field", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getActivity(), "your current selected card is "+currentCardStatus, Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
     }
 
     @Override
@@ -186,6 +218,65 @@ public class InrCardStatementFragment extends Fragment implements MyFragmentCall
             }
 
 
+        }
+    }
+
+    public void getCardStatement(){
+
+        showLoading();
+        RequestBaseModel<InrCardStatementRequestModel> data = new RequestBaseModel<>();
+        InrCardStatementRequestModel inrCardStatementRequestModel = new InrCardStatementRequestModel();
+
+        inrCardStatementRequestModel.setFromDate(tvStartDate.getText().toString()+"T15:35:22.044");
+        inrCardStatementRequestModel.setToDate(tvEndDate.getText().toString()+"T15:35:22.044");
+        inrCardStatementRequestModel.setProxyNumber(CardProxyNumber);
+        inrCardStatementRequestModel.setType("");
+        inrCardStatementRequestModel.setSId("");
+
+        data.setRequest(inrCardStatementRequestModel);
+
+        if(NetworkUtils.isNetworkConnected(getActivity())){
+
+            APIRequests.cardStatement(getActivity(), inrCardStatementRequestModel, new NetworkResponseCallback<InrCardStatementResponseModel>() {
+                @Override
+                public void onSuccess(Call<InrCardStatementResponseModel> call, Response<InrCardStatementResponseModel> response) {
+
+                    hideLoading();
+                    if (response.body().getStatusCode()==200){
+
+
+                        TransactionStatementAdapter transactionStatementAdapter = new TransactionStatementAdapter(getActivity(),response.body().getData());
+                        rvTransactionStatement.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                        rvTransactionStatement.setAdapter(transactionStatementAdapter);
+
+                    }else{
+                        Toast.makeText(getActivity(), ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<InrCardStatementResponseModel> call, Response<InrCardStatementResponseModel> response) {
+                    hideLoading();
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<InrCardStatementResponseModel> call, Response<InrCardStatementResponseModel> response) {
+                    hideLoading();
+                }
+
+                @Override
+                public void onFailure(Call<InrCardStatementResponseModel> call, Throwable t) {
+                    hideLoading();
+                }
+
+                @Override
+                public void onInternalServerError() {
+                    hideLoading();
+                }
+            });
+
+        }else{
+            Toast.makeText(getActivity(), ""+getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.sbi.oneview.ui.inrPrepaid;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -18,19 +19,32 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.BaseFragment;
+import com.sbi.oneview.base.RequestBaseModel;
+import com.sbi.oneview.network.APIClient;
+import com.sbi.oneview.network.APIRequests;
+import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.CardHotlistRequestModel;
+import com.sbi.oneview.network.RequestModel.SetPinRequestModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
+import com.sbi.oneview.network.ResponseModel.SetPin.SetPinResponseModel;
 import com.sbi.oneview.ui.CallBackListner.OtpDialogueCallBack;
+import com.sbi.oneview.ui.WebView.ResetPinWebViewActivity;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
+import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.OTPVerificationDialog;
 import com.sbi.oneview.utils.SharedConfig;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Response;
 
-public class InrResetPinFragment extends Fragment implements MyFragmentCallback, OtpDialogueCallBack {
+
+public class InrResetPinFragment extends BaseFragment implements MyFragmentCallback {
 
 
     TextView tvResetPin,tvCardStatusNote;
@@ -46,6 +60,8 @@ public class InrResetPinFragment extends Fragment implements MyFragmentCallback,
     LinearLayout layoutCardStatus,layoutSpendLimitController;
     TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal;
     MaterialButton btnResetPin;
+
+    private static final String RESET_URL = "reset_url";
 
 
     @Override
@@ -124,13 +140,70 @@ public class InrResetPinFragment extends Fragment implements MyFragmentCallback,
 
 
 
-                if (otpVerificationDialog != null && otpVerificationDialog.isShowing()) {
+                /*if (otpVerificationDialog != null && otpVerificationDialog.isShowing()) {
                     otpVerificationDialog.dismiss();
                 }
                 otpVerificationDialog = new OTPVerificationDialog(InrResetPinFragment.this::onVerifyClick,getActivity());
                 //otpVerificationDialog.setCancelable(false);
-                otpVerificationDialog.show();
+                otpVerificationDialog.show();*/
 
+
+                showLoading();
+
+                RequestBaseModel<SetPinRequestModel> data = new RequestBaseModel<>();
+                SetPinRequestModel setPinRequestModel = new SetPinRequestModel();
+
+                setPinRequestModel.setProxyNumber(CardProxyNumber);
+                setPinRequestModel.setSid("");
+
+                data.setRequest(setPinRequestModel);
+
+                if(NetworkUtils.isNetworkConnected(getActivity())){
+
+                    APIRequests.SetPin(getActivity(), setPinRequestModel, new NetworkResponseCallback<SetPinResponseModel>() {
+                        @Override
+                        public void onSuccess(Call<SetPinResponseModel> call, Response<SetPinResponseModel> response) {
+
+                            hideLoading();
+                            if (response.body().getStatusCode()==200){
+
+                                Intent webViewIntent = new Intent(getActivity(), ResetPinWebViewActivity.class);
+                                webViewIntent.putExtra(RESET_URL,response.body().getData().getTargetUrl());
+                                startActivity(webViewIntent);
+
+                            }else{
+                                Toast.makeText(getActivity(), ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onResponseBodyNull(Call<SetPinResponseModel> call, Response<SetPinResponseModel> response) {
+                            hideLoading();
+
+                        }
+
+                        @Override
+                        public void onResponseUnsuccessful(Call<SetPinResponseModel> call, Response<SetPinResponseModel> response) {
+                            hideLoading();
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<SetPinResponseModel> call, Throwable t) {
+                            hideLoading();
+
+                        }
+
+                        @Override
+                        public void onInternalServerError() {
+                            hideLoading();
+
+                        }
+                    });
+
+                }else{
+                    Toast.makeText(getActivity(), ""+getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -191,9 +264,12 @@ public class InrResetPinFragment extends Fragment implements MyFragmentCallback,
         }
     }
 
-    @Override
+   /* @Override
     public void onVerifyClick(String otp) {
         otpVerificationDialog.dismiss();
         Toast.makeText(getActivity(), "Reached to fragment : "+otp, Toast.LENGTH_SHORT).show();
-    }
+
+    }*/
+
+
 }

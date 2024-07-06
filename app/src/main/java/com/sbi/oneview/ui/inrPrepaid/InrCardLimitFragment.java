@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,8 +44,9 @@ import retrofit2.Response;
 public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCallback{
 
     TextView tvCardLimit,tvCardStatusNote;
-    private SeekBar seekBarAtm;
-    private EditText tvAtmValue;
+    private SeekBar seekBarAtm,seekBarPos,seekBarEcomm,seekBarContactless;
+    private EditText etAtmValue,etPosValue,etEcommValue,etContactlessValue;
+    private Switch switchAtm,switchPos,switchEComm,switchContactless;
     Data loginResponse;
     String currentCardStatus;
 
@@ -98,6 +101,27 @@ public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCal
         tvCardStatusNote = view.findViewById(R.id.tvCardStatusNote);
         layoutSpendLimitController = view.findViewById(R.id.layoutSpendLimitController);
 
+        etAtmValue = view.findViewById(R.id.etAtmValue);
+        etPosValue = view.findViewById(R.id.etPosValue);
+        etEcommValue = view.findViewById(R.id.etEcommValue);
+        etContactlessValue = view.findViewById(R.id.etContactlessValue);
+
+        seekBarAtm = view.findViewById(R.id.seekBarAtm);
+        seekBarPos = view.findViewById(R.id.seekBarPos);
+        seekBarEcomm = view.findViewById(R.id.seekBarEcomm);
+        seekBarContactless = view.findViewById(R.id.seekBarContactless);
+
+        switchAtm = view.findViewById(R.id.switchAtm);
+        switchPos = view.findViewById(R.id.switchPos);
+        switchEComm = view.findViewById(R.id.switchEComm);
+        switchContactless = view.findViewById(R.id.switchContactless);
+
+
+        seekBarAtm.setMax(40000);
+        seekBarPos.setMax(200000);
+        seekBarEcomm.setMax(200000);
+        seekBarContactless.setMax(5000);
+
         tvCardLimit = view.findViewById(R.id.tvHeader);
         tvCardLimit.setText("Card Limit");
         CommonUtils.setGradientColor(tvCardLimit);
@@ -122,12 +146,14 @@ public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCal
         recyclerView.setAdapter(adapter);
 
 
-        tvAtmValue = view.findViewById(R.id.etAtmValue);
-        seekBarAtm = view.findViewById(R.id.seekBarAtm);
 
         seekBarAtm.setMax(40000);
-        seekBarAtm.setProgress(40);
-        tvAtmValue.setText(""+seekBarAtm.getProgress());
+        seekBarPos.setMax(200000);
+        seekBarEcomm.setMax(200000);
+        seekBarContactless.setMax(5000);
+
+        /*seekBarAtm.setProgress(40);
+        etAtmValue.setText(""+seekBarAtm.getProgress());*/
     }
 
     public void clickListener(){
@@ -137,7 +163,7 @@ public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCal
         seekBarAtm.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                tvAtmValue.setText(""+progress);
+                etAtmValue.setText(""+progress);
             }
 
             @Override
@@ -148,6 +174,112 @@ public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCal
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+
+        seekBarPos.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                etPosValue.setText(""+progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        seekBarEcomm.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                etEcommValue.setText(""+progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        seekBarContactless.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                etContactlessValue.setText(""+progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        switchAtm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(isChecked){
+                    etAtmValue.setFocusable(true);
+                    seekBarAtm.setEnabled(true);
+                }else{
+                    etAtmValue.setFocusable(false);
+                    seekBarAtm.setEnabled(false);
+                }
+            }
+        });
+
+        switchPos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    etPosValue.setFocusable(true);
+                    seekBarPos.setEnabled(true);
+
+                }else{
+                    etPosValue.setFocusable(false);
+                    seekBarPos.setEnabled(false);
+
+                }
+            }
+        });
+
+        switchEComm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    etEcommValue.setFocusable(true);
+                    seekBarEcomm.setEnabled(true);
+                }else{
+                    etEcommValue.setFocusable(false);
+                    seekBarEcomm.setEnabled(false);
+                }
+            }
+        });
+
+        switchContactless.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    etContactlessValue.setFocusable(true);
+                    seekBarContactless.setEnabled(true);
+                }else{
+                    etContactlessValue.setFocusable(false);
+                    seekBarContactless.setEnabled(false);
+                }
             }
         });
 
@@ -234,8 +366,58 @@ public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCal
 
                     if (response.body().getStatusCode()==200){
 
-                        tvAtmValue.setText(response.body().getData().getAtmTxnAmount());
+                        etAtmValue.setText(response.body().getData().getAtmTxnAmount());
                         seekBarAtm.setProgress(Integer.parseInt(response.body().getData().getAtmTxnAmount()),true);
+
+                        etPosValue.setText(response.body().getData().getPosTxnAmount());
+                        seekBarPos.setProgress(Integer.parseInt(response.body().getData().getPosTxnAmount()),true);
+
+                        etEcommValue.setText(response.body().getData().getEcomTxnAmount());
+                        seekBarEcomm.setProgress(Integer.parseInt(response.body().getData().getEcomTxnAmount()),true);
+
+                        etContactlessValue.setText(response.body().getData().getClTxnAmount());
+                        seekBarContactless.setProgress(Integer.parseInt(response.body().getData().getClTxnAmount()),true);
+
+                        switchAtm.setChecked(response.body().getData().getAtmTxnFlag().equals("1") ? true:false);
+                        switchPos.setChecked(response.body().getData().getPosTxnFlag().equals("1") ? true:false);
+                        switchEComm.setChecked(response.body().getData().getEcomTxnFlag().equals("1") ? true:false);
+                        switchContactless.setChecked(response.body().getData().getClTxnFlag().equals("1") ? true:false);
+
+                        //handle user interaction on editText and seekbar in accordance with response flag
+                        if (response.body().getData().getAtmTxnFlag().equals("1")){
+                            etAtmValue.setFocusable(true);
+                            seekBarAtm.setEnabled(true);
+                        }else{
+                            etAtmValue.setFocusable(false);
+                            seekBarAtm.setEnabled(false);
+                        }
+
+                        if (response.body().getData().getPosTxnFlag().equals("1")){
+                            etPosValue.setFocusable(true);
+                            seekBarPos.setEnabled(true);
+                        }else{
+                            etPosValue.setFocusable(false);
+                            seekBarPos.setEnabled(false);
+                        }
+
+                        if (response.body().getData().getEcomTxnFlag().equals("1")){
+                            etEcommValue.setFocusable(true);
+                            seekBarEcomm.setEnabled(true);
+                        }else{
+                            etEcommValue.setFocusable(false);
+                            seekBarEcomm.setEnabled(false);
+                        }
+
+                        if (response.body().getData().getClTxnFlag().equals("1")){
+                            etContactlessValue.setFocusable(true);
+                            seekBarContactless.setEnabled(true);
+                        }else{
+                            etContactlessValue.setFocusable(false);
+                            seekBarContactless.setEnabled(false);
+                        }
+                    }
+                    else{
+                        Toast.makeText(getActivity(), ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                 }

@@ -14,18 +14,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.RequestBaseModel;
+import com.sbi.oneview.network.APIRequests;
+import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.TransitMiniStatementRequestModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
+import com.sbi.oneview.network.ResponseModel.TransitMiniStatement.TransitMiniStatementResponseModel;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
+import com.sbi.oneview.ui.adapters.Transit.TransitRecentTransactionAdapter;
 import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
+import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 
 public class TransitCardDashboardFragment extends Fragment implements MyFragmentCallback {
@@ -34,6 +45,7 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
     TextView tvDashboard,tvCurrentDate,tvRecentTransaction,tvQuickAccess,tvMyCards,tvCardDetails;
     //TextView tvTopUpRupee,tvSpendRupee,tvSinceLastTopUp,tvSuccessTxns,tvSinceLastLogin,tvLastStatementGenerated,tvAnalytics;
     MaterialCardView cardCardTopUp,cardResetPin,cardHotList,cardStatement;
+    RecyclerView rvRecentTransaction;
     TransitHomeActivity transitHomeActivity;
 
     Data loginResponse;
@@ -81,6 +93,7 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
         cardResetPin = view.findViewById(R.id.cardResetPin);
         cardHotList = view.findViewById(R.id.cardHotlist);
         cardStatement = view.findViewById(R.id.cardStatement);
+        rvRecentTransaction = view.findViewById(R.id.rvRecentTransaction);
 
         tvCardNumber = view.findViewById(R.id.tvCardNumber);
         tvCRN = view.findViewById(R.id.tvCRNNumber);
@@ -118,6 +131,8 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
+
+
 
 
     }
@@ -174,6 +189,7 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
 
     @Override
     public void onPositionChange(int position) {
+
         Data loginResponse = SharedConfig.getInstance(getActivity()).getLoginResponse(getActivity());
         if (loginResponse!=null){
 
@@ -213,7 +229,65 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
 
             }
 
+            LoadTransitCardMiniStatement(loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber(),loginResponse.getTransit().getCardDetails().get(position).getProductCode());
 
+
+        }
+
+
+    }
+
+
+    public void LoadTransitCardMiniStatement(String proxyNumber,String productCode){
+        RequestBaseModel<TransitMiniStatementRequestModel> data = new RequestBaseModel<>();
+        TransitMiniStatementRequestModel transitMiniStatementRequestModel = new TransitMiniStatementRequestModel();
+
+        transitMiniStatementRequestModel.setCardRefNumber(proxyNumber);
+        transitMiniStatementRequestModel.setSId("");
+        transitMiniStatementRequestModel.setProductCode(productCode);
+
+        data.setRequest(transitMiniStatementRequestModel);
+
+        if (NetworkUtils.isNetworkConnected(getActivity())){
+
+            APIRequests.transitMiniStatement(getActivity(), transitMiniStatementRequestModel, new NetworkResponseCallback<TransitMiniStatementResponseModel>() {
+                @Override
+                public void onSuccess(Call<TransitMiniStatementResponseModel> call, Response<TransitMiniStatementResponseModel> response) {
+
+                    if (response.body().getStatusCode()==200){
+
+                        // Create an instance of the adapter
+                        TransitRecentTransactionAdapter transitRecentTransactionAdapter = new TransitRecentTransactionAdapter(getActivity(),response.body());
+                        // Set the adapter to the RecyclerView
+                        rvRecentTransaction.setAdapter(transitRecentTransactionAdapter);
+                        // Set layout manager to position the items
+                        rvRecentTransaction.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    }
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<TransitMiniStatementResponseModel> call, Response<TransitMiniStatementResponseModel> response) {
+
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<TransitMiniStatementResponseModel> call, Response<TransitMiniStatementResponseModel> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<TransitMiniStatementResponseModel> call, Throwable t) {
+
+                }
+
+                @Override
+                public void onInternalServerError() {
+
+                }
+            });
+        }
+        else{
+            Toast.makeText(getActivity(), getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
         }
     }
 }

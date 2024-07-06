@@ -24,7 +24,7 @@ public class Ftc{
 	private String dob;
 
 	@SerializedName("cardDetails")
-	private List<CardDetailsItem> cardDetails;
+	public List<CardDetailsItem> cardDetails;
 
 	@SerializedName("middleName")
 	private String middleName;

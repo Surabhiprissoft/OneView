@@ -1,5 +1,6 @@
 package com.sbi.oneview.ui.FtcScreen;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -12,23 +13,39 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.BaseFragment;
+import com.sbi.oneview.base.RequestBaseModel;
+import com.sbi.oneview.network.APIRequests;
+import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.CardBlockUnblockRequestModel;
+import com.sbi.oneview.network.RequestModel.CardHotlistRequestModel;
+import com.sbi.oneview.network.ResponseModel.BlockUnblockCard.CardBlockUnblockResponseModel;
+import com.sbi.oneview.network.ResponseModel.HotlistCard.CardHotlistResponseModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
+import com.sbi.oneview.ui.inrPrepaid.InrPrepaidHomeActivity;
 import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
+import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Response;
 
-public class FtcCardBlockFragment extends Fragment implements MyFragmentCallback {
+
+public class FtcCardBlockFragment extends BaseFragment implements MyFragmentCallback {
 
 
     TextView tvBlockHeading,tvCurrentDate,tvCardBlock,tvMyCards,tvCardDetails;
@@ -36,8 +53,14 @@ public class FtcCardBlockFragment extends Fragment implements MyFragmentCallback
     TextView tvCardBlockUnblock,tvCardHotlist,tvTempBlockNote,tvPerBlockNote,tvPerBlockNote1;
     LinearLayout cardBlockUnblock,cardHotlist,layoutBlockUnblock,layoutHotlist,layoutCardStatus;
     MaterialButton btnTempBlockUnblock,btnHotlist;
-
+    String currentCardStatus;
+    MaterialCardView cardStatusCard;
+    Data loginResponse;
+    String CardProxyNumber;
+    int cardPosition;
     FtcHomeActivity ftcHomeActivity;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +85,7 @@ public class FtcCardBlockFragment extends Fragment implements MyFragmentCallback
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         CustomIndicatorView customIndicatorView = view.findViewById(R.id.customIndicator);
-        Data loginResponse = SharedConfig.getInstance(getActivity()).getLoginResponse(getActivity());
+        loginResponse = SharedConfig.getInstance(getActivity()).getLoginResponse(getActivity());
 
         List<CardDetailsItem> arrayList = loginResponse.getFtc().getCardDetails();
 
@@ -86,6 +109,7 @@ public class FtcCardBlockFragment extends Fragment implements MyFragmentCallback
         tvCardNumber = view.findViewById(R.id.tvCardNumber);
         tvCRN = view.findViewById(R.id.tvCRNNumber);
         tvCardStatus = view.findViewById(R.id.tvCardStatus);
+        layoutCardStatus = view.findViewById(R.id.layoutCardStatus);
         tvProductName = view.findViewById(R.id.tvCardProductName);
         tvActDate = view.findViewById(R.id.tvCardActiveDate);
         tvExpDate = view.findViewById(R.id.tvCardExpDate);
@@ -132,6 +156,35 @@ public class FtcCardBlockFragment extends Fragment implements MyFragmentCallback
                 changeTab("hotlist");
             }
         });
+
+        btnTempBlockUnblock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!currentCardStatus.equals("INACTIVE")) {
+
+                    if (currentCardStatus.equals("ACTIVE")) {
+                        showConfirmationDialogue("B","Do you really want to block this card ?");
+                    } else {
+                        showConfirmationDialogue("U","Do you really want to Un-Block this card ?");
+                    }
+                }
+                else{
+                    Toast.makeText(getActivity(), "You card has been permanently block, please contact your branch to activate it.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        btnHotlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentCardStatus.equals("ACTIVE")){
+                    showConfirmationDialogue("H","Do you really want to permanently block this card ?");
+                }
+            }
+        });
+
     }
 
     public void changeTab(String tab){
@@ -170,7 +223,258 @@ public class FtcCardBlockFragment extends Fragment implements MyFragmentCallback
             tvActDate.setText(loginResponse.getFtc().getCardDetails().get(position).getCardActivDate().substring(3,5) +" / "+ loginResponse.getFtc().getCardDetails().get(position).getCardActivDate().substring(6));
             tvExpDate.setText(loginResponse.getFtc().getCardDetails().get(position).getCardExpiryDate().substring(3,5)+" / "+loginResponse.getFtc().getCardDetails().get(position).getCardExpiryDate().substring(6));
 
+            CardProxyNumber = loginResponse.getFtc().getCardDetails().get(position).getProxyNumber();
+            cardPosition = position;
+
+            currentCardStatus = loginResponse.getFtc().getCardDetails().get(position).getCardStatus();
+            if (currentCardStatus.equals("ACTIVE")){
+                btnTempBlockUnblock.setBackgroundColor(Color.RED);
+                btnTempBlockUnblock.setText("Temporary Block");
+                tvTempBlockNote.setVisibility(View.GONE);
+
+                tvCardStatus.setTextColor(Color.BLACK);
+                layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
+
+            }else if(currentCardStatus.equals("BLOCKED")){
+                btnTempBlockUnblock.setBackgroundColor(getResources().getColor(R.color.creditTransaction));
+                btnTempBlockUnblock.setText("Unblock");
+                tvTempBlockNote.setVisibility(View.VISIBLE);
+
+                tvCardStatus.setTextColor(Color.WHITE);
+                layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
+
+            }else if (currentCardStatus.equals("INACTIVE")){
+                tvPerBlockNote.setVisibility(View.VISIBLE);
+                tvPerBlockNote1.setVisibility(View.VISIBLE);
+
+                tvCardStatus.setTextColor(Color.WHITE);
+                layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
+
+            }
         }
 
     }
+
+    public void BlockCard(String proxyNumber,int position){
+
+        showLoading();
+        RequestBaseModel<CardBlockUnblockRequestModel> data = new RequestBaseModel<>();
+        CardBlockUnblockRequestModel cardBlockUnblockRequestModel = new CardBlockUnblockRequestModel();
+
+        cardBlockUnblockRequestModel.setProxyNumber(proxyNumber);
+        cardBlockUnblockRequestModel.setSId("");
+
+        data.setRequest(cardBlockUnblockRequestModel);
+
+        if (NetworkUtils.isNetworkConnected(getActivity())){
+
+            APIRequests.CardBlock(getActivity(), cardBlockUnblockRequestModel, new NetworkResponseCallback<CardBlockUnblockResponseModel>() {
+                @Override
+                public void onSuccess(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+
+                    hideLoading();
+                    if (response.body().getStatusCode()==200){
+                        Toast.makeText(getActivity(), getResources().getString(R.string.your_card_has_been_successfully), Toast.LENGTH_SHORT).show();
+                        loginResponse.ftc.cardDetails.get(position).setCardStatus("BLOCKED");
+                        currentCardStatus="BLOCKED";
+                        SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
+                        onPositionChange(cardPosition);
+                    }else{
+                        Toast.makeText(getActivity(), ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onFailure(Call<CardBlockUnblockResponseModel> call, Throwable t) {
+                    hideLoading();
+                    Toast.makeText(getActivity(), "Something went wrong :"+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onInternalServerError() {
+                    hideLoading();
+                    Toast.makeText(getActivity(), "Internal server error, please try again later", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }else{
+            Toast.makeText(getActivity(),  getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void UnblockCard(String cardProxyNumber,int cardPosition){
+
+        showLoading();
+        RequestBaseModel<CardBlockUnblockRequestModel> data = new RequestBaseModel<>();
+        CardBlockUnblockRequestModel cardBlockUnblockRequestModel = new CardBlockUnblockRequestModel();
+
+        cardBlockUnblockRequestModel.setProxyNumber(cardProxyNumber);
+        cardBlockUnblockRequestModel.setSId("");
+
+        data.setRequest(cardBlockUnblockRequestModel);
+
+        if (NetworkUtils.isNetworkConnected(getActivity())){
+
+            APIRequests.CardUnBlock(getActivity(), cardBlockUnblockRequestModel, new NetworkResponseCallback<CardBlockUnblockResponseModel>() {
+                @Override
+                public void onSuccess(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+
+                    hideLoading();
+                    if (response.body().getStatusCode()==200){
+                        Toast.makeText(getActivity(), getResources().getString(R.string.unblock_successfully), Toast.LENGTH_SHORT).show();
+                        loginResponse.ftc.cardDetails.get(cardPosition).setCardStatus("ACTIVE");
+                        currentCardStatus="ACTIVE";
+                        SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
+                        onPositionChange(cardPosition);
+                    }else{
+                        Toast.makeText(getActivity(), ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+                    hideLoading();
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+                    hideLoading();
+                }
+
+                @Override
+                public void onFailure(Call<CardBlockUnblockResponseModel> call, Throwable t) {
+                    hideLoading();
+                }
+
+                @Override
+                public void onInternalServerError() {
+                    hideLoading();
+                }
+            });
+
+        }else{
+            Toast.makeText(getActivity(), getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void hotlistCard(String cardProxyNumber){
+
+        showLoading();
+        RequestBaseModel<CardHotlistRequestModel> data = new RequestBaseModel<>();
+        CardHotlistRequestModel cardHotlistRequestModel = new CardHotlistRequestModel();
+
+        cardHotlistRequestModel.setProxyNumber(cardProxyNumber);
+        cardHotlistRequestModel.setAction("CARDLOST");
+        cardHotlistRequestModel.setSId("");
+
+        data.setRequest(cardHotlistRequestModel);
+
+        if(NetworkUtils.isNetworkConnected(getActivity())){
+
+            APIRequests.CardHotlist(getActivity(), cardHotlistRequestModel, new NetworkResponseCallback<CardHotlistResponseModel>() {
+                @Override
+                public void onSuccess(Call<CardHotlistResponseModel> call, Response<CardHotlistResponseModel> response) {
+                    if (response.body().getStatusCode()==200){
+                        hideLoading();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.your_card_has_been_hotlisted_successfully), Toast.LENGTH_SHORT).show();
+                        loginResponse.ftc.cardDetails.get(cardPosition).setCardStatus("INACTIVE");
+                        currentCardStatus="INACTIVE";
+                        SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
+                        onPositionChange(cardPosition);
+                    }
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<CardHotlistResponseModel> call, Response<CardHotlistResponseModel> response) {
+                    hideLoading();
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<CardHotlistResponseModel> call, Response<CardHotlistResponseModel> response) {
+                    hideLoading();
+                }
+
+                @Override
+                public void onFailure(Call<CardHotlistResponseModel> call, Throwable t) {
+                    hideLoading();
+                }
+
+                @Override
+                public void onInternalServerError() {
+                    hideLoading();
+                }
+            });
+        }else{
+            Toast.makeText(getActivity(), ""+getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+
+
+    public void showConfirmationDialogue(String opration,String message){
+
+        Dialog dialog = new Dialog(getActivity());
+
+        dialog.setContentView(R.layout.dialog_hotlist_confirmation);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        ImageView closeImg = dialog.findViewById(R.id.imgClose);
+        TextView tvMesssage = dialog.findViewById(R.id.h2);
+        MaterialButton btnYes = dialog.findViewById(R.id.btnYes);
+        MaterialButton btnNo = dialog.findViewById(R.id.btnNo);
+
+
+        tvMesssage.setText(message);
+        closeImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (opration.equals("B"))
+                {
+                    BlockCard(CardProxyNumber,cardPosition);
+                }
+                else if (opration.equals("U")){
+                    UnblockCard(CardProxyNumber,cardPosition);
+                }
+                else if (opration.equals("H")){
+                    hotlistCard(CardProxyNumber);
+                }
+                dialog.dismiss();
+            }
+        });
+
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
 }

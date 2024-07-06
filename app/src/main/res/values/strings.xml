@@ -153,12 +153,15 @@
     <string name="card_block">Card Block</string>
     <string name="spend_limit">Spend Limit</string>
     <string name="transaction">Transactions</string>
-    <string name="your_card_has_been_successfully">Your card has been successfully</string>
+    <string name="your_card_has_been_successfully">Your card has been block successfully</string>
     <string name="unblock_successfully">You card has been un-block successfully, now you can use your card functionalities again</string>
     <string name="max_atm">Max: \u20B9 40000.00</string>
     <string name="max_pos">Max: \u20B9 200000.00</string>
     <string name="max_EComm">Max: \u20B9 200000.00</string>
     <string name="max_ContactLess">Max: \u20B9 5000.00</string>
     <string name="balances">Balances</string>
+    <string name="your_card_has_been_hotlisted_successfully">Your card has been hotlisted successfully</string>
+    <string name="captcha">Captcha</string>
+    <string name="something_went_wrong_please_refresh_captcha">SomeThing went wrong. please refresh captcha</string>
 
 </resources>

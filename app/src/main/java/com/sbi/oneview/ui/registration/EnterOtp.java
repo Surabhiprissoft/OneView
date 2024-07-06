@@ -22,9 +22,11 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.gson.Gson;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.App;
 import com.sbi.oneview.base.BaseActivity;
+import com.sbi.oneview.base.HeaderRequestModel;
 import com.sbi.oneview.base.RequestBaseModel;
 import com.sbi.oneview.network.APIRequests;
 import com.sbi.oneview.network.NetworkResponseCallback;
@@ -34,6 +36,7 @@ import com.sbi.oneview.ui.mainDashboard.DashboardCardSelectionActivity;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
+import com.sbi.oneview.utils.encryption.CipherEncryption;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -249,6 +252,14 @@ public class EnterOtp extends BaseActivity {
 
                     showLoading();
 
+                    /*byte[] randomKeyByte = CommonUtils.generateRandomKey();
+                    String randomKey = CommonUtils.bytesToHex(randomKeyByte);*/
+                    String randomKey = CommonUtils.generateRandomString();
+                    System.out.println("Random Key: " + randomKey);
+
+
+
+
                     //-------------- Login API Integration -----------------------
                     RequestBaseModel<LoginWithOtpRequestModel> data =  new RequestBaseModel<>();
                     LoginWithOtpRequestModel loginWithOtpRequestModel = new LoginWithOtpRequestModel();
@@ -257,7 +268,21 @@ public class EnterOtp extends BaseActivity {
                     loginWithOtpRequestModel.setOtp("3241");
                     loginWithOtpRequestModel.setSId("");
 
+                    HeaderRequestModel header = new HeaderRequestModel();
+                    header.setAccessKey(randomKey);
+                    header.setHost("oneview.prepaid.sbi");
+                    header.setContentType("text/plain");
+
+
                     data.setRequest(loginWithOtpRequestModel);
+                    data.setHeader(header);
+
+                    Gson gson = new Gson();
+                    String LoginRequest = gson.toJson(data);
+
+                    String encryptedMsg = CipherEncryption.encryptMessage(LoginRequest,randomKey);
+                    System.out.println("Message : " + encryptedMsg);
+
                    // Log.d("REQUEST",""+data.toString());
 
                     Log.d("REQUEST",loginWithOtpRequestModel.toString());
@@ -265,11 +290,13 @@ public class EnterOtp extends BaseActivity {
                     SharedConfig.getInstance(EnterOtp.this).setMobileNumber(number);
                     if(NetworkUtils.isNetworkConnected(EnterOtp.this)){
 
-                        APIRequests.loginWithOTP(EnterOtp.this, loginWithOtpRequestModel, new NetworkResponseCallback<LoginWithOtpResponseModel>() {
+                        /*APIRequests.loginWithOTP(EnterOtp.this, encryptedMsg, new NetworkResponseCallback<String>() {
                             @Override
-                            public void onSuccess(Call<LoginWithOtpResponseModel> call, Response<LoginWithOtpResponseModel> response) {
+                            public void onSuccess(Call<String> call, Response<String> response) {
+
                                 Log.d("MSG","SUCCESS");
-                                Toast.makeText(EnterOtp.this, "Success "+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EnterOtp.this, ""+response, Toast.LENGTH_SHORT).show();
+                                *//*Toast.makeText(EnterOtp.this, "Success "+response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 //testEdt.setText("Success");
                                 if (response.body().getStatusCode()==200){
 
@@ -282,46 +309,33 @@ public class EnterOtp extends BaseActivity {
 
                                 }else{
                                     Toast.makeText(EnterOtp.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+                                }*//*
+
+
 
                             }
 
                             @Override
-                            public void onResponseBodyNull(Call<LoginWithOtpResponseModel> call, Response<LoginWithOtpResponseModel> response) {
-                                Log.d("MSG","NULL RESPONSE");
-                                hideLoading();
-                                Toast.makeText(EnterOtp.this, "Null "+response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                //testEdt.setText("null response "+ response.body().getMessage().toString());
-                            }
-
-                            @Override
-                            public void onResponseUnsuccessful(Call<LoginWithOtpResponseModel> call, Response<LoginWithOtpResponseModel> response) {
-                                Log.d("MSG","UNSUCCESSFULL");
-                                hideLoading();
-                                Toast.makeText(EnterOtp.this, "Unsuccessfull "+response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                //testEdt.setText("unSuccessfull"+response.body().getMessage().toString());
+                            public void onResponseBodyNull(Call<String> call, Response<String> response) {
 
                             }
 
                             @Override
-                            public void onFailure(Call<LoginWithOtpResponseModel> call, Throwable t) {
-                                Log.d("MSG","On FAILURE"+t.getLocalizedMessage());
-                                hideLoading();
-                                Toast.makeText(EnterOtp.this, "Failure "+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                //testEdt.setText("FAILURE"+t.getLocalizedMessage());
+                            public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+
                             }
 
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+
+                            }
 
                             @Override
                             public void onInternalServerError() {
-                                Log.d("MSG","INTERNAL SERVER ERROR");
-                                hideLoading();
-                                Toast.makeText(EnterOtp.this, "INTERNAL SERVER ERROR", Toast.LENGTH_SHORT).show();
-                                //testEdt.setText("INTERNAL SERVER ERROR");
 
                             }
                         });
-                    }
+                    */}
                     else{
                         hideLoading();
                         Toast.makeText(EnterOtp.this,  getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();

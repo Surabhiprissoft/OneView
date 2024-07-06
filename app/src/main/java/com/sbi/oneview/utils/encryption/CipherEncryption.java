@@ -3,6 +3,13 @@ package com.sbi.oneview.utils.encryption;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sbi.oneview.utils.CommonUtils;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -10,7 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class CipherEncryption {
 
 
-  /*  public String encryptMessage(String value, String key2) {
+    public static String encryptMessage(String value, String key2) {
 
 //        final String key = "1234567890123456"; // 16-byte key
         final String initVector = "1234567890123456"; // 16-byte IV
@@ -31,6 +38,7 @@ public class CipherEncryption {
         return null;
     }
 
+
     public Object decryptMessage(String encrypted, String key2) {
         try {
 
@@ -45,8 +53,8 @@ public class CipherEncryption {
 
             byte[] original = cipher.doFinal(java.util.Base64.getDecoder().decode(encrypted));
 
-            String res = CommonUtils.convertToJson(new String(original ,StandardCharsets.UTF_8 ));
-
+            //String res = CommonUtils.convertToJson(new String(original , StandardCharsets.UTF_8 ));
+            String res = CommonUtils.convertToJson(new String(original , StandardCharsets.UTF_8 ));
             ObjectMapper om = new ObjectMapper();
 
 
@@ -59,10 +67,10 @@ public class CipherEncryption {
             }
 
         } catch (Exception ex) {
-            logger.error(ex.getMessage());
+            Log.e("",ex.getLocalizedMessage());
         }
 
         return null;
-    }*/
+    }
 
 }
