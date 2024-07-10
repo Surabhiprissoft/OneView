@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,10 +21,17 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.button.MaterialButton;
+import com.google.gson.Gson;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.BaseActivity;
+import com.sbi.oneview.base.HeaderRequestModel;
 import com.sbi.oneview.base.RequestBaseModel;
+import com.sbi.oneview.base.ResponseBaseModel;
+import com.sbi.oneview.base.SampleRequestBaseModel;
 import com.sbi.oneview.network.APIRequests;
 import com.sbi.oneview.network.NetworkResponseCallback;
 import com.sbi.oneview.network.RequestModel.LoginWithOtpRequestModel;
@@ -32,6 +40,9 @@ import com.sbi.oneview.network.ResponseModel.GetCaptcha.GetCaptchaResponseModel;
 import com.sbi.oneview.network.ResponseModel.ValidateCaptcha.ValidateCaptchaResponseModel;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.NetworkUtils;
+import com.sbi.oneview.utils.encryption.CipherEncryption;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -42,7 +53,7 @@ public class LoginActivity extends BaseActivity {
     MaterialButton btnRequestOtp;
     int currentImageId;
     ImageView topRightImg,bottomLeftImg,bottomRightImg;
-    ImageView imgCaptcha;
+    ImageView imgCaptcha,imgRefreshCaptcha;
     TextView txt_applyforcard;
     boolean isNumberValid=false;
     ConstraintLayout contentLogin;
@@ -79,7 +90,7 @@ public class LoginActivity extends BaseActivity {
         }, 500); // Delay in milliseconds
 
         //--------------------- calling captcha and displaying ----------------------------
-       // implementCaptcha();
+        implementCaptcha();
 
     }
 
@@ -94,6 +105,7 @@ public class LoginActivity extends BaseActivity {
         contentLogin = findViewById(R.id.contentLogin);
         etCaptcha = findViewById(R.id.etCaptcha);
         imgCaptcha = findViewById(R.id.imgCaptcha);
+        imgRefreshCaptcha = findViewById(R.id.imgRefreshCaptcha);
 
     }
 
@@ -113,6 +125,12 @@ public class LoginActivity extends BaseActivity {
                 CommonUtils.changeBallPosition(topRightImg,bottomRightImg,bottomLeftImg);
             }
         });
+        imgRefreshCaptcha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                implementCaptcha();
+            }
+        });
 
         btnRequestOtp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,11 +140,12 @@ public class LoginActivity extends BaseActivity {
                     if (etCaptcha.getText().toString().isEmpty()){
                         Toast.makeText(LoginActivity.this, "Please enter captcha", Toast.LENGTH_SHORT).show();
                     }else{
-                        //validateCaptcha();
-                        Intent requestOtpIntent = new Intent(LoginActivity.this, EnterOtp.class);
-                        String message = etPhoneNumber.getText().toString();
-                        requestOtpIntent.putExtra("PHONE_NUMBER", message);
-                        startActivity(requestOtpIntent);
+                        try {
+                            validateCaptcha();
+                        } catch (JsonProcessingException e) {
+                            throw new RuntimeException(e);
+                        }
+
                     }
 
 
@@ -176,12 +195,6 @@ public class LoginActivity extends BaseActivity {
     public void implementCaptcha(){
 
         showLoading();
-        /*RequestBaseModel<> data =  new RequestBaseModel<>();
-        LoginWithOtpRequestModel loginWithOtpRequestModel = new LoginWithOtpRequestModel();
-
-        loginWithOtpRequestModel.setUsername(number);
-        loginWithOtpRequestModel.setOtp("3241");
-        loginWithOtpRequestModel.setSId("");*/
 
 
         if(NetworkUtils.isNetworkConnected(LoginActivity.this)){
@@ -246,60 +259,115 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    public void validateCaptcha(){
+    public void validateCaptcha() throws JsonProcessingException {
 
         showLoading();
 
-        //RequestBaseModel<LoginWithOtpRequestModel> data =  new RequestBaseModel<>();
-        ValidateCaptchaRequestModel validateCaptchaRequestModel = new ValidateCaptchaRequestModel();
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
 
+        ValidateCaptchaRequestModel validateCaptchaRequestModel = new ValidateCaptchaRequestModel();
         validateCaptchaRequestModel.setUsername(etPhoneNumber.getText().toString());
         validateCaptchaRequestModel.setText(etCaptcha.getText().toString().trim());
         validateCaptchaRequestModel.setId(currentImageId);
 
+
+        ObjectMapper om = new ObjectMapper();
+        String req = om.writeValueAsString(validateCaptchaRequestModel);
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
+
+
         if (NetworkUtils.isNetworkConnected(LoginActivity.this)){
 
-            APIRequests.validateCaptcha(LoginActivity.this, validateCaptchaRequestModel, new NetworkResponseCallback<ValidateCaptchaResponseModel>() {
+            APIRequests.validateCaptcha(LoginActivity.this, encryptedMsg, randomKey, new NetworkResponseCallback<String>() {
                 @Override
-                public void onSuccess(Call<ValidateCaptchaResponseModel> call, Response<ValidateCaptchaResponseModel> response) {
+                public void onSuccess(Call<String> call, Response<String> response) {
 
-                    hideLoading();
-                    if (response.body()!=null) {
+                    if (response.isSuccessful()) {
+                        String encryptedResponse = response.body();
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
 
-                        if (response.body().getStatusCode()==200){
-                            Intent requestOtpIntent = new Intent(LoginActivity.this, EnterOtp.class);
-                            String message = etPhoneNumber.getText().toString();
-                            requestOtpIntent.putExtra("PHONE_NUMBER", message);
-                            startActivity(requestOtpIntent);
-                        }else{
-                            Toast.makeText(LoginActivity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        //Log.d("RESPONSE", encryptedResponse);
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
                         }
 
-                    }else{
 
+                        if (responseBaseModel!=null){
+
+                            //received successful response, and redirecting to otp screen if code is 200.
+                            if (responseBaseModel.getStatusCode()==200){
+
+                                Intent requestOtpIntent = new Intent(LoginActivity.this, EnterOtp.class);
+                                String message = etPhoneNumber.getText().toString();
+                                requestOtpIntent.putExtra("PHONE_NUMBER", message);
+                                startActivity(requestOtpIntent);
+
+                            }
+                        }else{
+
+                            Toast.makeText(LoginActivity.this, getResources().getString(R.string.something_went_wrong_please_refresh_captcha), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+
+                        String encryptedResponse ="";
+                        try {
+                            encryptedResponse = response.errorBody().string();
+                        } catch (IOException e) {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            Toast.makeText(LoginActivity.this, ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        // Handle unsuccessful response
                     }
+
+                    hideLoading();
                 }
 
                 @Override
-                public void onResponseBodyNull(Call<ValidateCaptchaResponseModel> call, Response<ValidateCaptchaResponseModel> response) {
+                public void onResponseBodyNull(Call<String> call, Response<String> response) {
+                    Log.d("MSG","NULL :"+response);
                     hideLoading();
 
                 }
 
                 @Override
-                public void onResponseUnsuccessful(Call<ValidateCaptchaResponseModel> call, Response<ValidateCaptchaResponseModel> response) {
+                public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+                    Log.d("MSG","UN_SUCCESS :"+response);
                     hideLoading();
-
                 }
 
                 @Override
-                public void onFailure(Call<ValidateCaptchaResponseModel> call, Throwable t) {
+                public void onFailure(Call<String> call, Throwable t) {
+                    Log.d("MSG","FAILED");
                     hideLoading();
-                    Toast.makeText(LoginActivity.this, ""+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onInternalServerError() {
+                    Log.d("MSG","SERVER ERROR");
                     hideLoading();
                 }
             });

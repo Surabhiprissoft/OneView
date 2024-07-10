@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.BaseFragment;
 import com.sbi.oneview.base.RequestBaseModel;
+import com.sbi.oneview.base.ResponseBaseModel;
 import com.sbi.oneview.network.APIRequests;
 import com.sbi.oneview.network.NetworkResponseCallback;
 import com.sbi.oneview.network.RequestModel.CardBlockUnblockRequestModel;
@@ -38,7 +43,9 @@ import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
 import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
+import com.sbi.oneview.utils.encryption.CipherEncryption;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -53,7 +60,7 @@ public class FtcCardBlockFragment extends BaseFragment implements MyFragmentCall
     TextView tvCardBlockUnblock,tvCardHotlist,tvTempBlockNote,tvPerBlockNote,tvPerBlockNote1;
     LinearLayout cardBlockUnblock,cardHotlist,layoutBlockUnblock,layoutHotlist,layoutCardStatus;
     MaterialButton btnTempBlockUnblock,btnHotlist;
-    String currentCardStatus;
+    String currentCardStatus,token;
     MaterialCardView cardStatusCard;
     Data loginResponse;
     String CardProxyNumber;
@@ -225,6 +232,7 @@ public class FtcCardBlockFragment extends BaseFragment implements MyFragmentCall
 
             CardProxyNumber = loginResponse.getFtc().getCardDetails().get(position).getProxyNumber();
             cardPosition = position;
+            token = loginResponse.getToken();
 
             currentCardStatus = loginResponse.getFtc().getCardDetails().get(position).getCardStatus();
             if (currentCardStatus.equals("ACTIVE")){
@@ -255,114 +263,281 @@ public class FtcCardBlockFragment extends BaseFragment implements MyFragmentCall
 
     }
 
-    public void BlockCard(String proxyNumber,int position){
+    public void BlockCard(String proxyNumber,int position,String token){
 
         showLoading();
-        RequestBaseModel<CardBlockUnblockRequestModel> data = new RequestBaseModel<>();
-        CardBlockUnblockRequestModel cardBlockUnblockRequestModel = new CardBlockUnblockRequestModel();
 
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
+
+        CardBlockUnblockRequestModel cardBlockUnblockRequestModel = new CardBlockUnblockRequestModel();
         cardBlockUnblockRequestModel.setProxyNumber(proxyNumber);
         cardBlockUnblockRequestModel.setSId("");
 
-        data.setRequest(cardBlockUnblockRequestModel);
+        ObjectMapper om = new ObjectMapper();
+        String req = null;
+        try {
+            req = om.writeValueAsString(cardBlockUnblockRequestModel);
+        } catch (JsonProcessingException e) {
+            Log.d("EXCEPTION",""+e.getLocalizedMessage());
+        }
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
+
+
 
         if (NetworkUtils.isNetworkConnected(getActivity())){
 
-            APIRequests.CardBlock(getActivity(), cardBlockUnblockRequestModel, new NetworkResponseCallback<CardBlockUnblockResponseModel>() {
+            APIRequests.CardBlock(getActivity(), encryptedMsg, randomKey, token, new NetworkResponseCallback<String>() {
                 @Override
-                public void onSuccess(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+                public void onSuccess(Call<String> call, Response<String> response) {
 
-                    hideLoading();
-                    if (response.body().getStatusCode()==200){
-                        Toast.makeText(getActivity(), getResources().getString(R.string.your_card_has_been_successfully), Toast.LENGTH_SHORT).show();
-                        loginResponse.ftc.cardDetails.get(position).setCardStatus("BLOCKED");
-                        currentCardStatus="BLOCKED";
-                        SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
-                        onPositionChange(cardPosition);
-                    }else{
-                        Toast.makeText(getActivity(), ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    if (response.isSuccessful()){
+
+                        String encryptedResponse = response.body();
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null) {
+
+                            if (responseBaseModel.getStatusCode()==200){
+
+                                CardBlockUnblockResponseModel cardBlockUnblockResponseModel = null;
+
+                                try{
+                                    Object data = responseBaseModel;
+
+                                    // Convert LinkedHashMap to JSON string
+                                    ObjectMapper om1 = new ObjectMapper();
+                                    String jsonString = om1.writeValueAsString(data);
+                                    cardBlockUnblockResponseModel = om1.readValue(jsonString, CardBlockUnblockResponseModel.class);
+
+                                }catch (Exception e){
+                                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                                }
+
+                                if (cardBlockUnblockResponseModel!=null){
+
+                                    if (cardBlockUnblockResponseModel.getStatusCode()==200){
+
+                                        Toast.makeText(getActivity(), getResources().getString(R.string.your_card_has_been_successfully), Toast.LENGTH_SHORT).show();
+                                        loginResponse.ftc.cardDetails.get(position).setCardStatus("BLOCKED");
+                                        currentCardStatus="BLOCKED";
+                                        SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
+                                        onPositionChange(cardPosition);
+
+                                    }
+                                }
+
+                            }
+
+                        }else{
+                            Toast.makeText(getActivity(), "responseBaseModel"+getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }
+                    else{
+
+                        String encryptedResponse ="";
+                        try {
+                            encryptedResponse = response.errorBody().string();
+                        } catch (IOException e) {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            Toast.makeText(getActivity(), ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
                     }
 
+                    hideLoading();
                 }
 
                 @Override
-                public void onResponseBodyNull(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+                public void onResponseBodyNull(Call<String> call, Response<String> response) {
                     hideLoading();
 
                 }
 
                 @Override
-                public void onResponseUnsuccessful(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+                public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
                     hideLoading();
 
                 }
 
                 @Override
-                public void onFailure(Call<CardBlockUnblockResponseModel> call, Throwable t) {
+                public void onFailure(Call<String> call, Throwable t) {
                     hideLoading();
-                    Toast.makeText(getActivity(), "Something went wrong :"+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
                 }
 
                 @Override
                 public void onInternalServerError() {
                     hideLoading();
-                    Toast.makeText(getActivity(), "Internal server error, please try again later", Toast.LENGTH_SHORT).show();
+
                 }
             });
+
 
         }else{
             Toast.makeText(getActivity(),  getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void UnblockCard(String cardProxyNumber,int cardPosition){
+    public void UnblockCard(String cardProxyNumber,int cardPosition,String token){
 
         showLoading();
-        RequestBaseModel<CardBlockUnblockRequestModel> data = new RequestBaseModel<>();
-        CardBlockUnblockRequestModel cardBlockUnblockRequestModel = new CardBlockUnblockRequestModel();
 
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
+
+        CardBlockUnblockRequestModel cardBlockUnblockRequestModel = new CardBlockUnblockRequestModel();
         cardBlockUnblockRequestModel.setProxyNumber(cardProxyNumber);
         cardBlockUnblockRequestModel.setSId("");
 
-        data.setRequest(cardBlockUnblockRequestModel);
+        ObjectMapper om = new ObjectMapper();
+        String req = null;
+        try {
+            req = om.writeValueAsString(cardBlockUnblockRequestModel);
+        } catch (JsonProcessingException e) {
+            Log.d("EXCEPTION",""+e.getLocalizedMessage());
+        }
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
 
         if (NetworkUtils.isNetworkConnected(getActivity())){
 
-            APIRequests.CardUnBlock(getActivity(), cardBlockUnblockRequestModel, new NetworkResponseCallback<CardBlockUnblockResponseModel>() {
+            APIRequests.CardUnBlock(getActivity(), encryptedMsg, randomKey, token, new NetworkResponseCallback<String>() {
                 @Override
-                public void onSuccess(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+                public void onSuccess(Call<String> call, Response<String> response) {
 
-                    hideLoading();
-                    if (response.body().getStatusCode()==200){
-                        Toast.makeText(getActivity(), getResources().getString(R.string.unblock_successfully), Toast.LENGTH_SHORT).show();
-                        loginResponse.ftc.cardDetails.get(cardPosition).setCardStatus("ACTIVE");
-                        currentCardStatus="ACTIVE";
-                        SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
-                        onPositionChange(cardPosition);
-                    }else{
-                        Toast.makeText(getActivity(), ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    if (response.isSuccessful()){
+
+                        String encryptedResponse = response.body();
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null) {
+
+                            if (responseBaseModel.getStatusCode() == 200) {
+
+                                CardBlockUnblockResponseModel cardBlockUnblockResponseModel = null;
+
+                                try{
+                                    Object data = responseBaseModel;
+
+                                    // Convert LinkedHashMap to JSON string
+                                    ObjectMapper om1 = new ObjectMapper();
+                                    String jsonString = om1.writeValueAsString(data);
+                                    cardBlockUnblockResponseModel = om1.readValue(jsonString, CardBlockUnblockResponseModel.class);
+
+                                }catch (Exception e){
+                                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                                }
+
+
+                                if (cardBlockUnblockResponseModel!=null){
+
+                                    if (cardBlockUnblockResponseModel.getStatusCode()==200){
+                                        Toast.makeText(getActivity(), getResources().getString(R.string.unblock_successfully), Toast.LENGTH_SHORT).show();
+                                        loginResponse.ftc.cardDetails.get(cardPosition).setCardStatus("ACTIVE");
+                                        currentCardStatus="ACTIVE";
+                                        SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
+                                        onPositionChange(cardPosition);
+                                    }
+                                }
+
+
+
+                            }
+                        }
+
+
+                    }else
+                    {
+
+                        String encryptedResponse ="";
+                        try {
+                            encryptedResponse = response.errorBody().string();
+                        } catch (IOException e) {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            Toast.makeText(getActivity(), ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
                     }
 
-                }
-
-                @Override
-                public void onResponseBodyNull(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
                     hideLoading();
                 }
 
                 @Override
-                public void onResponseUnsuccessful(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+                public void onResponseBodyNull(Call<String> call, Response<String> response) {
                     hideLoading();
+
                 }
 
                 @Override
-                public void onFailure(Call<CardBlockUnblockResponseModel> call, Throwable t) {
+                public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
                     hideLoading();
+
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    hideLoading();
+
                 }
 
                 @Override
                 public void onInternalServerError() {
                     hideLoading();
+
                 }
             });
 
@@ -372,53 +547,138 @@ public class FtcCardBlockFragment extends BaseFragment implements MyFragmentCall
 
     }
 
-    public void hotlistCard(String cardProxyNumber){
+    public void hotlistCard(String cardProxyNumber,String token){
 
         showLoading();
-        RequestBaseModel<CardHotlistRequestModel> data = new RequestBaseModel<>();
-        CardHotlistRequestModel cardHotlistRequestModel = new CardHotlistRequestModel();
 
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
+
+        CardHotlistRequestModel cardHotlistRequestModel = new CardHotlistRequestModel();
         cardHotlistRequestModel.setProxyNumber(cardProxyNumber);
         cardHotlistRequestModel.setAction("CARDLOST");
         cardHotlistRequestModel.setSId("");
 
-        data.setRequest(cardHotlistRequestModel);
+        ObjectMapper om = new ObjectMapper();
+        String req = null;
+        try {
+            req = om.writeValueAsString(cardHotlistRequestModel);
+        } catch (JsonProcessingException e) {
+            Log.d("EXCEPTION",""+e.getLocalizedMessage());
+        }
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
 
         if(NetworkUtils.isNetworkConnected(getActivity())){
 
-            APIRequests.CardHotlist(getActivity(), cardHotlistRequestModel, new NetworkResponseCallback<CardHotlistResponseModel>() {
+            APIRequests.CardHotlist(getActivity(), encryptedMsg, randomKey, token, new NetworkResponseCallback<String>() {
                 @Override
-                public void onSuccess(Call<CardHotlistResponseModel> call, Response<CardHotlistResponseModel> response) {
-                    if (response.body().getStatusCode()==200){
-                        hideLoading();
-                        Toast.makeText(getActivity(), getResources().getString(R.string.your_card_has_been_hotlisted_successfully), Toast.LENGTH_SHORT).show();
-                        loginResponse.ftc.cardDetails.get(cardPosition).setCardStatus("INACTIVE");
-                        currentCardStatus="INACTIVE";
-                        SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
-                        onPositionChange(cardPosition);
+                public void onSuccess(Call<String> call, Response<String> response) {
+
+                    if (response.isSuccessful()){
+
+                        String encryptedResponse = response.body();
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null) {
+
+                            if (responseBaseModel.getStatusCode() == 200) {
+
+                                CardHotlistResponseModel cardHotlistResponseModel = null;
+                                try{
+                                    Object data = responseBaseModel;
+
+                                    // Convert LinkedHashMap to JSON string
+                                    ObjectMapper om1 = new ObjectMapper();
+                                    String jsonString = om1.writeValueAsString(data);
+                                    cardHotlistResponseModel = om1.readValue(jsonString, CardHotlistResponseModel.class);
+
+                                }catch (Exception e){
+                                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                                }
+
+                                if(cardHotlistResponseModel!=null){
+
+                                    if (cardHotlistResponseModel.getStatusCode()==200){
+
+                                        Toast.makeText(getActivity(), getResources().getString(R.string.your_card_has_been_hotlisted_successfully), Toast.LENGTH_SHORT).show();
+                                        loginResponse.ftc.cardDetails.get(cardPosition).setCardStatus("INACTIVE");
+                                        currentCardStatus="INACTIVE";
+                                        SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
+                                        onPositionChange(cardPosition);
+
+                                    }
+                                }
+
+
+                            }
+                        }
+
+                    }else{
+
+                        String encryptedResponse ="";
+                        try {
+                            encryptedResponse = response.errorBody().string();
+                        } catch (IOException e) {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            Toast.makeText(getActivity(), ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
                     }
-                }
 
-                @Override
-                public void onResponseBodyNull(Call<CardHotlistResponseModel> call, Response<CardHotlistResponseModel> response) {
                     hideLoading();
                 }
 
                 @Override
-                public void onResponseUnsuccessful(Call<CardHotlistResponseModel> call, Response<CardHotlistResponseModel> response) {
+                public void onResponseBodyNull(Call<String> call, Response<String> response) {
                     hideLoading();
+
                 }
 
                 @Override
-                public void onFailure(Call<CardHotlistResponseModel> call, Throwable t) {
+                public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
                     hideLoading();
+
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    hideLoading();
+
                 }
 
                 @Override
                 public void onInternalServerError() {
                     hideLoading();
+
                 }
             });
+
         }else{
             Toast.makeText(getActivity(), ""+getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
         }
@@ -456,13 +716,13 @@ public class FtcCardBlockFragment extends BaseFragment implements MyFragmentCall
 
                 if (opration.equals("B"))
                 {
-                    BlockCard(CardProxyNumber,cardPosition);
+                    BlockCard(CardProxyNumber,cardPosition,token);
                 }
                 else if (opration.equals("U")){
-                    UnblockCard(CardProxyNumber,cardPosition);
+                    UnblockCard(CardProxyNumber,cardPosition,token);
                 }
                 else if (opration.equals("H")){
-                    hotlistCard(CardProxyNumber);
+                    hotlistCard(CardProxyNumber,token);
                 }
                 dialog.dismiss();
             }

@@ -20,7 +20,7 @@ public class CipherEncryption {
     public static String encryptMessage(String value, String key2) {
 
 //        final String key = "1234567890123456"; // 16-byte key
-        final String initVector = "1234567890123456"; // 16-byte IV
+        final String initVector = "73efbfbd4e0aefbr"; // 16-byte IV
 
         try {
             IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
@@ -39,11 +39,13 @@ public class CipherEncryption {
     }
 
 
-    public Object decryptMessage(String encrypted, String key2) {
+    public static Object decryptMessage(String encrypted, String key2) {
         try {
 
 //              final String key = "1234567890123456"; // 16-byte key
-            final String initVector = "1234567890123456"; // 16-byte IV
+            final String initVector = "73efbfbd4e0aefbr"; // 16-byte IV
+
+            Log.d("STRING",encrypted);
 
             IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
             SecretKeySpec skeySpec = new SecretKeySpec(key2.getBytes("UTF-8"), "AES");
@@ -67,7 +69,7 @@ public class CipherEncryption {
             }
 
         } catch (Exception ex) {
-            Log.e("",ex.getLocalizedMessage());
+            Log.d("Hello",ex.getLocalizedMessage());
         }
 
         return null;

@@ -15,29 +15,39 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.BaseFragment;
 import com.sbi.oneview.base.RequestBaseModel;
+import com.sbi.oneview.base.ResponseBaseModel;
 import com.sbi.oneview.network.APIRequests;
 import com.sbi.oneview.network.NetworkResponseCallback;
 import com.sbi.oneview.network.RequestModel.CardMiniStatementRequestModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
+import com.sbi.oneview.network.ResponseModel.LoginWithOtp.LoginWithOtpResponseModel;
 import com.sbi.oneview.network.ResponseModel.MiniStatement.CardMiniStatementResponseModel;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
 import com.sbi.oneview.ui.adapters.RecentTransactionAdapter;
+import com.sbi.oneview.ui.registration.EnterOtp;
+import com.sbi.oneview.ui.registration.LoginActivity;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
 import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
+import com.sbi.oneview.utils.encryption.CipherEncryption;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
 
-public class InrDashboardFragment extends Fragment implements MyFragmentCallback{
+public class InrDashboardFragment extends BaseFragment implements MyFragmentCallback{
 
     TextView tvDashboard,tvCurrentDate,tvRecentTransaction,tvQuickAccess,tvMyCards,tvCardDetails;
     TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal,tvViewAll;
@@ -210,63 +220,146 @@ public class InrDashboardFragment extends Fragment implements MyFragmentCallback
                 }
             }
 
-            loadCardMiniStatement(loginResponse.getPrepaid().getCardDetails().get(position).getProxyNumber());
+           loadCardMiniStatement(loginResponse.getPrepaid().getCardDetails().get(position).getProxyNumber(),loginResponse.getToken());
         }
 
 
     }
 
 
-    public void loadCardMiniStatement(String proxyNumber){
+    public void loadCardMiniStatement(String proxyNumber,String token){
 
+        showLoading();
 
-        RequestBaseModel<CardMiniStatementRequestModel> data = new RequestBaseModel<>();
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
+
         CardMiniStatementRequestModel cardMiniStatementRequestModel = new CardMiniStatementRequestModel();
-
         cardMiniStatementRequestModel.setProxyNumber(proxyNumber);
         cardMiniStatementRequestModel.setSId("");
         cardMiniStatementRequestModel.setType("");
 
-        data.setRequest(cardMiniStatementRequestModel);
+        ObjectMapper om = new ObjectMapper();
+        String req = null;
+        try {
+            req = om.writeValueAsString(cardMiniStatementRequestModel);
+        } catch (JsonProcessingException e) {
+            Log.d("EXCEPTION",""+e.getLocalizedMessage());
+        }
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
+
 
         if (NetworkUtils.isNetworkConnected(getActivity())){
 
-            APIRequests.cardMiniStatement(getActivity(), cardMiniStatementRequestModel, new NetworkResponseCallback<CardMiniStatementResponseModel>() {
+            APIRequests.cardMiniStatement(getActivity(), encryptedMsg, randomKey, token, new NetworkResponseCallback<String>() {
                 @Override
-                public void onSuccess(Call<CardMiniStatementResponseModel> call, Response<CardMiniStatementResponseModel> response) {
-                    if (response.body().getStatusCode()==200){
-                        Log.d("SUCCESS",""+response.body().getData().getTxnResponses().get(0).getTxnForm());
+                public void onSuccess(Call<String> call, Response<String> response) {
+
+                    if (response.isSuccessful()){
+
+                        String encryptedResponse = response.body();
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
 
 
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
 
-                        // Create an instance of the adapter
-                        RecentTransactionAdapter adapterRecentTransaction = new RecentTransactionAdapter(getActivity(),response.body().getData());
-                        // Set the adapter to the RecyclerView
-                        rvRecentTransaction.setAdapter(adapterRecentTransaction);
-                        // Set layout manager to position the items
-                        rvRecentTransaction.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        if (responseBaseModel!=null){
+
+                            if (responseBaseModel.getStatusCode()==200) {
+
+                                CardMiniStatementResponseModel cardMiniStatementResponseModel = null;
+                                try{
+                                    Object data = responseBaseModel;
+
+                                    // Convert LinkedHashMap to JSON string
+                                    ObjectMapper om1 = new ObjectMapper();
+                                    String jsonString = om1.writeValueAsString(data);
+                                    cardMiniStatementResponseModel = om1.readValue(jsonString, CardMiniStatementResponseModel.class);
+
+                                }catch (Exception e){
+                                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                                }
+
+                                if (cardMiniStatementResponseModel!=null){
+                                    if (cardMiniStatementResponseModel.getStatusCode()==200){
+                                        // Create an instance of the adapter
+                                        RecentTransactionAdapter adapterRecentTransaction = new RecentTransactionAdapter(getActivity(),cardMiniStatementResponseModel.getData());
+                                        // Set the adapter to the RecyclerView
+                                        rvRecentTransaction.setAdapter(adapterRecentTransaction);
+                                        // Set layout manager to position the items
+                                        rvRecentTransaction.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                                    }
+                                }
+
+                            }
+
+                        }else{
+                            Toast.makeText(getActivity(), getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                        }
+
+
 
                     }
+                    else{
+                        String encryptedResponse ="";
+                        try {
+                            encryptedResponse = response.errorBody().string();
+                        } catch (IOException e) {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            Toast.makeText(getActivity(), ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    hideLoading();
+
                 }
 
                 @Override
-                public void onResponseBodyNull(Call<CardMiniStatementResponseModel> call, Response<CardMiniStatementResponseModel> response) {
+                public void onResponseBodyNull(Call<String> call, Response<String> response) {
+                    hideLoading();
 
                 }
 
                 @Override
-                public void onResponseUnsuccessful(Call<CardMiniStatementResponseModel> call, Response<CardMiniStatementResponseModel> response) {
+                public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+                    hideLoading();
 
                 }
 
                 @Override
-                public void onFailure(Call<CardMiniStatementResponseModel> call, Throwable t) {
-                    Log.d("MSG","On FAILURE"+t.getLocalizedMessage());
+                public void onFailure(Call<String> call, Throwable t) {
+                    hideLoading();
+
                 }
 
                 @Override
                 public void onInternalServerError() {
-                    Log.d("MSG","INTERNAL SERVER ERROR");
+                    hideLoading();
+
                 }
             });
 

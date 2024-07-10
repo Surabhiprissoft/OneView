@@ -21,6 +21,9 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.sbi.oneview.R;
@@ -28,6 +31,7 @@ import com.sbi.oneview.base.App;
 import com.sbi.oneview.base.BaseActivity;
 import com.sbi.oneview.base.HeaderRequestModel;
 import com.sbi.oneview.base.RequestBaseModel;
+import com.sbi.oneview.base.ResponseBaseModel;
 import com.sbi.oneview.network.APIRequests;
 import com.sbi.oneview.network.NetworkResponseCallback;
 import com.sbi.oneview.network.RequestModel.LoginWithOtpRequestModel;
@@ -37,6 +41,8 @@ import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
 import com.sbi.oneview.utils.encryption.CipherEncryption;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -247,95 +253,144 @@ public class EnterOtp extends BaseActivity {
                 String otpTxt = etFirstOTP.getText().toString()+ etSecondOTP.getText().toString()+ etThirdOTP.getText().toString()+ etFourthOTP.getText().toString();
                 if (otpTxt.length()==4)
                 {
-                    /*Intent i=new Intent(EnterOtp.this, DashboardCardSelectionActivity.class);
-                    startActivity(i);*/
 
                     showLoading();
 
-                    /*byte[] randomKeyByte = CommonUtils.generateRandomKey();
-                    String randomKey = CommonUtils.bytesToHex(randomKeyByte);*/
                     String randomKey = CommonUtils.generateRandomString();
                     System.out.println("Random Key: " + randomKey);
 
-
-
-
                     //-------------- Login API Integration -----------------------
-                    RequestBaseModel<LoginWithOtpRequestModel> data =  new RequestBaseModel<>();
                     LoginWithOtpRequestModel loginWithOtpRequestModel = new LoginWithOtpRequestModel();
-
                     loginWithOtpRequestModel.setUsername(number);
-                    loginWithOtpRequestModel.setOtp("3241");
+                    loginWithOtpRequestModel.setOtp(otpTxt);
                     loginWithOtpRequestModel.setSId("");
 
-                    HeaderRequestModel header = new HeaderRequestModel();
-                    header.setAccessKey(randomKey);
-                    header.setHost("oneview.prepaid.sbi");
-                    header.setContentType("text/plain");
 
+                    ObjectMapper om = new ObjectMapper();
+                    String req = null;
+                    try {
+                        req = om.writeValueAsString(loginWithOtpRequestModel);
+                    } catch (JsonProcessingException e) {
+                        Toast.makeText(EnterOtp.this, ""+e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    String encryptedModel = CipherEncryption.encryptMessage(req,randomKey);
+                    System.out.println("Message : " + encryptedModel);
 
-                    data.setRequest(loginWithOtpRequestModel);
-                    data.setHeader(header);
-
-                    Gson gson = new Gson();
-                    String LoginRequest = gson.toJson(data);
-
-                    String encryptedMsg = CipherEncryption.encryptMessage(LoginRequest,randomKey);
-                    System.out.println("Message : " + encryptedMsg);
-
-                   // Log.d("REQUEST",""+data.toString());
-
-                    Log.d("REQUEST",loginWithOtpRequestModel.toString());
 
                     SharedConfig.getInstance(EnterOtp.this).setMobileNumber(number);
                     if(NetworkUtils.isNetworkConnected(EnterOtp.this)){
 
-                        /*APIRequests.loginWithOTP(EnterOtp.this, encryptedMsg, new NetworkResponseCallback<String>() {
+                        APIRequests.loginWithOTP(EnterOtp.this, encryptedModel, randomKey, new NetworkResponseCallback<String>() {
                             @Override
                             public void onSuccess(Call<String> call, Response<String> response) {
+                                hideLoading();
 
-                                Log.d("MSG","SUCCESS");
-                                Toast.makeText(EnterOtp.this, ""+response, Toast.LENGTH_SHORT).show();
-                                *//*Toast.makeText(EnterOtp.this, "Success "+response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                //testEdt.setText("Success");
-                                if (response.body().getStatusCode()==200){
+                                if (response.isSuccessful()){
 
-                                    hideLoading();
-                                    SharedConfig.getInstance(EnterOtp.this).saveLoginResponse(EnterOtp.this,response.body().getData());
+                                    String encryptedResponse = response.body();
+                                    if (encryptedResponse!=null) {
+                                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+                                    }
 
-                                    Intent i=new Intent(EnterOtp.this, DashboardCardSelectionActivity.class);
-                                    startActivity(i);
+                                    ObjectMapper om = new ObjectMapper();
+                                    ResponseBaseModel responseBaseModel = null;
+                                    JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                                    try {
+                                        responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                                    }catch (Exception e)
+                                    {
+                                        Log.d("EXCEPTION",e.getLocalizedMessage());
+                                    }
+
+                                    if (responseBaseModel!=null){
+
+                                        //received successful response.
+                                        if (responseBaseModel.getStatusCode()==200){
+
+                                            LoginWithOtpResponseModel loginWithOtpResponseModel = null;
+                                            try {
+                                                Object data = responseBaseModel;
+
+                                                // Convert LinkedHashMap to JSON string
+                                                ObjectMapper om1 = new ObjectMapper();
+                                                String jsonString = om1.writeValueAsString(data);
+                                                loginWithOtpResponseModel = om1.readValue(jsonString, LoginWithOtpResponseModel.class);
+
+                                            } catch (Exception e) {
+                                                Log.d("FOUND ERROR","" + e.getLocalizedMessage());
+                                                // Handle the error
+                                            }
+                                            if (loginWithOtpResponseModel != null) {
+                                                Log.d("VALUE", "" + loginWithOtpResponseModel.getData().getPrepaidStatus());
+                                                if (loginWithOtpResponseModel.getStatusCode()==200){
+                                                    SharedConfig.getInstance(EnterOtp.this).saveLoginResponse(EnterOtp.this,loginWithOtpResponseModel.getData());
+
+                                                    Intent i=new Intent(EnterOtp.this, DashboardCardSelectionActivity.class);
+                                                    startActivity(i);
+                                                }
+                                            }
+
+
+                                        }
+                                    }else{
+                                        Toast.makeText(EnterOtp.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                                    }
 
 
                                 }else{
-                                    Toast.makeText(EnterOtp.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                }*//*
 
+                                    String encryptedResponse ="";
+                                    try {
+                                        encryptedResponse = response.errorBody().string();
+                                    } catch (IOException e) {
+                                        Log.d("EXCEPTION",e.getLocalizedMessage());
+                                    }
+                                    encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                                    ObjectMapper om = new ObjectMapper();
+                                    ResponseBaseModel responseBaseModel = null;
+                                    JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                                    try {
+                                        responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                                    }catch (Exception e)
+                                    {
+                                        Log.d("EXCEPTION",e.getLocalizedMessage());
+                                    }
+
+                                    if (responseBaseModel!=null)
+                                    {
+                                        Toast.makeText(EnterOtp.this, ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
 
 
                             }
 
                             @Override
                             public void onResponseBodyNull(Call<String> call, Response<String> response) {
+                                hideLoading();
 
                             }
 
                             @Override
                             public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+                                hideLoading();
 
                             }
 
                             @Override
                             public void onFailure(Call<String> call, Throwable t) {
+                                hideLoading();
 
                             }
 
                             @Override
                             public void onInternalServerError() {
+                                hideLoading();
 
                             }
                         });
-                    */}
+                    }
                     else{
                         hideLoading();
                         Toast.makeText(EnterOtp.this,  getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();

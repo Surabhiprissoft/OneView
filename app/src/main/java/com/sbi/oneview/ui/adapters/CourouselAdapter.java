@@ -58,7 +58,7 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
 
         int currentImageResourceId;
 
-        if (productCode.equals("266")){
+        /*if (productCode.equals("266")){
             holder.imageView.setImageResource(R.drawable.city_chennai);
             currentImageResourceId=R.drawable.city_chennai;
         }else if (productCode.equals("262")){
@@ -81,8 +81,9 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
             currentImageResourceId=R.drawable.city_mumbai;
         }else{
             currentImageResourceId=R.drawable.city_kanpur;
-        }
+        }*/
 
+        holder.imageView.setImageDrawable(context.getDrawable(R.drawable.sbi_card));
 
         //holder.imageView.setImageResource(cardImage);
         //Glide.with(context).load(arrayList.get(currentPosition)).into(holder.imageView);
@@ -92,7 +93,7 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
         holder.btnNext.setOnClickListener(v -> {
             if (currentPosition < arrayList.size() - 1) {
                 currentPosition++;
-                animateImageChange(holder.imageView, getImageResources(arrayList.get(currentPosition).getProductCode()), true);
+                animateImageChange(holder.imageView, 1, true);
                 customIndicator.setActiveIndex(currentPosition);
                 callback.onPositionChange(currentPosition);
             }
@@ -101,7 +102,7 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
         holder.btnPrevious.setOnClickListener(v -> {
             if (currentPosition > 0) {
                 currentPosition--;
-                animateImageChange(holder.imageView, getImageResources(arrayList.get(currentPosition).getProductCode()), false);
+                animateImageChange(holder.imageView, 1, false);
                 customIndicator.setActiveIndex(currentPosition);
                 callback.onPositionChange(currentPosition);
             }
@@ -199,7 +200,7 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                imageView.setImageResource(imageResourceId);
+                imageView.setImageDrawable(context.getDrawable(R.drawable.sbi_card));
                 Animation slideIn = AnimationUtils.loadAnimation(context, isNext ? R.anim.slide_in_right : R.anim.slide_in_left);
                 imageView.startAnimation(slideIn);
             }

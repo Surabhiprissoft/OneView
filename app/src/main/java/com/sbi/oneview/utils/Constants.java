@@ -14,11 +14,11 @@ public class Constants {
   // public static final String BASE_URL ="https://192.168.49.99/APIW/outletPortalMMRDA/" ;     // Production URL
   // public static final String BASE_URL ="http://192.168.14.138:8080/" ;  // Local
  //  public static final String BASE_URL ="http://192.168.155.136:8080/" ;  // LAPTOP Local
-   public static final String BASE_URL ="https://corpuat.prepaid.sbi/oneview/" ;  // UAT
+   public static final String BASE_URL ="https://corpuat.prepaid.sbi:444/oneview/" ;  // UAT
   // public static final String BASE_URL ="https://10.176.14.138:8502/oneview/" ;  // Bank Env
 
    //public static final String BASE_URL_HOSTNAME ="192.168.49.99" ;   // Production
-   public static final String BASE_URL_HOSTNAME ="192.168.0.130" ;   // UAT
+   public static final String BASE_URL_HOSTNAME ="corpuat.prepaid.sbi" ;   // UAT
 
 
  // End Points

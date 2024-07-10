@@ -1,7 +1,9 @@
 package com.sbi.oneview.network.ResponseModel.LoginWithOtp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.SerializedName;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LoginWithOtpResponseModel{
 
 	@SerializedName("data")

@@ -163,5 +163,8 @@
     <string name="your_card_has_been_hotlisted_successfully">Your card has been hotlisted successfully</string>
     <string name="captcha">Captcha</string>
     <string name="something_went_wrong_please_refresh_captcha">SomeThing went wrong. please refresh captcha</string>
+    <string name="something_went_wrong">Something went wrong, Please try again</string>
+    <string name="invalid_captcha_try_again">Invalid captcha, Try again</string>
+    <string name="incorrect_otp_please_try_again">Incorrect OTP, Please try again</string>
 
 </resources>

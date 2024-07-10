@@ -229,7 +229,7 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
 
             }
 
-            LoadTransitCardMiniStatement(loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber(),loginResponse.getTransit().getCardDetails().get(position).getProductCode());
+            //LoadTransitCardMiniStatement(loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber(),loginResponse.getTransit().getCardDetails().get(position).getProductCode());
 
 
         }
@@ -238,6 +238,7 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
     }
 
 
+/*
     public void LoadTransitCardMiniStatement(String proxyNumber,String productCode){
         RequestBaseModel<TransitMiniStatementRequestModel> data = new RequestBaseModel<>();
         TransitMiniStatementRequestModel transitMiniStatementRequestModel = new TransitMiniStatementRequestModel();
@@ -290,4 +291,5 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
             Toast.makeText(getActivity(), getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
         }
     }
+*/
 }

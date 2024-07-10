@@ -92,7 +92,60 @@ public class Data{
 		return transit;
 	}
 
+	public void setVirtual(Object virtual) {
+		this.virtual = virtual;
+	}
+
+	public void setPrepaid(Prepaid prepaid) {
+		this.prepaid = prepaid;
+	}
+
+	public void setTransitStatus(String transitStatus) {
+		this.transitStatus = transitStatus;
+	}
+
+	public void setLoginStatus(String loginStatus) {
+		this.loginStatus = loginStatus;
+	}
+
+	public void setLogin(boolean login) {
+		this.login = login;
+	}
+
+	public void setFtcStatus(String ftcStatus) {
+		this.ftcStatus = ftcStatus;
+	}
+
+	public void setSid(String sid) {
+		this.sid = sid;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public void setVirtualStatus(String virtualStatus) {
+		this.virtualStatus = virtualStatus;
+	}
+
+	public void setPrepaidStatus(String prepaidStatus) {
+		this.prepaidStatus = prepaidStatus;
+	}
+
+	public void setFtc(Ftc ftc) {
+		this.ftc = ftc;
+	}
+
+	public void setTransit(Transit transit) {
+		this.transit = transit;
+	}
+
+	public void setProductCodes(List<ProductCodesItem> productCodes) {
+		this.productCodes = productCodes;
+	}
+
 	public List<ProductCodesItem> getProductCodes(){
 		return productCodes;
 	}
+
 }

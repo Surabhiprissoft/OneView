@@ -1,6 +1,7 @@
 package com.sbi.oneview.network;
 
 import android.content.Context;
+import android.util.Log;
 
 
 import com.sbi.oneview.base.App;
@@ -23,6 +24,7 @@ import com.sbi.oneview.network.ResponseModel.MiniStatement.CardMiniStatementResp
 import com.sbi.oneview.network.ResponseModel.SetPin.SetPinResponseModel;
 import com.sbi.oneview.network.ResponseModel.TransitMiniStatement.TransitMiniStatementResponseModel;
 import com.sbi.oneview.network.ResponseModel.ValidateCaptcha.ValidateCaptchaResponseModel;
+import com.sbi.oneview.utils.Constants;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,17 +52,18 @@ public class APIRequests {
 
     public static void validateCaptcha(
             Context context,
-            ValidateCaptchaRequestModel validateCaptchaRequestModel,
-            NetworkResponseCallback<ValidateCaptchaResponseModel> callback
+            String validateCaptchaRequestModel,
+            String accessKey,
+            NetworkResponseCallback<String> callback
     ){
-        App.apiClientencrypt.ValidateCaptcha(validateCaptchaRequestModel).enqueue(new Callback<ValidateCaptchaResponseModel>() {
+        App.apiClientencrypt.ValidateCaptcha(validateCaptchaRequestModel,accessKey, Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<ValidateCaptchaResponseModel> call, Response<ValidateCaptchaResponseModel> response) {
-                callback.onSuccess(call,response);
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call, response);
             }
 
             @Override
-            public void onFailure(Call<ValidateCaptchaResponseModel> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 callback.onFailure(call,t);
             }
         });
@@ -70,14 +73,15 @@ public class APIRequests {
     public static void loginWithOTP(
             Context context,
             String loginWithOtpRequestModel,
+            String accessKey,
             NetworkResponseCallback<String> callback
     ){
-        App.apiClientencrypt.loginUserWithOtp(loginWithOtpRequestModel).enqueue(new Callback<String>() {
+        App.apiClientencrypt.loginUserWithOtp(loginWithOtpRequestModel,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
+
                     callback.onSuccess(call, response);
-                }
+
             }
 
             @Override
@@ -110,17 +114,19 @@ public class APIRequests {
 
     public static void cardMiniStatement(
             Context context,
-            CardMiniStatementRequestModel cardMiniStatementRequestModel,
-            NetworkResponseCallback<CardMiniStatementResponseModel> callback
+            String cardMiniStatementRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
     ){
-        App.apiClientencrypt.getCardMiniStatement(cardMiniStatementRequestModel).enqueue(new Callback<CardMiniStatementResponseModel>() {
+        App.apiClientencrypt.getCardMiniStatement(cardMiniStatementRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<CardMiniStatementResponseModel> call, Response<CardMiniStatementResponseModel> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 callback.onSuccess(call,response);
             }
 
             @Override
-            public void onFailure(Call<CardMiniStatementResponseModel> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 callback.onFailure(call,t);
             }
         });
@@ -129,17 +135,19 @@ public class APIRequests {
 
     public static void cardStatement(
             Context context,
-            InrCardStatementRequestModel inrCardStatementRequestModel,
-            NetworkResponseCallback<InrCardStatementResponseModel> callback
+            String inrCardStatementRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
     ){
-        App.apiClientencrypt.getCardStatement(inrCardStatementRequestModel).enqueue(new Callback<InrCardStatementResponseModel>() {
+        App.apiClientencrypt.getCardStatement(inrCardStatementRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<InrCardStatementResponseModel> call, Response<InrCardStatementResponseModel> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 callback.onSuccess(call,response);
             }
 
             @Override
-            public void onFailure(Call<InrCardStatementResponseModel> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 callback.onFailure(call,t);
             }
         });
@@ -148,17 +156,19 @@ public class APIRequests {
 
     public static void CardBlock(
             Context context,
-            CardBlockUnblockRequestModel cardBlockUnblockRequestModel,
-            NetworkResponseCallback<CardBlockUnblockResponseModel> callback
+            String cardBlockUnblockRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
     ){
-        App.apiClientencrypt.getCardBlock(cardBlockUnblockRequestModel).enqueue(new Callback<CardBlockUnblockResponseModel>() {
+        App.apiClientencrypt.getCardBlock(cardBlockUnblockRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 callback.onSuccess(call,response);
             }
 
             @Override
-            public void onFailure(Call<CardBlockUnblockResponseModel> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 callback.onFailure(call,t);
             }
         });
@@ -168,17 +178,19 @@ public class APIRequests {
 
     public static void CardUnBlock(
             Context context,
-            CardBlockUnblockRequestModel cardBlockUnblockRequestModel,
-            NetworkResponseCallback<CardBlockUnblockResponseModel> callback
+            String cardBlockUnblockRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
     ){
-        App.apiClientencrypt.getCardUnBlock(cardBlockUnblockRequestModel).enqueue(new Callback<CardBlockUnblockResponseModel>() {
+        App.apiClientencrypt.getCardUnBlock(cardBlockUnblockRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<CardBlockUnblockResponseModel> call, Response<CardBlockUnblockResponseModel> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 callback.onSuccess(call,response);
             }
 
             @Override
-            public void onFailure(Call<CardBlockUnblockResponseModel> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 callback.onFailure(call,t);
             }
         });
@@ -188,17 +200,20 @@ public class APIRequests {
 
     public static void CardHotlist(
             Context context,
-            CardHotlistRequestModel cardHotlistRequestModel,
-            NetworkResponseCallback<CardHotlistResponseModel> callback
+            String cardHotlistRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
     ){
-        App.apiClientencrypt.getCardHotlist(cardHotlistRequestModel).enqueue(new Callback<CardHotlistResponseModel>() {
+        App.apiClientencrypt.getCardHotlist(cardHotlistRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<CardHotlistResponseModel> call, Response<CardHotlistResponseModel> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 callback.onSuccess(call,response);
+
             }
 
             @Override
-            public void onFailure(Call<CardHotlistResponseModel> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 callback.onFailure(call,t);
             }
         });
@@ -226,17 +241,19 @@ public class APIRequests {
 
     public static void SetPin(
             Context context,
-            SetPinRequestModel setPinRequestModel,
-            NetworkResponseCallback<SetPinResponseModel> callback
+            String setPinRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
     ){
-        App.apiClientencrypt.getSetPin(setPinRequestModel).enqueue(new Callback<SetPinResponseModel>() {
+        App.apiClientencrypt.getSetPin(setPinRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<SetPinResponseModel> call, Response<SetPinResponseModel> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 callback.onSuccess(call,response);
             }
 
             @Override
-            public void onFailure(Call<SetPinResponseModel> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 callback.onFailure(call,t);
             }
         });
