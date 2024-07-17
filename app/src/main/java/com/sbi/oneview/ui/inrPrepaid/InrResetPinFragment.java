@@ -32,8 +32,10 @@ import com.sbi.oneview.network.NetworkResponseCallback;
 import com.sbi.oneview.network.RequestModel.CardHotlistRequestModel;
 import com.sbi.oneview.network.RequestModel.SetPinRequestModel;
 import com.sbi.oneview.network.ResponseModel.HotlistCard.CardHotlistResponseModel;
+import com.sbi.oneview.network.ResponseModel.InrResetPinResponseModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
+import com.sbi.oneview.network.ResponseModel.ResetPin.FSSResetPinResponseModel;
 import com.sbi.oneview.network.ResponseModel.SetPin.SetPinResponseModel;
 import com.sbi.oneview.ui.CallBackListner.OtpDialogueCallBack;
 import com.sbi.oneview.ui.WebView.ResetPinWebViewActivity;
@@ -187,11 +189,53 @@ public class InrResetPinFragment extends BaseFragment implements MyFragmentCallb
                                 String encryptedResponse = response.body();
                                 encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
 
-                                ObjectMapper om = new ObjectMapper();
-                                ResponseBaseModel responseBaseModel = null;
-                                JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                                String res = (String) CipherEncryption.decryptMessage(encryptedResponse,randomKey);
+
+                                String strResponse = convertToJson(res);
+                                Log.d("RESPONSE",""+strResponse);
+
+                                ObjectMapper objectMapper = new ObjectMapper();
                                 try {
-                                    responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                                    // Deserialize JSON string to SampleResponseModel
+                                    FSSResetPinResponseModel sampleResponseModel = objectMapper.readValue(strResponse, FSSResetPinResponseModel.class);
+
+                                    // Use the deserialized object
+                                    System.out.println("Status Code: " + sampleResponseModel.getStatusCode());
+                                    System.out.println("Message: " + sampleResponseModel.getMessage());
+                                    System.out.println("URL: " + sampleResponseModel.getData().getTargetUrl());
+                                    System.out.println("URL MSG: " + sampleResponseModel.getData().getMessage());
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                /*ObjectMapper om = new ObjectMapper();
+                                String decryptedResponse = (String) CipherEncryption.decryptMessage(encryptedResponse,randomKey);
+
+                                if (decryptedResponse!=null) {
+
+                                    JsonNode node = null;
+                                    try {
+                                        node = om.readTree(decryptedResponse);
+                                    } catch (JsonProcessingException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    System.out.println(node.toPrettyString());
+                                    JsonNode dataNode = node.get("data");
+
+                                    if (dataNode != null) {
+                                        String message = dataNode.get("message").asText();
+                                        String targetUrl = dataNode.get("targetUrl").asText();
+                                        System.out.println("Data Message: " + message);
+                                        System.out.println("Target URL: " + targetUrl);
+                                    }
+
+                                }*/
+                                /*ObjectMapper om = new ObjectMapper();
+                                FSSResetPinResponseModel responseBaseModel = null;
+                                Log.d("MSEG",encryptedResponse);
+                                String  node = (String) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                                try {
+                                    responseBaseModel = om.treeToValue(node, FSSResetPinResponseModel.class);
                                 }catch (Exception e)
                                 {
                                     Log.d("EXCEPTION",e.getLocalizedMessage());
@@ -202,32 +246,31 @@ public class InrResetPinFragment extends BaseFragment implements MyFragmentCallb
 
                                     if (responseBaseModel.getStatusCode() == 200) {
 
-                                        SetPinResponseModel setPinResponseModel = null;
+                                        Log.d("URL",""+responseBaseModel.getData().getTargetUrl());
+                                        *//*InrResetPinResponseModel setPinResponseModel = null;
                                         try{
                                             Object data = responseBaseModel;
 
                                             // Convert LinkedHashMap to JSON string
                                             ObjectMapper om1 = new ObjectMapper();
                                             String jsonString = om1.writeValueAsString(data);
-                                            setPinResponseModel = om1.readValue(jsonString, SetPinResponseModel.class);
+                                            setPinResponseModel = om1.readValue(jsonString, InrResetPinResponseModel.class);
 
                                         }catch (Exception e){
                                             Log.d("EXCEPTION",""+e.getLocalizedMessage());
                                         }
 
                                         if (setPinResponseModel!=null){
-                                            if (setPinResponseModel.getStatusCode()==200){
 
-                                                Intent webViewIntent = new Intent(getActivity(), ResetPinWebViewActivity.class);
-                                                webViewIntent.putExtra(RESET_URL,setPinResponseModel.getData().getTargetUrl());
-                                                startActivity(webViewIntent);
+                                            Intent webViewIntent = new Intent(getActivity(), ResetPinWebViewActivity.class);
+                                            webViewIntent.putExtra(RESET_URL,setPinResponseModel.getTargetUrl());
+                                            startActivity(webViewIntent);
 
-                                            }
-                                        }
+                                        }*//*
 
                                     }
                                 }
-
+*/
                             }
                             else{
 
@@ -256,25 +299,31 @@ public class InrResetPinFragment extends BaseFragment implements MyFragmentCallb
 
                             }
 
+                            hideLoading();
+
                         }
 
                         @Override
                         public void onResponseBodyNull(Call<String> call, Response<String> response) {
+                            hideLoading();
 
                         }
 
                         @Override
                         public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+                            hideLoading();
 
                         }
 
                         @Override
                         public void onFailure(Call<String> call, Throwable t) {
+                            hideLoading();
 
                         }
 
                         @Override
                         public void onInternalServerError() {
+                            hideLoading();
 
                         }
                     });
@@ -348,6 +397,13 @@ public class InrResetPinFragment extends BaseFragment implements MyFragmentCallb
         Toast.makeText(getActivity(), "Reached to fragment : "+otp, Toast.LENGTH_SHORT).show();
 
     }*/
+
+    public static String convertToJson(String input) {
+
+        String json = input.replaceAll("\\b(\\w+)\\s*=\\s*", "\"$1\": ");
+        json = json.replaceAll("(?<=\": )(?!\\[|\\{|(?:(?:null)[,}\n]))([^,}\n]*)", "\"$1\"");
+        return json;
+    }
 
 
 }

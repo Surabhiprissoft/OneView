@@ -25,6 +25,7 @@
     <color name="failedAmountTransaction">#FFAAAAAA</color>
     <color name="tableHeaderBackground">#FFB9B9B9</color>
     <color name="activeCardBackground">#FFA8FBB5</color>
+    <color name="sampleCardBackground">#FF873D98</color>
 
 
 

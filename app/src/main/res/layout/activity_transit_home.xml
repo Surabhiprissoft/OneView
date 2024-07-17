@@ -78,6 +78,7 @@
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="match_parent"
                             app:layout_constraintTop_toTopOf="parent"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             android:src="@drawable/notification_icon"
@@ -669,6 +670,7 @@
                                     android:id="@+id/resetpinLayout"
                                     android:layout_width="match_parent"
                                     android:orientation="horizontal"
+                                    android:visibility="gone"
                                     android:layout_marginTop="10dp"
                                     android:layout_height="wrap_content">
                                     <View

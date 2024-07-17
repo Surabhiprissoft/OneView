@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.graphics.drawable.ColorDrawable;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -352,5 +353,32 @@ public class CommonUtils {
         json = json.replaceAll("(?<=\": )(?!\\[|\\{|(?:(?:null)[,}\n]))([^,}\n]*)", "\"$1\"");
         return json;
     }
+
+
+
+    public static void startTimer(TextView txtTimer) {
+        final long timeLeftInMillis = 20000; //10 Minutes
+        CountDownTimer countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // timeLeftInMillis = millisUntilFinished;
+                int minutes = (int) (millisUntilFinished / 1000) / 60;
+                int seconds = (int) (millisUntilFinished / 1000) % 60;
+                String timeFormatted = String.format("%02d:%02d", minutes, seconds);
+                //.setText(timeFormatted);
+                txtTimer.setText("Resend OTP in " + minutes + ":" + seconds);
+                txtTimer.setClickable(false);
+            }
+
+            @Override
+            public void onFinish() {
+                txtTimer.setText("Resend OTP");
+                txtTimer.setClickable(true);
+                // Timer finished
+                // Handle expiration, e.g., regenerate OTP or show a message
+            }
+        }.start();
+    }
+
 
 }

@@ -168,17 +168,12 @@ public class FtcCardBlockFragment extends BaseFragment implements MyFragmentCall
             @Override
             public void onClick(View v) {
 
-                if (!currentCardStatus.equals("INACTIVE")) {
-
                     if (currentCardStatus.equals("ACTIVE")) {
                         showConfirmationDialogue("B","Do you really want to block this card ?");
-                    } else {
+                    } else  if(currentCardStatus.equals("BLOCKED")){
                         showConfirmationDialogue("U","Do you really want to Un-Block this card ?");
                     }
-                }
-                else{
-                    Toast.makeText(getActivity(), "You card has been permanently block, please contact your branch to activate it.", Toast.LENGTH_SHORT).show();
-                }
+
 
             }
         });
@@ -225,7 +220,7 @@ public class FtcCardBlockFragment extends BaseFragment implements MyFragmentCall
 
             tvCRN.setText(loginResponse.getFtc().getCardDetails().get(position).getProxyNumber());
             tvCardNumber.setText(loginResponse.getFtc().getCardDetails().get(position).getCardNumber());
-            tvCardStatus.setText(loginResponse.getFtc().getCardDetails().get(position).getCardStatus());
+            //tvCardStatus.setText(loginResponse.getFtc().getCardDetails().get(position).getCardStatus());
             tvProductName.setText(loginResponse.getFtc().getCardDetails().get(position).getProductName());
             tvActDate.setText(loginResponse.getFtc().getCardDetails().get(position).getCardActivDate().substring(3,5) +" / "+ loginResponse.getFtc().getCardDetails().get(position).getCardActivDate().substring(6));
             tvExpDate.setText(loginResponse.getFtc().getCardDetails().get(position).getCardExpiryDate().substring(3,5)+" / "+loginResponse.getFtc().getCardDetails().get(position).getCardExpiryDate().substring(6));
@@ -235,23 +230,33 @@ public class FtcCardBlockFragment extends BaseFragment implements MyFragmentCall
             token = loginResponse.getToken();
 
             currentCardStatus = loginResponse.getFtc().getCardDetails().get(position).getCardStatus();
-            if (currentCardStatus.equals("ACTIVE")){
+
+            if (currentCardStatus.equals("ACTIVE") || currentCardStatus.equals("A")){
+                tvCardStatus.setText("ACTIVE");
                 btnTempBlockUnblock.setBackgroundColor(Color.RED);
                 btnTempBlockUnblock.setText("Temporary Block");
                 tvTempBlockNote.setVisibility(View.GONE);
+                tvPerBlockNote.setVisibility(View.GONE);
+                tvPerBlockNote1.setVisibility(View.GONE);
+
 
                 tvCardStatus.setTextColor(Color.BLACK);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
 
             }else if(currentCardStatus.equals("BLOCKED")){
+                tvCardStatus.setText("BLOCKED");
                 btnTempBlockUnblock.setBackgroundColor(getResources().getColor(R.color.creditTransaction));
                 btnTempBlockUnblock.setText("Unblock");
                 tvTempBlockNote.setVisibility(View.VISIBLE);
+                tvPerBlockNote.setVisibility(View.GONE);
+                tvPerBlockNote1.setVisibility(View.GONE);
 
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
 
-            }else if (currentCardStatus.equals("INACTIVE")){
+            }else{
+                tvCardStatus.setText("INACTIVE");
+                tvTempBlockNote.setVisibility(View.GONE);
                 tvPerBlockNote.setVisibility(View.VISIBLE);
                 tvPerBlockNote1.setVisibility(View.VISIBLE);
 

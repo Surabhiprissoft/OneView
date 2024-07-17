@@ -192,28 +192,21 @@ public class FtcCardStatementFragment extends BaseFragment implements MyFragment
             cardPosition = position;
 
             currentCardStatus = loginResponse.getFtc().getCardDetails().get(position).getCardStatus();
-            if (currentCardStatus.equals("ACTIVE")){
+            if (currentCardStatus.equals("ACTIVE") || currentCardStatus.equals("A")){
+                tvCardStatus.setText("ACTIVE");
 
                 tvCardStatus.setTextColor(Color.BLACK);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
-                /*tvCardStatusNote.setVisibility(View.GONE);
-                layoutSpendLimitController.setVisibility(View.VISIBLE);*/
 
             }else if(currentCardStatus.equals("BLOCKED")){
-
+                tvCardStatus.setText("BLOCKED");
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
-                /*tvCardStatusNote.setVisibility(View.VISIBLE);
-                tvCardStatusNote.setText("Your Card has been blocked, please un-block it to use spend limit features.");
-                layoutSpendLimitController.setVisibility(View.GONE);*/
 
-            }else if (currentCardStatus.equals("INACTIVE")){
-
+            }else {
+                tvCardStatus.setText("INACTIVE");
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
-                /*tvCardStatusNote.setVisibility(View.VISIBLE);
-                tvCardStatusNote.setText("Your Card has been permanantly blocked, please visit nearest branch for issuance of new card.");
-                layoutSpendLimitController.setVisibility(View.GONE);*/
 
             }
 

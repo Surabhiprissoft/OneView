@@ -1,5 +1,6 @@
 package com.sbi.oneview.ui.inrPrepaid;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +55,8 @@ public class InrDashboardFragment extends BaseFragment implements MyFragmentCall
     TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal,tvViewAll;
     MaterialCardView cardStatusCard,cardTopUp,cardResetPin,cardLimit,cardStatement;
     RecyclerView rvRecentTransaction;
+    LinearLayout layoutCardStatus;
+    String currentCardStatus;
     InrPrepaidHomeActivity inrPrepaidHomeActivity;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,6 +113,7 @@ public class InrDashboardFragment extends BaseFragment implements MyFragmentCall
         tvCardNumber = view.findViewById(R.id.tvCardNumber);
         tvCRN = view.findViewById(R.id.tvCRNNumber);
         tvCardStatus = view.findViewById(R.id.tvCardStatus);
+        layoutCardStatus = view.findViewById(R.id.layoutCardStatus);
         tvProductName = view.findViewById(R.id.tvCardProductName);
         tvActDate = view.findViewById(R.id.tvCardActiveDate);
         tvExpDate = view.findViewById(R.id.tvCardExpDate);
@@ -205,11 +210,28 @@ public class InrDashboardFragment extends BaseFragment implements MyFragmentCall
 
             tvCRN.setText(loginResponse.getPrepaid().getCardDetails().get(position).getProxyNumber());
             tvCardNumber.setText(loginResponse.getPrepaid().getCardDetails().get(position).getCardNumber());
-            tvCardStatus.setText(loginResponse.getPrepaid().getCardDetails().get(position).getCardStatus());
+            //tvCardStatus.setText(loginResponse.getPrepaid().getCardDetails().get(position).getCardStatus());
             tvProductName.setText(loginResponse.getPrepaid().getCardDetails().get(position).getProductName());
             tvActDate.setText(loginResponse.getPrepaid().getCardDetails().get(position).getCardActivDate().substring(3,5) +" / "+ loginResponse.getPrepaid().getCardDetails().get(position).getCardActivDate().substring(6));
             tvExpDate.setText(loginResponse.getPrepaid().getCardDetails().get(position).getCardExpiryDate().substring(3,5)+" / "+loginResponse.getPrepaid().getCardDetails().get(position).getCardExpiryDate().substring(6));
 
+            currentCardStatus = loginResponse.getFtc().getCardDetails().get(position).getCardStatus();
+            if (currentCardStatus.equals("ACTIVE") || currentCardStatus.equals("A")){
+                tvCardStatus.setText("Active");
+                tvCardStatus.setTextColor(Color.BLACK);
+                layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
+
+            }else if(currentCardStatus.equals("BLOCKED")){
+                tvCardStatus.setText("Blocked");
+                tvCardStatus.setTextColor(Color.WHITE);
+                layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
+
+            }else{
+                tvCardStatus.setText("Inactive");
+                tvCardStatus.setTextColor(Color.WHITE);
+                layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
+
+            }
 
             for(int i=0;i<loginResponse.getPrepaid().getCardDetails().get(position).getCardAccountDetails().size();i++){
                 if (loginResponse.getPrepaid().getCardDetails().get(position).getCardAccountDetails().get(i).getAccountType().equals("Online")){

@@ -39,7 +39,7 @@ public class Data{
 	public Ftc ftc;
 
 	@SerializedName("transit")
-	private Transit transit;
+	public Transit transit;
 
 	@SerializedName("productCodes")
 	private List<ProductCodesItem> productCodes;

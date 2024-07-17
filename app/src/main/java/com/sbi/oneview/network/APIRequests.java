@@ -93,23 +93,6 @@ public class APIRequests {
     }
 
 
-    public static void transitMiniStatement(
-            Context context,
-            TransitMiniStatementRequestModel transitMiniStatementRequestModel,
-            NetworkResponseCallback<TransitMiniStatementResponseModel> callback
-    ){
-        App.apiClientencrypt.getTransitMiniStatement(transitMiniStatementRequestModel).enqueue(new Callback<TransitMiniStatementResponseModel>() {
-            @Override
-            public void onResponse(Call<TransitMiniStatementResponseModel> call, Response<TransitMiniStatementResponseModel> response) {
-                callback.onSuccess(call,response);
-            }
-
-            @Override
-            public void onFailure(Call<TransitMiniStatementResponseModel> call, Throwable t) {
-                callback.onFailure(call,t);
-            }
-        });
-    }
 
 
     public static void cardMiniStatement(
@@ -222,17 +205,42 @@ public class APIRequests {
 
     public static void CardLimitEnquiry(
             Context context,
-            LimitEnquiryRequestModel limitEnquiryRequestModel,
-            NetworkResponseCallback<InrLimitEnquiryResponseModel> callback
+            String limitEnquiryRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
     ){
-        App.apiClientencrypt.getInrLimitEnquiry(limitEnquiryRequestModel).enqueue(new Callback<InrLimitEnquiryResponseModel>() {
+        App.apiClientencrypt.getInrLimitEnquiry(limitEnquiryRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<InrLimitEnquiryResponseModel> call, Response<InrLimitEnquiryResponseModel> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call,response);
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+
+            }
+        });
+    }
+
+
+    public static void CardLimitUpdate(
+            Context context,
+            String limitUpdateRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.getInrLimitUpdate(limitUpdateRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
                 callback.onSuccess(call,response);
             }
 
             @Override
-            public void onFailure(Call<InrLimitEnquiryResponseModel> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 callback.onFailure(call,t);
             }
         });
@@ -247,6 +255,155 @@ public class APIRequests {
             NetworkResponseCallback<String> callback
     ){
         App.apiClientencrypt.getSetPin(setPinRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+
+    //---------------------------- TRANSIT -------------------------------------------------------
+
+    public static void validateEform(
+            Context context,
+            String validateEformRequestModel,
+            String accessKey,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.getValidateEform(validateEformRequestModel,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+    public static void processEform(
+            Context context,
+            String processEformRequestModel,
+            String accessKey,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.getProcessEform(processEformRequestModel,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+    public static void transitStatement(
+            Context context,
+            String transitStatementRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.getTransitStatement(transitStatementRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+    public static void transitMiniStatement(
+            Context context,
+            String transitMiniStatementRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.getTransitMiniStatement(transitMiniStatementRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+
+    public static void transitRequestHotlist(
+            Context context,
+            String transitRequestHotlistRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.getTransitHotlistRequest(transitRequestHotlistRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+    public static void transitProcessHotlist(
+            Context context,
+            String transitProcessHotlistRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.getTransitHotlistProcess(transitProcessHotlistRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+    public static void resendOTP(
+            Context context,
+            String resendOtpRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.getTransitHotlistProcess(resendOtpRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 callback.onSuccess(call,response);

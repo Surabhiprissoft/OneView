@@ -54,6 +54,7 @@ public class FtcResetPinFragment extends BaseFragment implements MyFragmentCallb
     TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate;
     LinearLayout layoutCardStatus;
     MaterialButton btnResetPin;
+    TextView tvCardStatusNote;
     FtcHomeActivity ftcHomeActivity;
     String currentCardStatus,token;
     String CardProxyNumber;
@@ -111,6 +112,7 @@ public class FtcResetPinFragment extends BaseFragment implements MyFragmentCallb
         tvExpDate = view.findViewById(R.id.tvCardExpDate);
 
         btnResetPin = view.findViewById(R.id.btnResetPin);
+        tvCardStatusNote = view.findViewById(R.id.tvCardStatusNote);
 
         tvCurrentDate.setText(CommonUtils.setCurrentDate());
         tvBlockHeading.setText("Reset PIN");
@@ -129,137 +131,149 @@ public class FtcResetPinFragment extends BaseFragment implements MyFragmentCallb
             @Override
             public void onClick(View v) {
 
-
-                showLoading();
-
-                String randomKey = CommonUtils.generateRandomString();
-                System.out.println("Random Key: " + randomKey);
-
-                SetPinRequestModel setPinRequestModel = new SetPinRequestModel();
-                setPinRequestModel.setProxyNumber(CardProxyNumber);
-                setPinRequestModel.setSid("");
-
-                ObjectMapper om = new ObjectMapper();
-                String req = null;
-                try {
-                    req = om.writeValueAsString(setPinRequestModel);
-                } catch (JsonProcessingException e) {
-                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                if (currentCardStatus.equals("ACTIVE"))
+                {
+                    resetPin();
                 }
-                String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
-                System.out.println("Message : " + encryptedMsg);
-                if(NetworkUtils.isNetworkConnected(getActivity())){
-
-                    APIRequests.SetPin(getActivity(), encryptedMsg, randomKey, token, new NetworkResponseCallback<String>() {
-                        @Override
-                        public void onSuccess(Call<String> call, Response<String> response) {
-
-                            if (response.isSuccessful()){
-
-                                String encryptedResponse = response.body();
-                                encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
-
-                                ObjectMapper om = new ObjectMapper();
-                                ResponseBaseModel responseBaseModel = null;
-                                JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
-                                try {
-                                    responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
-                                }catch (Exception e)
-                                {
-                                    Log.d("EXCEPTION",e.getLocalizedMessage());
-                                }
 
 
-                                if (responseBaseModel!=null) {
-
-                                    if (responseBaseModel.getStatusCode() == 200) {
-
-                                        SetPinResponseModel setPinResponseModel = null;
-                                        try{
-                                            Object data = responseBaseModel;
-
-                                            // Convert LinkedHashMap to JSON string
-                                            ObjectMapper om1 = new ObjectMapper();
-                                            String jsonString = om1.writeValueAsString(data);
-                                            setPinResponseModel = om1.readValue(jsonString, SetPinResponseModel.class);
-
-                                        }catch (Exception e){
-                                            Log.d("EXCEPTION",""+e.getLocalizedMessage());
-                                        }
-
-                                        if (setPinResponseModel!=null){
-                                            if (setPinResponseModel.getStatusCode()==200){
-
-                                                Intent webViewIntent = new Intent(getActivity(), ResetPinWebViewActivity.class);
-                                                webViewIntent.putExtra(RESET_URL,setPinResponseModel.getData().getTargetUrl());
-                                                startActivity(webViewIntent);
-
-                                            }
-                                        }
-
-                                    }
-                                }
-
-                            }
-                            else{
-
-                                String encryptedResponse ="";
-                                try {
-                                    encryptedResponse = response.errorBody().string();
-                                } catch (IOException e) {
-                                    Log.d("EXCEPTION",e.getLocalizedMessage());
-                                }
-                                encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
-
-                                ObjectMapper om = new ObjectMapper();
-                                ResponseBaseModel responseBaseModel = null;
-                                JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
-                                try {
-                                    responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
-                                }catch (Exception e)
-                                {
-                                    Log.d("EXCEPTION",e.getLocalizedMessage());
-                                }
-
-                                if (responseBaseModel!=null)
-                                {
-                                    Toast.makeText(getActivity(), ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-
-                            }
-
-                        }
-
-                        @Override
-                        public void onResponseBodyNull(Call<String> call, Response<String> response) {
-
-                        }
-
-                        @Override
-                        public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<String> call, Throwable t) {
-
-                        }
-
-                        @Override
-                        public void onInternalServerError() {
-
-                        }
-                    });
-
-
-                }else{
-                    Toast.makeText(getActivity(), ""+getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
-                }
             }
 
 
 
         });
+    }
+
+
+    public void resetPin(){
+        showLoading();
+
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
+
+        SetPinRequestModel setPinRequestModel = new SetPinRequestModel();
+        setPinRequestModel.setProxyNumber(CardProxyNumber);
+        setPinRequestModel.setSid("");
+
+        ObjectMapper om = new ObjectMapper();
+        String req = null;
+        try {
+            req = om.writeValueAsString(setPinRequestModel);
+        } catch (JsonProcessingException e) {
+            Log.d("EXCEPTION",""+e.getLocalizedMessage());
+        }
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
+        if(NetworkUtils.isNetworkConnected(getActivity())){
+
+            APIRequests.SetPin(getActivity(), encryptedMsg, randomKey, token, new NetworkResponseCallback<String>() {
+                @Override
+                public void onSuccess(Call<String> call, Response<String> response) {
+
+                    if (response.isSuccessful()){
+
+                        String encryptedResponse = response.body();
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+
+                        if (responseBaseModel!=null) {
+
+                            if (responseBaseModel.getStatusCode() == 200) {
+
+                                SetPinResponseModel setPinResponseModel = null;
+                                try{
+                                    Object data = responseBaseModel;
+
+                                    // Convert LinkedHashMap to JSON string
+                                    ObjectMapper om1 = new ObjectMapper();
+                                    String jsonString = om1.writeValueAsString(data);
+                                    setPinResponseModel = om1.readValue(jsonString, SetPinResponseModel.class);
+
+                                }catch (Exception e){
+                                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                                }
+
+                                if (setPinResponseModel!=null){
+                                    if (setPinResponseModel.getStatusCode()==200){
+
+                                        Intent webViewIntent = new Intent(getActivity(), ResetPinWebViewActivity.class);
+                                        webViewIntent.putExtra(RESET_URL,setPinResponseModel.getData().getTargetUrl());
+                                        startActivity(webViewIntent);
+
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }
+                    else{
+
+                        String encryptedResponse ="";
+                        try {
+                            encryptedResponse = response.errorBody().string();
+                        } catch (IOException e) {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            Toast.makeText(getActivity(), ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<String> call, Response<String> response) {
+
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+
+                }
+
+                @Override
+                public void onInternalServerError() {
+
+                }
+            });
+
+
+        }else{
+            Toast.makeText(getActivity(), ""+getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+        }
+
+
+
     }
 
     @Override
@@ -279,18 +293,23 @@ public class FtcResetPinFragment extends BaseFragment implements MyFragmentCallb
             token = loginResponse.getToken();
 
             currentCardStatus = loginResponse.getFtc().getCardDetails().get(position).getCardStatus();
-            if (currentCardStatus.equals("ACTIVE")){
-
+            if (currentCardStatus.equals("ACTIVE") || currentCardStatus.equals("A")){
+                tvCardStatus.setText("ACTIVE");
+                tvCardStatusNote.setVisibility(View.GONE);
                 tvCardStatus.setTextColor(Color.BLACK);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
 
             }else if(currentCardStatus.equals("BLOCKED")){
-
+                tvCardStatus.setText("BLOCKED");
+                tvCardStatusNote.setText("Your card has been temporary block, Please unblock it first to procced with Reset pin.");
+                tvCardStatusNote.setVisibility(View.VISIBLE);
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
 
-            }else if (currentCardStatus.equals("INACTIVE")){
-
+            }else{
+                tvCardStatus.setText("INACTIVE");
+                tvCardStatusNote.setText("Your card has been permanently block.");
+                tvCardStatusNote.setVisibility(View.VISIBLE);
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
 

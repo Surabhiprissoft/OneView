@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.BaseFragment;
 import com.sbi.oneview.base.RequestBaseModel;
+import com.sbi.oneview.base.ResponseBaseModel;
 import com.sbi.oneview.network.APIRequests;
 import com.sbi.oneview.network.NetworkResponseCallback;
 import com.sbi.oneview.network.RequestModel.TransitMiniStatementRequestModel;
+import com.sbi.oneview.network.ResponseModel.HotlistCard.CardHotlistResponseModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
 import com.sbi.oneview.network.ResponseModel.TransitMiniStatement.TransitMiniStatementResponseModel;
@@ -32,14 +39,16 @@ import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
 import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
+import com.sbi.oneview.utils.encryption.CipherEncryption;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
 
-public class TransitCardDashboardFragment extends Fragment implements MyFragmentCallback {
+public class TransitCardDashboardFragment extends BaseFragment implements MyFragmentCallback {
 
 
     TextView tvDashboard,tvCurrentDate,tvRecentTransaction,tvQuickAccess,tvMyCards,tvCardDetails;
@@ -49,7 +58,7 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
     TransitHomeActivity transitHomeActivity;
 
     Data loginResponse;
-    String currentCardStatus;
+    String currentCardStatus,token;
 
     String CardProxyNumber;
     int cardPosition;
@@ -215,6 +224,7 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
 
             CardProxyNumber = loginResponse.getTransit().getCardDetails().get(position).getProxyNumber();
             cardPosition = position;
+            token = loginResponse.getToken();
 
             currentCardStatus = loginResponse.getTransit().getCardDetails().get(position).getCardStatus();
             if (currentCardStatus.equals("A")){
@@ -229,7 +239,7 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
 
             }
 
-            //LoadTransitCardMiniStatement(loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber(),loginResponse.getTransit().getCardDetails().get(position).getProductCode());
+            LoadTransitCardMiniStatement(loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber(),loginResponse.getTransit().getCardDetails().get(position).getProductCode(),token);
 
 
         }
@@ -238,46 +248,121 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
     }
 
 
-/*
-    public void LoadTransitCardMiniStatement(String proxyNumber,String productCode){
-        RequestBaseModel<TransitMiniStatementRequestModel> data = new RequestBaseModel<>();
-        TransitMiniStatementRequestModel transitMiniStatementRequestModel = new TransitMiniStatementRequestModel();
+    public void LoadTransitCardMiniStatement(String proxyNumber,String productCode,String token){
 
+        showLoading();
+
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
+
+        TransitMiniStatementRequestModel transitMiniStatementRequestModel = new TransitMiniStatementRequestModel();
         transitMiniStatementRequestModel.setCardRefNumber(proxyNumber);
         transitMiniStatementRequestModel.setSId("");
         transitMiniStatementRequestModel.setProductCode(productCode);
 
-        data.setRequest(transitMiniStatementRequestModel);
+        ObjectMapper om = new ObjectMapper();
+        String req = null;
+        try {
+            req = om.writeValueAsString(transitMiniStatementRequestModel);
+        } catch (JsonProcessingException e) {
+            Log.d("EXCEPTION",""+e.getLocalizedMessage());
+        }
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
+
 
         if (NetworkUtils.isNetworkConnected(getActivity())){
 
-            APIRequests.transitMiniStatement(getActivity(), transitMiniStatementRequestModel, new NetworkResponseCallback<TransitMiniStatementResponseModel>() {
+            APIRequests.transitMiniStatement(getActivity(), encryptedMsg, randomKey, token, new NetworkResponseCallback<String>() {
                 @Override
-                public void onSuccess(Call<TransitMiniStatementResponseModel> call, Response<TransitMiniStatementResponseModel> response) {
+                public void onSuccess(Call<String> call, Response<String> response) {
 
-                    if (response.body().getStatusCode()==200){
+                    if (response.isSuccessful()){
+                        String encryptedResponse = response.body();
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
 
-                        // Create an instance of the adapter
-                        TransitRecentTransactionAdapter transitRecentTransactionAdapter = new TransitRecentTransactionAdapter(getActivity(),response.body());
-                        // Set the adapter to the RecyclerView
-                        rvRecentTransaction.setAdapter(transitRecentTransactionAdapter);
-                        // Set layout manager to position the items
-                        rvRecentTransaction.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null){
+                            if (responseBaseModel.getStatusCode()==200){
+
+                                TransitMiniStatementResponseModel transitMiniStatementResponseModel= null;
+                                try{
+                                    Object data = responseBaseModel;
+
+                                    // Convert LinkedHashMap to JSON string
+                                    ObjectMapper om1 = new ObjectMapper();
+                                    String jsonString = om1.writeValueAsString(data);
+                                    transitMiniStatementResponseModel = om1.readValue(jsonString, TransitMiniStatementResponseModel.class);
+
+                                }catch (Exception e){
+                                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                                }
+
+                                if(transitMiniStatementResponseModel!=null){
+                                    if (transitMiniStatementResponseModel.getStatusCode()==200)
+                                    {
+                                        // Create an instance of the adapter
+                                        TransitRecentTransactionAdapter transitRecentTransactionAdapter = new TransitRecentTransactionAdapter(getActivity(),transitMiniStatementResponseModel);
+                                        // Set the adapter to the RecyclerView
+                                        rvRecentTransaction.setAdapter(transitRecentTransactionAdapter);
+                                        // Set layout manager to position the items
+                                        rvRecentTransaction.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }else{
+                        String encryptedResponse ="";
+                        try {
+                            encryptedResponse = response.errorBody().string();
+                        } catch (IOException e) {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            Toast.makeText(getActivity(), ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
                     }
+
+                    hideLoading();
                 }
 
                 @Override
-                public void onResponseBodyNull(Call<TransitMiniStatementResponseModel> call, Response<TransitMiniStatementResponseModel> response) {
+                public void onResponseBodyNull(Call<String> call, Response<String> response) {
 
                 }
 
                 @Override
-                public void onResponseUnsuccessful(Call<TransitMiniStatementResponseModel> call, Response<TransitMiniStatementResponseModel> response) {
+                public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
 
                 }
 
                 @Override
-                public void onFailure(Call<TransitMiniStatementResponseModel> call, Throwable t) {
+                public void onFailure(Call<String> call, Throwable t) {
 
                 }
 
@@ -291,5 +376,4 @@ public class TransitCardDashboardFragment extends Fragment implements MyFragment
             Toast.makeText(getActivity(), getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
         }
     }
-*/
 }

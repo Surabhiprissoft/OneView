@@ -68,6 +68,15 @@ public class OTPVerificationDialog extends Dialog {
             }
         });
 
+        CommonUtils.startTimer(tvResendOTP);
+        tvResendOTP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getContext(), "CLICKED", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         etFirstOTP.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

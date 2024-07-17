@@ -5,33 +5,52 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.BaseFragment;
+import com.sbi.oneview.base.ResponseBaseModel;
+import com.sbi.oneview.network.APIRequests;
+import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.Transit.TransitStatementRequestModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
+import com.sbi.oneview.network.ResponseModel.TransitStatement.TransitStatementResponseModel;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
 import com.sbi.oneview.ui.adapters.TransactionStatementAdapter;
+import com.sbi.oneview.ui.adapters.Transit.TransitStatementAdapter;
 import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
+import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
+import com.sbi.oneview.utils.encryption.CipherEncryption;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Response;
 
-public class CardStatementFragment extends Fragment implements MyFragmentCallback {
+
+public class CardStatementFragment extends BaseFragment implements MyFragmentCallback {
 
 
     TextView tvMyCards,tvCardDetails,tvTransaction,tvCardStatement,tvCurrentDate;
@@ -39,15 +58,21 @@ public class CardStatementFragment extends Fragment implements MyFragmentCallbac
     int currentYear,currentDay,preYear,preDay;
     RecyclerView rvTransactionStatement;
     String currentMonth,preMonth;
+    MaterialCardView cardStartDate,cardEndDate;
+    TextView tvStartDate,tvEndDate;
+    LinearLayout layoutNavButton;
+    ImageView imgSearchIcon,imgNext,imgPrev;
 
     Data loginResponse;
     String currentCardStatus;
 
-    String CardProxyNumber;
+    String CardProxyNumber,productCode;
     int cardPosition;
     TextView tvSpendLimit;
     LinearLayout layoutCardStatus,layoutSpendLimitController;
     TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal;
+    String currentTransactionLength;
+    int currentTransactionPageLength,currentPage=1;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,19 +119,6 @@ public class CardStatementFragment extends Fragment implements MyFragmentCallbac
         rvTransactionStatement.setAdapter(transactionStatementAdapter);*/
     }
 
-    public void clickListner() {
-        LocalDate currentDate = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            currentDate = LocalDate.now();
-            currentYear = currentDate.getYear();
-            currentMonth = currentDate.getMonth().getDisplayName(java.time.format.TextStyle.SHORT, Locale.ENGLISH);
-            currentDay = currentDate.getDayOfMonth();
-        }
-
-
-
-
-    }
 
     public void initialization(View view) {
 
@@ -138,9 +150,264 @@ public class CardStatementFragment extends Fragment implements MyFragmentCallbac
         tvCardBal = view.findViewById(R.id.tvCardBalance);
         tvChipBal = view.findViewById(R.id.tvChipBalance);
 
+        cardStartDate = view.findViewById(R.id.cardStartDate);
+        cardEndDate = view.findViewById(R.id.cardEndDate);
+        tvStartDate = view.findViewById(R.id.tvStartDate);
+        tvEndDate = view.findViewById(R.id.tvEndDate);
+        imgSearchIcon = view.findViewById(R.id.imgSearchIcon);
+        imgNext = view.findViewById(R.id.imgNext);
+        imgPrev = view.findViewById(R.id.imgPrev);
+        rvTransactionStatement = view.findViewById(R.id.rvTransactionStatement);
+        layoutNavButton = view.findViewById(R.id.layoutNavButton);
 
 
     }
+
+
+    public void clickListner() {
+
+        LocalDate currentDate = null;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            currentDate = LocalDate.now();
+            currentYear = currentDate.getYear();
+            currentMonth = currentDate.getMonth().getDisplayName(java.time.format.TextStyle.SHORT, Locale.ENGLISH);
+            currentDay = currentDate.getDayOfMonth();
+        }
+
+
+        cardStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtils.showDatePickerDialogOnTextView(getActivity(),tvStartDate);
+            }
+        });
+
+
+        cardEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonUtils.showDatePickerDialogOnTextView(getActivity(),tvEndDate);
+            }
+        });
+
+
+        imgSearchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (currentCardStatus.equals("ACTIVE") || currentCardStatus.equals("A")){
+                    if (!tvStartDate.getText().toString().isEmpty() && !tvEndDate.getText().toString().isEmpty()){
+                        getCardStatement(loginResponse.getToken(),"01","M");
+                    }else{
+                        Toast.makeText(getActivity(), "Please enter valid date in both field", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getActivity(), "your current selected card is "+currentCardStatus, Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
+        imgNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("CP",""+currentPage);
+                if (currentPage<=currentTransactionPageLength)
+                {
+
+                    getCardStatement(loginResponse.getToken(),"0"+String.valueOf(currentPage+1),"N");
+
+                }else{
+                    Toast.makeText(getActivity(), "No more transaction ahead", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
+        imgPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("CP",""+currentPage);
+
+                if(currentPage>1)
+                {
+                    getCardStatement(loginResponse.getToken(),"0"+String.valueOf(currentPage-1),"P");
+
+                }else{
+                    Toast.makeText(getActivity(), "No transaction", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+    }
+
+
+    public void getCardStatement(String token,String pageNumber,String action)
+    {
+        showLoading();
+
+        Log.d("PAGE",pageNumber);
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
+
+        TransitStatementRequestModel transitStatementRequestModel = new TransitStatementRequestModel();
+        transitStatementRequestModel.setCardRefNumber(CardProxyNumber);
+        transitStatementRequestModel.setSId("");
+        transitStatementRequestModel.setPageNo(pageNumber);
+        transitStatementRequestModel.setProductCode(productCode);
+        transitStatementRequestModel.setFromDate(tvStartDate.getText().toString()+"T15:35:22.044");
+        transitStatementRequestModel.setToDate(tvEndDate.getText().toString()+"T15:35:22.044");
+
+        ObjectMapper om = new ObjectMapper();
+        String req = null;
+        try {
+            req = om.writeValueAsString(transitStatementRequestModel);
+        } catch (JsonProcessingException e) {
+            Log.d("EXCEPTION",""+e.getLocalizedMessage());
+        }
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
+
+        if (NetworkUtils.isNetworkConnected(getActivity())){
+
+            APIRequests.transitStatement(getActivity(), encryptedMsg, randomKey, token, new NetworkResponseCallback<String>() {
+                @Override
+                public void onSuccess(Call<String> call, Response<String> response) {
+
+                    if (response.isSuccessful()){
+
+                        String encryptedResponse = response.body();
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null){
+                            if (responseBaseModel.getStatusCode()==200){
+
+                                Log.d("MESG",""+responseBaseModel.toString());
+                                TransitStatementResponseModel transitStatementResponseModel = null;
+
+                                try{
+                                    Object data = responseBaseModel;
+
+                                    // Convert LinkedHashMap to JSON string
+                                    ObjectMapper om1 = new ObjectMapper();
+                                    String jsonString = om1.writeValueAsString(data);
+                                    transitStatementResponseModel = om1.readValue(jsonString, TransitStatementResponseModel.class);
+
+                                }catch (Exception e){
+                                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                                }
+
+                                if (transitStatementResponseModel!=null){
+
+                                    String totalRecords = transitStatementResponseModel.getData().getTotalRecords();
+
+                                    if (totalRecords != null && !totalRecords.isEmpty() && totalRecords.matches("\\d+")) {
+                                        Log.d("LENGTH", totalRecords);
+                                        currentTransactionLength = totalRecords;
+                                        currentTransactionPageLength = Integer.parseInt(currentTransactionLength) / 20;
+                                    } else {
+                                        // Handle the case when totalRecords is null, empty, or not a valid number
+                                        Log.d("LENGTH", "Total records is null, empty, or not a valid number.");
+                                    }
+
+                                    TransitStatementAdapter transactionStatementAdapter = new TransitStatementAdapter(getActivity(),transitStatementResponseModel.getData());
+                                    rvTransactionStatement.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+                                    rvTransactionStatement.setAdapter(transactionStatementAdapter);
+
+                                    if (currentTransactionPageLength>0)
+                                    {
+                                        layoutNavButton.setVisibility(View.VISIBLE);
+                                    }
+
+                                    if (action.equals("N")){
+                                        currentPage = currentPage+1;
+                                    }else if(action.equals("P")){
+                                        currentPage = currentPage-1;
+                                    }
+                                }
+
+
+
+
+                            }
+                        }
+
+
+                    }else{
+                        String encryptedResponse ="";
+                        try {
+                            encryptedResponse = response.errorBody().string();
+                        } catch (IOException e) {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            Toast.makeText(getActivity(), ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    hideLoading();
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<String> call, Response<String> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    hideLoading();
+                }
+
+                @Override
+                public void onInternalServerError() {
+                    hideLoading();
+
+                }
+            });
+
+        }else {
+            Toast.makeText(getActivity(), getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
 
     public void getPreviousDateInFormat(int numberOfMonths) {
         // Get the current date
@@ -195,7 +462,8 @@ public class CardStatementFragment extends Fragment implements MyFragmentCallbac
             tvChipBal.setText(getResources().getString(R.string.Rs)+"0");
 
 
-            CardProxyNumber = loginResponse.getTransit().getCardDetails().get(position).getProxyNumber();
+            CardProxyNumber = loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber();
+            productCode = loginResponse.getTransit().getCardDetails().get(position).getProductCode();
             cardPosition = position;
 
             currentCardStatus = loginResponse.getTransit().getCardDetails().get(position).getCardStatus();

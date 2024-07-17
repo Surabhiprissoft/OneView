@@ -45,9 +45,6 @@ public interface APIInterface {
     @POST(Constants.LOGINWITHOTP)
     Call<String> loginUserWithOtp(@Body String loginWithOtpRequestModel,@Header("Access-Key") String accessKey,@Header("Host") String host);
 
-    @POST(Constants.TRANSITMINISTATEMENT)
-    Call<TransitMiniStatementResponseModel> getTransitMiniStatement(@Body TransitMiniStatementRequestModel transitMiniStatementRequestModel);
-
     @POST(Constants.CARDMINISTATEMENT)
     Call<String> getCardMiniStatement(@Body String cardMiniStatementRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
 
@@ -64,11 +61,35 @@ public interface APIInterface {
     Call<String> getCardHotlist(@Body String cardHotlistRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
 
     @POST(Constants.LIMITENQUIRY)
-    Call<InrLimitEnquiryResponseModel> getInrLimitEnquiry(@Body LimitEnquiryRequestModel limitEnquiryRequestModel);
+    Call<String> getInrLimitEnquiry(@Body String limitEnquiryRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
+
+    @POST(Constants.LIMITUPDATE)
+    Call<String> getInrLimitUpdate(@Body String limitUpdateRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
 
     @POST(Constants.SETPIN)
     Call<String> getSetPin(@Body String setPinRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
 
 
+    // ------------------------------------------ TRANSIT -----------------------------------------------------------------------
+    @POST(Constants.VALIDATEEFORM)
+    Call<String> getValidateEform(@Body String validateEformRequestModel,@Header("Access-Key") String accessKey,@Header("Host") String host);
+
+    @POST(Constants.PROCESSEFORM)
+    Call<String> getProcessEform(@Body String processEfromRequestModel,@Header("Access-Key") String accessKey,@Header("Host") String host);
+
+    @POST(Constants.TRANSITSTATEMENT)
+    Call<String> getTransitStatement(@Body String transitStatementRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
+
+    @POST(Constants.TRANSITMINISTATEMENT)
+    Call<String> getTransitMiniStatement(@Body String transitMiniStatementRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
+
+    @POST(Constants.TRANSITREQUESTHOTLIST)
+    Call<String> getTransitHotlistRequest(@Body String transitRequestHotlistRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
+
+    @POST(Constants.TRANSITPROCESSHOTLIST)
+    Call<String> getTransitHotlistProcess(@Body String transitProcessHotlistRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
+
+    @POST(Constants.RESENDOTP)
+    Call<String> getResendOtp(@Body String resendOtpRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
 
 }

@@ -2,6 +2,9 @@ package com.sbi.oneview.ui.transitScreen;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,6 +49,8 @@ public class TransitHomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
 
         tvTransit = findViewById(R.id.tvTransit);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -222,6 +227,27 @@ public class TransitHomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+
+    /*@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.logout_item:
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }*/
+
     void setListners() {
 
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {

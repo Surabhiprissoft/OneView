@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -164,6 +165,7 @@ public class TopUpFragment extends Fragment implements MyFragmentCallback {
         btnProceedWithMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getActivity(), "Working on it", Toast.LENGTH_SHORT).show();
             }
         });
     }

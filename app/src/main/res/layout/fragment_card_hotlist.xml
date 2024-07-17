@@ -230,7 +230,7 @@
 
             <TextView
                 android:id="@+id/tvCardHotlist"
-                android:text="Reset Pin"
+                android:text="Card Hotlist"
                 style="@style/menuHeadingGradientTextStyle" />
 
             <com.google.android.material.card.MaterialCardView

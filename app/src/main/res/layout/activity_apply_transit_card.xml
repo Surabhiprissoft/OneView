@@ -138,6 +138,13 @@
                     android:inputType="text" />
 
                 <EditText
+                    android:id="@+id/et_mobile"
+                    style="@style/edittext_registration"
+                    android:hint="Mobile Number"
+                    android:maxLength="10"
+                    android:inputType="number" />
+
+                <EditText
                     android:id="@+id/et_dob"
                     android:inputType="none"
                     android:editable="false"

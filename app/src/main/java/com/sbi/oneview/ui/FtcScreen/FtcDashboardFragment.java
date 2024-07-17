@@ -132,7 +132,7 @@ public class FtcDashboardFragment extends Fragment implements MyFragmentCallback
 
             tvCRN.setText(loginResponse.getFtc().getCardDetails().get(position).getProxyNumber());
             tvCardNumber.setText(loginResponse.getFtc().getCardDetails().get(position).getCardNumber());
-            tvCardStatus.setText(loginResponse.getFtc().getCardDetails().get(position).getCardStatus());
+           // tvCardStatus.setText(loginResponse.getFtc().getCardDetails().get(position).getCardStatus());
             tvProductName.setText(loginResponse.getFtc().getCardDetails().get(position).getProductName());
             tvActDate.setText(loginResponse.getFtc().getCardDetails().get(position).getCardActivDate().substring(3,5) +" / "+ loginResponse.getFtc().getCardDetails().get(position).getCardActivDate().substring(6));
             tvExpDate.setText(loginResponse.getFtc().getCardDetails().get(position).getCardExpiryDate().substring(3,5)+" / "+loginResponse.getFtc().getCardDetails().get(position).getCardExpiryDate().substring(6));
@@ -141,18 +141,18 @@ public class FtcDashboardFragment extends Fragment implements MyFragmentCallback
             cardPosition = position;
 
             currentCardStatus = loginResponse.getFtc().getCardDetails().get(position).getCardStatus();
-            if (currentCardStatus.equals("ACTIVE")){
-
+            if (currentCardStatus.equals("ACTIVE") || currentCardStatus.equals("A")){
+                tvCardStatus.setText("Active");
                 tvCardStatus.setTextColor(Color.BLACK);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
 
             }else if(currentCardStatus.equals("BLOCKED")){
-
+                tvCardStatus.setText("Blocked");
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
 
-            }else if (currentCardStatus.equals("INACTIVE")){
-
+            }else{
+                tvCardStatus.setText("Inactive");
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
 

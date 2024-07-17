@@ -23,7 +23,7 @@
     <string name="login_account">Login</string>
     <string name="hello_welcome_back_to_our_account">Please Login to your One View Account</string>
     <string name="phone_number">Phone Number</string>
-    <string name="requst_otp">Requst OTP</string>
+    <string name="requst_otp">Request OTP</string>
     <string name="multiple_products">Multiple Products</string>
     <string name="one_prepaid">One Prepaid</string>
     <string name="one_view">One View</string>
@@ -40,6 +40,7 @@
     <string name="select_salutation">Select Salutation</string>
     <string name="enter_first_name">Enter First Name\n</string>
     <string name="enter_last_name">Enter Last Name</string>
+    <string name="enter_mobile">Enter Mobile Number</string>
     <string name="invalid_pan_number">Enter Valid PAN Number</string>
     <string name="ovd_type_is_required">OVD Type is required</string>
     <string name="enter_aadhar_number">Enter Aadhar Number\n</string>
@@ -90,12 +91,12 @@
 
     <string-array name="cards_array">
         <item>Select Card</item>
-        <item>Mumbai Metro</item>
-        <item>Chennai Metro</item>
-        <item>Noida Metro</item>
-        <item>Kanpur Metro</item>
-        <item>Nagpur Metro</item>
-        <item>One Nation One Card</item>
+        <item>Singara Chennai</item>
+        <item>MMRC-City 1 Metro</item>
+        <item>Mumbai-1 MMRDA Metro</item>
+        <item>Nation First Transit Card</item>
+        <item>Maha Card Nagpur Metro</item>
+        <item>Go Smart Kanpur Metro</item>
         <item>Parliment Canteen</item>
     </string-array>
 

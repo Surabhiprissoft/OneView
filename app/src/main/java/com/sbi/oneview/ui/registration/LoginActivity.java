@@ -90,7 +90,7 @@ public class LoginActivity extends BaseActivity {
         }, 500); // Delay in milliseconds
 
         //--------------------- calling captcha and displaying ----------------------------
-        implementCaptcha();
+      //  implementCaptcha();
 
     }
 
@@ -198,15 +198,13 @@ public class LoginActivity extends BaseActivity {
 
 
         if(NetworkUtils.isNetworkConnected(LoginActivity.this)){
-            Toast.makeText(this, "Called captch", Toast.LENGTH_SHORT).show();
+
 
             APIRequests.getCaptcha(LoginActivity.this, new NetworkResponseCallback<GetCaptchaResponseModel>() {
                 @Override
                 public void onSuccess(Call<GetCaptchaResponseModel> call, Response<GetCaptchaResponseModel> response) {
 
                     hideLoading();
-                    Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-
                     if (response.body()!=null) {
                         if (response.body().getStatusCode() == 200) {
 

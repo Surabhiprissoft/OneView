@@ -8,15 +8,20 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
 import com.sbi.oneview.utils.CustomIndicatorView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -83,17 +88,26 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
             currentImageResourceId=R.drawable.city_kanpur;
         }*/
 
-        holder.imageView.setImageDrawable(context.getDrawable(R.drawable.sbi_card));
+       // holder.imageView.setImageDrawable(context.getDrawable(R.drawable.sbi_card));
 
         //holder.imageView.setImageResource(cardImage);
         //Glide.with(context).load(arrayList.get(currentPosition)).into(holder.imageView);
         customIndicator.setActiveIndex(currentPosition);
 
+        animateImageChange(holder.cardLayout, holder.tvCardNumber,holder.tvCardExp, true,arrayList.get(currentPosition).getCardNumber(),arrayList.get(currentPosition).getExpDate());
+
+        String cardExpDate;
+        if (arrayList.get(currentPosition).getExpDate()!=null)
+        {
+            cardExpDate = arrayList.get(currentPosition).getExpDate();
+        }else{
+            cardExpDate = arrayList.get(currentPosition).getCardExpiryDate();
+        }
 
         holder.btnNext.setOnClickListener(v -> {
             if (currentPosition < arrayList.size() - 1) {
                 currentPosition++;
-                animateImageChange(holder.imageView, 1, true);
+                animateImageChange(holder.cardLayout, holder.tvCardNumber,holder.tvCardExp, true,arrayList.get(currentPosition).getCardNumber(),cardExpDate);
                 customIndicator.setActiveIndex(currentPosition);
                 callback.onPositionChange(currentPosition);
             }
@@ -102,7 +116,7 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
         holder.btnPrevious.setOnClickListener(v -> {
             if (currentPosition > 0) {
                 currentPosition--;
-                animateImageChange(holder.imageView, 1, false);
+                animateImageChange(holder.cardLayout, holder.tvCardNumber,holder.tvCardExp, false,arrayList.get(currentPosition).getCardNumber(),arrayList.get(currentPosition).getExpDate());
                 customIndicator.setActiveIndex(currentPosition);
                 callback.onPositionChange(currentPosition);
             }
@@ -123,14 +137,19 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+        LinearLayout cardLayout;
         ImageView btnNext;
         ImageView btnPrevious;
+        TextView tvCardNumber,tvCardExp;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
+
+            cardLayout = itemView.findViewById(R.id.cardLayout);
             btnNext = itemView.findViewById(R.id.btnNext);
             btnPrevious = itemView.findViewById(R.id.btnPrevious);
+            tvCardNumber = itemView.findViewById(R.id.tvCardNumber);
+            tvCardExp = itemView.findViewById(R.id.tvValidUpto);
         }
     }
 
@@ -191,18 +210,32 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
         }
     }
 
-    private void animateImageChange(ImageView imageView, int imageResourceId, boolean isNext) {
+    private void animateImageChange(LinearLayout cardLayout, TextView tvCardNumber,TextView tvCardExp, boolean isNext, String cardNumber, String expDate) {
         Animation slideOut = AnimationUtils.loadAnimation(context, isNext ? R.anim.slide_out_left : R.anim.slide_out_right);
-        imageView.startAnimation(slideOut);
+        cardLayout.startAnimation(slideOut);
         slideOut.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {}
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                imageView.setImageDrawable(context.getDrawable(R.drawable.sbi_card));
+                //imageView.setImageDrawable(context.getDrawable(R.drawable.sbi_card));
                 Animation slideIn = AnimationUtils.loadAnimation(context, isNext ? R.anim.slide_in_right : R.anim.slide_in_left);
-                imageView.startAnimation(slideIn);
+                if (cardNumber.length()>4)
+                {
+                    tvCardNumber.setText("XXXX XXXX XXXX " + cardNumber.substring(cardNumber.length()-4));
+                }else {
+                    tvCardNumber.setText("XXXX XXXX XXXX " + cardNumber);
+                }
+                if (expDate!=null)
+                {
+                    if (expDate.length()>4){
+                        tvCardExp.setText(expDate.substring(3,5)+" / "+expDate.substring(6));
+                    }else {
+                        tvCardExp.setText(expDate.substring(0, 2) + "/" + expDate.substring(2));
+                    }
+                }
+                cardLayout.startAnimation(slideIn);
             }
 
             @Override

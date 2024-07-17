@@ -21,7 +21,7 @@ public class Transit{
 	private String dob;
 
 	@SerializedName("cardDetails")
-	private List<CardDetailsItem> cardDetails;
+	public List<CardDetailsItem> cardDetails;
 
 	@SerializedName("middleName")
 	private String middleName;

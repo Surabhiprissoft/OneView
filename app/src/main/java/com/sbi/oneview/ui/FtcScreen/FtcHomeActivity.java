@@ -270,7 +270,7 @@ public class FtcHomeActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_container); // Assuming your container ID here
 
-        String fragmentName = currentFragment.getClass().getSimpleName();
+        //String fragmentName = currentFragment.getClass().getSimpleName();
 
 
       /*  if (fragmentName.equalsIgnoreCase("TransitCardDashboardFragment")) {

@@ -185,7 +185,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textStyle="bold"
-                                    android:text="@string/card_hotlist"/>
+                                    android:text="@string/card_statement"/>
 
                             </LinearLayout>
 

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -24,19 +25,43 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.App;
+import com.sbi.oneview.base.BaseActivity;
+import com.sbi.oneview.base.ResponseBaseModel;
+import com.sbi.oneview.network.APIRequests;
+import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.Transit.ProcessEformRequestModel;
+import com.sbi.oneview.network.RequestModel.Transit.ValidateEformRequestModel;
+import com.sbi.oneview.network.ResponseModel.ProcessEform.ProcessEformResponseModel;
+import com.sbi.oneview.network.ResponseModel.TransitRequestHotlist.TransitRequestHotlistResponseModel;
+import com.sbi.oneview.network.ResponseModel.ValidateEform.ValidateEformResponseModel;
+import com.sbi.oneview.ui.CallBackListner.OtpDialogueCallBack;
+import com.sbi.oneview.ui.transitScreen.CardHotlistFragment;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomInputFilter;
+import com.sbi.oneview.utils.NetworkUtils;
+import com.sbi.oneview.utils.OTPVerificationDialog;
+import com.sbi.oneview.utils.encryption.CipherEncryption;
 
-public class ApplyTransitCardActivity extends AppCompatActivity {
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Response;
+
+public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogueCallBack {
 
     private Spinner spinnerSelectCard,spinnerSelectOvdType,spinnerSelectSalutation;
-    private EditText etFirstName, etMiddleName, etLastName, etDob, etPan,etOvdDetails;
+    private EditText etFirstName, etMiddleName, etLastName, etDob, etPan,etOvdDetails,etMobile;
     private AppCompatCheckBox checkBoxDeclaration;
     private MaterialButton btnApply;
+    String productCode,selectedDate="",currentTxnId="";
     String selectedOVDType ="",selectedSalutation="",selectedCard="";
+    OTPVerificationDialog otpVerificationDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +83,7 @@ public class ApplyTransitCardActivity extends AppCompatActivity {
         etFirstName = findViewById(R.id.et_firstname);
         etMiddleName = findViewById(R.id.et_middlename);
         etLastName = findViewById(R.id.et_lastname);
+        etMobile = findViewById(R.id.et_mobile);
         etDob = findViewById(R.id.et_dob);
         etPan = findViewById(R.id.et_pan);
         etOvdDetails = findViewById(R.id.et_ovddetails);
@@ -101,6 +127,21 @@ public class ApplyTransitCardActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    if (i==1)
+                    {
+                        productCode = "266";
+                    }else if(i==2){
+                        productCode = "262";
+                    }else if(i==3){
+                        productCode = "267";
+                    }else if(i==4){
+                        productCode = "267";
+                    }else if(i==5){
+                        productCode = "263";
+                    }else if(i==6){
+                        productCode = "270";
+                    }
+
                     selectedCard=adapterView.getSelectedItem().toString();
                     ((TextView) view.findViewById(android.R.id.text1)).setTextColor(getResources().getColor(R.color.hinttext_transperant_white));
                 }
@@ -132,38 +173,38 @@ public class ApplyTransitCardActivity extends AppCompatActivity {
                         etOvdDetails.setInputType(InputType.TYPE_CLASS_TEXT);
                         etOvdDetails.setFilters(new InputFilter[]{new InputFilter.LengthFilter(40)});
                         etOvdDetails.setFilters(new InputFilter[]{new CustomInputFilter()});
-                        selectedOVDType = getString(R.string.nprn);
+                        selectedOVDType = "NPR_NUMBER";
 
                     } else if (checkedId == 4) {
                         etOvdDetails.setHint(R.string.passport);
                         etOvdDetails.setInputType(InputType.TYPE_CLASS_TEXT);
                         etOvdDetails.setFilters(new InputFilter[]{new InputFilter.LengthFilter(9)});
-                        selectedOVDType = getString(R.string.passport);
+                        selectedOVDType = "PASSPORT_NUMBER";
 
                     } else if (checkedId == 5) {
                         etOvdDetails.setHint(R.string.voter);
                         etOvdDetails.setInputType(InputType.TYPE_CLASS_TEXT);
                         etOvdDetails.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
-                        selectedOVDType = getString(R.string.voter);
+                        selectedOVDType = "VOTER_ID";
 
                     } else if (checkedId == 2) {
                         etOvdDetails.setHint(R.string.job);
                         etOvdDetails.setInputType(InputType.TYPE_CLASS_TEXT);
                         etOvdDetails.setFilters(new InputFilter[]{new InputFilter.LengthFilter(40)});
                         etOvdDetails.setFilters(new InputFilter[]{new CustomInputFilter()});
-                        selectedOVDType = getString(R.string.job);
+                        selectedOVDType = "NREGA_JOB_CARD";
 
                     } else if (checkedId == 3) {
                         etOvdDetails.setHint(R.string.licence);
                         etOvdDetails.setInputType(InputType.TYPE_CLASS_TEXT);
                         etOvdDetails.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
-                        selectedOVDType = getString(R.string.licence);
+                        selectedOVDType = "LICENSE_NUMBER";
 
                     } else if (checkedId == 1) {
                         etOvdDetails.setHint(R.string.aadhar);
                         etOvdDetails.setInputType(InputType.TYPE_CLASS_NUMBER);
                         etOvdDetails.setFilters(new InputFilter[]{new InputFilter.LengthFilter(12)});
-                        selectedOVDType = getString(R.string.aadhar);
+                        selectedOVDType = "AADHAR_NUMBER";
                     }
                 }
 
@@ -198,13 +239,19 @@ public class ApplyTransitCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Intent i = new Intent(ApplyTransitCardActivity.this, SuccessfulRegistrationActivity.class);
-                startActivity(i);
+                //Intent i = new Intent(ApplyTransitCardActivity.this, SuccessfulRegistrationActivity.class);
+                //startActivity(i);
                 /*if (validateFields())
                 {
-                    Intent i = new Intent(ApplyTransitCardActivity.this, SuccessfulRegistrationActivity.class);
-                    startActivity(i);
+                    validateEform();
                 }*/
+
+                if (otpVerificationDialog != null && otpVerificationDialog.isShowing()) {
+                    otpVerificationDialog.dismiss();
+                }
+                otpVerificationDialog = new OTPVerificationDialog(ApplyTransitCardActivity.this::onVerifyClick,ApplyTransitCardActivity.this);
+                //otpVerificationDialog.setCancelable(false);
+                otpVerificationDialog.show();
 
             }
         });
@@ -212,7 +259,7 @@ public class ApplyTransitCardActivity extends AppCompatActivity {
         etDob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String selectedDate = CommonUtils.showDatePickerDialog(ApplyTransitCardActivity.this, etDob);
+                selectedDate = CommonUtils.showDatePickerDialog(ApplyTransitCardActivity.this, etDob);
 
 
                 // etDob.setText(selectedDate);
@@ -245,6 +292,11 @@ public class ApplyTransitCardActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(etLastName.getText().toString().trim())) {
             etLastName.setError(getString(R.string.enter_last_name));
+            isValid = false;
+        }
+
+        if (TextUtils.isEmpty(etMobile.getText().toString().trim())) {
+            etMobile.setError(getString(R.string.enter_mobile));
             isValid = false;
         }
 
@@ -360,5 +412,301 @@ public class ApplyTransitCardActivity extends AppCompatActivity {
             checkBoxDeclaration.startAnimation(shakeAnimation);
         }
         return isValid;
+    }
+
+
+    public void validateEform(){
+
+        showLoading();
+
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
+
+        ValidateEformRequestModel validateEformRequestModel = new ValidateEformRequestModel();
+        validateEformRequestModel.setProductCode(productCode);
+        if (!selectedDate.isEmpty()){
+        validateEformRequestModel.setDob(selectedDate+"T00:00:00.402");
+        }
+        validateEformRequestModel.setSalutation(selectedSalutation);
+        validateEformRequestModel.setMobileNo(etMobile.getText().toString());
+        validateEformRequestModel.setFirstName(etFirstName.getText().toString().trim());
+        validateEformRequestModel.setMiddleName(etMiddleName.getText().toString().trim());
+        validateEformRequestModel.setLastName(etLastName.getText().toString().trim());
+        validateEformRequestModel.setPan(etPan.getText().toString());
+        validateEformRequestModel.setOvdType(selectedOVDType);
+        validateEformRequestModel.setOvdValue(etOvdDetails.getText().toString());
+
+        ObjectMapper om = new ObjectMapper();
+        String req = null;
+        try {
+            req = om.writeValueAsString(validateEformRequestModel);
+        } catch (JsonProcessingException e) {
+            Log.d("EXCEPTION",""+e.getLocalizedMessage());
+        }
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
+
+        if (NetworkUtils.isNetworkConnected(ApplyTransitCardActivity.this))
+        {
+
+            APIRequests.validateEform(this, encryptedMsg, randomKey, new NetworkResponseCallback<String>() {
+                @Override
+                public void onSuccess(Call<String> call, Response<String> response) {
+
+                    if (response.isSuccessful())
+                    {
+
+                        String encryptedResponse = response.body();
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel != null) {
+
+                            if (responseBaseModel.getStatusCode()==200)
+                            {
+                                ValidateEformResponseModel validateEformResponseModel = null;
+                                try{
+                                    Object data = responseBaseModel;
+
+                                    // Convert LinkedHashMap to JSON string
+                                    ObjectMapper om1 = new ObjectMapper();
+                                    String jsonString = om1.writeValueAsString(data);
+                                    validateEformResponseModel = om1.readValue(jsonString, ValidateEformResponseModel.class);
+
+                                }catch (Exception e){
+                                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                                }
+
+                                if (validateEformResponseModel!=null)
+                                {
+                                    if (validateEformResponseModel.getStatusCode()==200){
+
+                                        currentTxnId = validateEformResponseModel.getData().getTxnId();
+                                        Toast.makeText(ApplyTransitCardActivity.this, ""+validateEformResponseModel.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                        if (otpVerificationDialog != null && otpVerificationDialog.isShowing()) {
+                                            otpVerificationDialog.dismiss();
+                                        }
+                                        otpVerificationDialog = new OTPVerificationDialog(ApplyTransitCardActivity.this::onVerifyClick,ApplyTransitCardActivity.this);
+                                        //otpVerificationDialog.setCancelable(false);
+                                        otpVerificationDialog.show();
+
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                    }
+                    else{
+                        String encryptedResponse ="";
+                        try {
+                            encryptedResponse = response.errorBody().string();
+                        } catch (IOException e) {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            Log.d("MSEF",responseBaseModel.getMessage());
+                            Toast.makeText(ApplyTransitCardActivity.this, ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    hideLoading();
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<String> call, Response<String> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onInternalServerError() {
+                    hideLoading();
+
+                }
+            });
+
+        }else{
+            Toast.makeText(this, getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    @Override
+    public void onVerifyClick(String otp) {
+
+        showLoading();
+
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
+
+        ProcessEformRequestModel processEformRequestModel = new ProcessEformRequestModel();
+        processEformRequestModel.setOtp(otp);
+        processEformRequestModel.setProductCode(productCode);
+        processEformRequestModel.setRefTxnId(currentTxnId);
+        processEformRequestModel.setSId("");
+
+        ObjectMapper om = new ObjectMapper();
+        String req = null;
+        try {
+            req = om.writeValueAsString(processEformRequestModel);
+        } catch (JsonProcessingException e) {
+            Log.d("EXCEPTION",""+e.getLocalizedMessage());
+        }
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
+
+
+        if (NetworkUtils.isNetworkConnected(ApplyTransitCardActivity.this))
+        {
+
+            APIRequests.processEform(ApplyTransitCardActivity.this, encryptedMsg, randomKey, new NetworkResponseCallback<String>() {
+                @Override
+                public void onSuccess(Call<String> call, Response<String> response) {
+
+                    if (response.isSuccessful()){
+
+                        String encryptedResponse = response.body();
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            if (responseBaseModel.getStatusCode()==200){
+
+                                ProcessEformResponseModel processEformResponseModel = null;
+                                try{
+                                    Object data = responseBaseModel;
+
+                                    // Convert LinkedHashMap to JSON string
+                                    ObjectMapper om1 = new ObjectMapper();
+                                    String jsonString = om1.writeValueAsString(data);
+                                    processEformResponseModel = om1.readValue(jsonString, ProcessEformResponseModel.class);
+
+                                }catch (Exception e){
+                                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                                }
+
+                                if (processEformResponseModel!=null)
+                                {
+                                    if (processEformResponseModel.getStatusCode()==200)
+                                    {
+                                        Intent i = new Intent(ApplyTransitCardActivity.this, SuccessfulRegistrationActivity.class);
+                                        i.putExtra("TXNID",""+processEformResponseModel.getData().getTempCustRefNumber());
+                                        startActivity(i);
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }else{
+                        String encryptedResponse ="";
+                        try {
+                            encryptedResponse = response.errorBody().string();
+                        } catch (IOException e) {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            Log.d("MSEF",responseBaseModel.getMessage());
+                            Toast.makeText(ApplyTransitCardActivity.this, ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<String> call, Response<String> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onInternalServerError() {
+                    hideLoading();
+
+                }
+            });
+
+        }else{
+            Toast.makeText(this, getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

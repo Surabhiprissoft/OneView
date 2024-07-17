@@ -29,7 +29,6 @@ public class Constants {
     public static final String GETCAPTCHA = "captcha/getCaptcha";
     public static final String VALIDATECAPTCHA = "service/getOtp";
     public static final String LOGINWITHOTP = "service/login";
-    public static final String TRANSITMINISTATEMENT = "s1/miniStatement";
     public static final String CARDSTATEMENT = "s2/cardStatement";
     public static final String CARDMINISTATEMENT = "s2/cardMiniStatement";
     public static final String CARDBLOCK = "s2/cardBlock";
@@ -38,5 +37,17 @@ public class Constants {
     public static final String LIMITENQUIRY = "s2/limitEnquiry";
     public static final String LIMITUPDATE = "s2/limitUpdate";
     public static final String SETPIN = "s2/setPin";
+
+    public static final String TRANSITSTATEMENT = "s1/statement";
+    public static final String TRANSITMINISTATEMENT = "s1/miniStatement";
+    public static final String TRANSITREQUESTHOTLIST = "s1/requestHotlist";
+    public static final String TRANSITPROCESSHOTLIST = "s1/processHotlist";
+    public static final String VALIDATEEFORM = "s1/applyForCard";
+    public static final String PROCESSEFORM = "s1/processEform";
+    public static final String RESENDOTP = "s1/resendOtp";
+
+    public static final String TRANSITTOPUP ="s1/initiateTopup";
+
+
 
 }
