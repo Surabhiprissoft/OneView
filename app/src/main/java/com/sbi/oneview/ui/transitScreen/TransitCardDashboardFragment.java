@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,11 +52,12 @@ import retrofit2.Response;
 public class TransitCardDashboardFragment extends BaseFragment implements MyFragmentCallback {
 
 
-    TextView tvDashboard,tvCurrentDate,tvRecentTransaction,tvQuickAccess,tvMyCards,tvCardDetails;
+    TextView tvDashboard,tvCurrentDate,tvRecentTransaction,tvQuickAccess,tvMyCards,tvCardDetails,tvViewAll;
     //TextView tvTopUpRupee,tvSpendRupee,tvSinceLastTopUp,tvSuccessTxns,tvSinceLastLogin,tvLastStatementGenerated,tvAnalytics;
     MaterialCardView cardCardTopUp,cardResetPin,cardHotList,cardStatement;
     RecyclerView rvRecentTransaction;
     TransitHomeActivity transitHomeActivity;
+    ProgressBar pbMiniStatement;
 
     Data loginResponse;
     String currentCardStatus,token;
@@ -97,12 +99,15 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
         tvQuickAccess = view.findViewById(R.id.tvQuickAccess);
         tvMyCards = view.findViewById(R.id.tvMyCards);
         tvCardDetails = view.findViewById(R.id.tvCardDetails);
+        tvViewAll = view.findViewById(R.id.tvViewAll);
         tvRecentTransaction = view.findViewById(R.id.tvRecentTransaction);
         cardCardTopUp = view.findViewById(R.id.cardCardTopup);
         cardResetPin = view.findViewById(R.id.cardResetPin);
         cardHotList = view.findViewById(R.id.cardHotlist);
         cardStatement = view.findViewById(R.id.cardStatement);
         rvRecentTransaction = view.findViewById(R.id.rvRecentTransaction);
+
+        pbMiniStatement = view.findViewById(R.id.pbMiniStatement);
 
         tvCardNumber = view.findViewById(R.id.tvCardNumber);
         tvCRN = view.findViewById(R.id.tvCRNNumber);
@@ -147,6 +152,18 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
     }
 
     public void clickListener(){
+
+        tvViewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (transitHomeActivity!=null){
+                    transitHomeActivity.drawerItemClick("cardManagement");
+                    transitHomeActivity.subMenuClicked(transitHomeActivity.cardStatementCard,true);
+                    transitHomeActivity.replaceFragment(new CardStatementFragment());
+                }
+            }
+        });
+
 
         cardCardTopUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,8 +220,8 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
         if (loginResponse!=null){
 
             tvCRN.setText(loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber());
-            tvCardNumber.setText(loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
-            tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"BLOCKED");
+            tvCardNumber.setText("XXXX XXXX "+loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
+            tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"INACTIVE");
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
             tvExpDate.setText(loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(0,2)+" / "+loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(2));
@@ -250,7 +267,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
 
     public void LoadTransitCardMiniStatement(String proxyNumber,String productCode,String token){
 
-        showLoading();
+        //showLoading();
 
         String randomKey = CommonUtils.generateRandomString();
         System.out.println("Random Key: " + randomKey);
@@ -310,6 +327,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
                                 if(transitMiniStatementResponseModel!=null){
                                     if (transitMiniStatementResponseModel.getStatusCode()==200)
                                     {
+                                        pbMiniStatement.setVisibility(View.GONE);
                                         // Create an instance of the adapter
                                         TransitRecentTransactionAdapter transitRecentTransactionAdapter = new TransitRecentTransactionAdapter(getActivity(),transitMiniStatementResponseModel);
                                         // Set the adapter to the RecyclerView
@@ -348,7 +366,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
 
                     }
 
-                    hideLoading();
+                    //hideLoading();
                 }
 
                 @Override

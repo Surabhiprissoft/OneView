@@ -19,17 +19,30 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.App;
+import com.sbi.oneview.base.ResponseBaseModel;
+import com.sbi.oneview.network.APIRequests;
+import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.LogoutRequestModel;
+import com.sbi.oneview.utils.encryption.CipherEncryption;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class CommonUtils {
     static String formattedDate = "";
@@ -378,6 +391,31 @@ public class CommonUtils {
                 // Handle expiration, e.g., regenerate OTP or show a message
             }
         }.start();
+    }
+
+    public static void showSuccessDialogue(Context context,String msg)
+    {
+        Dialog dialog = new Dialog(context);
+
+        dialog.setContentView(R.layout.dialog_hotlist_success);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        TextView tvMsg = dialog.findViewById(R.id.tvMsg);
+        MaterialButton btnClose = dialog.findViewById(R.id.btnClose);
+
+        tvMsg.setText(""+msg);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+
+            }
+        });
+        dialog.show();
+
     }
 
 

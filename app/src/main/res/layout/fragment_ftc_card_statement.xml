@@ -231,7 +231,7 @@
                                 android:id="@+id/tvStartDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:hint="Start date"
+                                android:hint="@string/start_from"
                                 android:textSize="@dimen/_11ssp"/>
 
                             <ImageView
@@ -263,6 +263,7 @@
                                 android:id="@+id/tvEndDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:hint="@string/end_to"
                                 android:textSize="@dimen/_11ssp"/>
 
                             <ImageView

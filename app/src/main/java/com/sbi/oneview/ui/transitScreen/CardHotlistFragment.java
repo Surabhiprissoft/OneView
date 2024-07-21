@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +27,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.App;
 import com.sbi.oneview.base.BaseFragment;
 import com.sbi.oneview.base.ResponseBaseModel;
 import com.sbi.oneview.network.APIRequests;
@@ -65,7 +67,7 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
     Data loginResponse;
     String currentCardStatus,token;
     String requestTxnID="";
-    String CardProxyNumber;
+    String CardProxyNumber,mobileNumber;
     int cardPosition;
     TextView tvSpendLimit;
     LinearLayout layoutCardStatus,layoutSpendLimitController;
@@ -148,12 +150,39 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
 
     public void clickListener(){
 
+        spinnerHotlistReason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
+                if(i==0)
+                {
+                    selectedHotlistReason = "";
+                    //((TextView) view.findViewById(android.R.id.text1)).setTextColor(getResources().getColor(R.color.transperant_white));
+                }
+                else
+                {
+                    selectedHotlistReason = parent.getSelectedItem().toString();
+                    //((TextView) view.findViewById(android.R.id.text1)).setTextColor(getResources().getColor(R.color.hinttext_transperant_white));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         btnHotlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showConfirmationDialogue();
+
+                if (selectedHotlistReason.equalsIgnoreCase("")) {
+                    Toast.makeText(App.getAppContext(), "Select reason to proceed", Toast.LENGTH_SHORT).show();
+                }else {
+                    showConfirmationDialogue();
+                }
             }
         });
+
 
     }
 
@@ -203,7 +232,7 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
 
             tvCRN.setText(loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber());
             tvCardNumber.setText(loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
-            tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"BLOCKED");
+            tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"INACTIVE");
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
             tvExpDate.setText(loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(0,2)+" / "+loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(2));
@@ -215,9 +244,10 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
             CardProxyNumber = loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber();
             cardPosition = position;
             token = loginResponse.getToken();
+            mobileNumber = SharedConfig.getInstance(getActivity()).getMobileNumber();
 
             currentCardStatus = loginResponse.getTransit().getCardDetails().get(position).getCardStatus();
-            if (currentCardStatus.equals("A")){
+            if (currentCardStatus.equals("A") || currentCardStatus.equals("ACTIVE")){
 
                 tvCardStatus.setTextColor(Color.BLACK);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
@@ -305,7 +335,7 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
                                     if (otpVerificationDialog != null && otpVerificationDialog.isShowing()) {
                                         otpVerificationDialog.dismiss();
                                     }
-                                    otpVerificationDialog = new OTPVerificationDialog(CardHotlistFragment.this::onVerifyClick,getActivity());
+                                    otpVerificationDialog = new OTPVerificationDialog(CardHotlistFragment.this::onVerifyClick,getActivity(),mobileNumber,CardProxyNumber,"CPRQSTHOTLIST");
                                     //otpVerificationDialog.setCancelable(false);
                                     otpVerificationDialog.show();
 
@@ -444,7 +474,8 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
                                 if (transitRequestHotlistResponseModel!=null)
                                 {
 
-                                    Toast.makeText(getActivity(), ""+transitRequestHotlistResponseModel.getData().getMessage(), Toast.LENGTH_SHORT).show();
+                                    CommonUtils.showSuccessDialogue(getActivity(),"Congratulation, Your Card has been permanently hotlisted.");
+                                    //Toast.makeText(getActivity(), ""+transitRequestHotlistResponseModel.getData().getMessage(), Toast.LENGTH_SHORT).show();
                                     loginResponse.transit.cardDetails.get(cardPosition).setCardStatus("INACTIVE");
                                     currentCardStatus="INACTIVE";
                                     SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
@@ -516,4 +547,9 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
         }
 
     }
+
+
+
+
+
 }

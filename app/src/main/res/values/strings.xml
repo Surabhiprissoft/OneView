@@ -73,7 +73,7 @@
 
 
     <string-array name="salutations_array">
-        <item>Salutation</item>
+        <item>Salutation *</item>
         <item>Mr</item>
         <item>Mrs</item>
         <item>Ms</item>
@@ -90,7 +90,7 @@
 
 
     <string-array name="cards_array">
-        <item>Select Card</item>
+        <item>Select Card *</item>
         <item>Singara Chennai</item>
         <item>MMRC-City 1 Metro</item>
         <item>Mumbai-1 MMRDA Metro</item>
@@ -101,7 +101,7 @@
     </string-array>
 
     <string-array name="ovdType_array">
-        <item>Select OVD Type</item>
+        <item>Select OVD Type *</item>
         <item>Aadhar Number</item>
         <item>NREGA Job Card</item>
         <item>Driving Licence Number</item>
@@ -167,5 +167,23 @@
     <string name="something_went_wrong">Something went wrong, Please try again</string>
     <string name="invalid_captcha_try_again">Invalid captcha, Try again</string>
     <string name="incorrect_otp_please_try_again">Incorrect OTP, Please try again</string>
+    <string name="end_to">End to</string>
+    <string name="start_from">Start from</string>
+
+    <string name="prepaid_contact_1"><u>02227576973</u></string>
+    <string name="prepaid_contact_2"><u>02227566508</u></string>
+    <string name="prepaid_contact_3"><u>02227571033</u></string>
+    <string name="prepaid_contact_4"><u>2227580506</u></string>
+    <string name="prepaid_contact_5"><u>2227566598</u></string>
+
+    <string name="transit_contact_1"><u>18001234</u></string>
+    <string name="transit_contact_2"><u>18002100</u></string>
+    <string name="transit_contact_3"><u>180012211</u></string>
+    <string name="transit_contact_4"><u>180004253800</u></string>
+
+
+    <string name="https_transit_sbi">https://transit.sbi</string>
+    <string name="https_prepaid_sbi">https://prepaid.sbi</string>
+    <string name="contactcentre_sbi_co_in"><u>contactcentre@sbi.co.in</u></string>
 
 </resources>

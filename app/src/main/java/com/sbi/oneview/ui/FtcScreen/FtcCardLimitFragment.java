@@ -140,7 +140,7 @@ public class FtcCardLimitFragment extends BaseFragment implements MyFragmentCall
         seekBarContactless.setMax(5000);
 
         tvCurrentDate.setText(CommonUtils.setCurrentDate());
-        tvLimitHeading.setText("Reset PIN");
+        tvLimitHeading.setText("Card Limit");
 
         CommonUtils.setGradientColor(tvLimitHeading);
         CommonUtils.setGradientColor(tvMyCards);

@@ -123,7 +123,7 @@
                 <EditText
                     android:id="@+id/et_firstname"
                     android:inputType="text"
-                    android:hint="First Name"
+                    android:hint="First Name *"
                     style="@style/edittext_registration" />
                 <EditText
                     android:id="@+id/et_middlename"
@@ -134,13 +134,13 @@
                 <EditText
                     android:id="@+id/et_lastname"
                     style="@style/edittext_registration"
-                    android:hint="Last Name"
+                    android:hint="Last Name *"
                     android:inputType="text" />
 
                 <EditText
                     android:id="@+id/et_mobile"
                     style="@style/edittext_registration"
-                    android:hint="Mobile Number"
+                    android:hint="Mobile Number *"
                     android:maxLength="10"
                     android:inputType="number" />
 
@@ -182,7 +182,7 @@
                 <EditText
                     android:id="@+id/et_ovddetails"
                     android:inputType="text"
-                    android:hint="OVD Details"
+                    android:hint="OVD Details *"
                     style="@style/edittext_registration" />
             </LinearLayout>
             <LinearLayout

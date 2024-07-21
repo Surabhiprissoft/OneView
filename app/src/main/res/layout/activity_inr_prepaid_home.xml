@@ -114,6 +114,7 @@
 
 
                         <ImageView
+                            android:id="@+id/menuHome"
                             android:layout_width="@dimen/_10sdp"
                             android:layout_height="match_parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -173,6 +174,7 @@
 
 
                         <ImageView
+                            android:id="@+id/imgHome"
                             android:layout_width="@dimen/_18sdp"
                             android:layout_height="@dimen/_18sdp"
                             android:src="@drawable/home_icon"

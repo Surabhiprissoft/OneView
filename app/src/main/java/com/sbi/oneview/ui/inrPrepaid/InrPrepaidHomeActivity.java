@@ -1,11 +1,17 @@
 package com.sbi.oneview.ui.inrPrepaid;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -19,21 +25,40 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.BaseActivity;
+import com.sbi.oneview.base.ResponseBaseModel;
+import com.sbi.oneview.network.APIRequests;
+import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.LogoutRequestModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
+import com.sbi.oneview.ui.FtcScreen.FtcHomeActivity;
+import com.sbi.oneview.ui.mainDashboard.DashboardCardSelectionActivity;
+import com.sbi.oneview.ui.registration.LoginActivity;
 import com.sbi.oneview.ui.transitScreen.ContactUsBlankFragment;
+import com.sbi.oneview.ui.transitScreen.TransitHomeActivity;
 import com.sbi.oneview.utils.CommonUtils;
+import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
+import com.sbi.oneview.utils.encryption.CipherEncryption;
 
-public class InrPrepaidHomeActivity extends AppCompatActivity {
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Response;
+
+public class InrPrepaidHomeActivity extends BaseActivity {
 
     private ImageView openIcon;
     private DrawerLayout drawerLayout;
 
     LinearLayout dashboardLayout,myProfileLayout,viewProfileLayout,editProfileLayout,accountDetailsLayout,cardTopUpLayout,cardStatementLayout,cardBlockLayout,cardLimitLayout,resetpinLayout,cardBlockUnblockLayout,cardHotListLayout;
     MaterialCardView DashboardCardView,myProfileCardView,cardManagementCardView,contactUsCardView;
-    ImageView iconDashboard,iconMyProfile,iconCardManagement,iconContactUs;
+    ImageView iconDashboard,iconMyProfile,iconCardManagement,iconContactUs,menuHome,imgHome;
     TextView tvDashboard,tvMyProfile,tvCardManagement,tvContactUs,tvTransit,tvUserNameChar;
     MaterialCardView cardTopUpCard,cardStatementCard,cardhotlistCard,cardLimitCard,resetpinCard,cardBlockUnblockCard,cardHotListCard;
     Data loginResponse;
@@ -66,6 +91,8 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
         iconMyProfile = findViewById(R.id.iconMyProfile);
         iconCardManagement = findViewById(R.id.iconCardManagement);
         iconContactUs = findViewById(R.id.iconContactUs);
+        menuHome = findViewById(R.id.menuHome);
+        imgHome = findViewById(R.id.imgHome);
         cardManagementCardView = findViewById(R.id.cardManagementCardView);
         contactUsCardView = findViewById(R.id.contactUsCardView);
         tvDashboard = findViewById(R.id.tvDashboard);
@@ -103,7 +130,16 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
         CommonUtils.setGradientColor(tvTransit);
         openIcon.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
 
+        menuHome.setOnClickListener(this::showPopupMenu);
 
+        imgHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent homeIntent = new Intent(InrPrepaidHomeActivity.this, DashboardCardSelectionActivity.class);
+                startActivity(homeIntent);
+                finish();
+            }
+        });
 
         dashboardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +164,7 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 drawerItemClick("contactUs");
                 subMenuClicked(cardTopUpCard,false);
-                replaceFragment(new ContactUsBlankFragment());
+                replaceFragment(new InrContactUsFragment());
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
@@ -217,6 +253,29 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+
+    private void showPopupMenu(View view) {
+        PopupMenu popup = new PopupMenu(this, view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.home_menu, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(this::onMenuItemClick);
+        popup.show();
+    }
+
+    private boolean onMenuItemClick(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.logout) {
+
+            logoutUser();
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -467,6 +526,137 @@ public class InrPrepaidHomeActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    public void logoutUser()
+    {
+
+        showLoading();
+        Data loginResponse = SharedConfig.getInstance(InrPrepaidHomeActivity.this).getLoginResponse(InrPrepaidHomeActivity.this);
+        String token = loginResponse.getToken();
+        String sId = loginResponse.getSid();
+
+
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
+
+        LogoutRequestModel logoutRequestModel = new LogoutRequestModel();
+        logoutRequestModel.setOtp("");
+        logoutRequestModel.setUsername(SharedConfig.getInstance(InrPrepaidHomeActivity.this).getMobileNumber());
+        logoutRequestModel.setSid(sId);
+
+        ObjectMapper om = new ObjectMapper();
+        String req = null;
+        try {
+            req = om.writeValueAsString(logoutRequestModel);
+        } catch (JsonProcessingException e) {
+            Log.d("EXCEPTION",""+e.getLocalizedMessage());
+        }
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
+
+        final String res ="NO";
+
+        if (NetworkUtils.isNetworkConnected(InrPrepaidHomeActivity.this))
+        {
+
+            APIRequests.logout(InrPrepaidHomeActivity.this, encryptedMsg, randomKey,token, new NetworkResponseCallback<String>() {
+                @Override
+                public void onSuccess(Call<String> call, Response<String> response) {
+
+                    if (response.isSuccessful())
+                    {
+
+                        String encryptedResponse = response.body();
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+
+                        if (responseBaseModel != null) {
+
+                            if (responseBaseModel.getStatusCode()==200) {
+                                Toast.makeText(InrPrepaidHomeActivity.this, "Logout successfully", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(InrPrepaidHomeActivity.this, LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        }
+
+
+
+
+                    }
+                    else{
+                        String encryptedResponse ="";
+                        try {
+                            encryptedResponse = response.errorBody().string();
+                        } catch (IOException e) {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            Log.d("MSEF",responseBaseModel.getMessage());
+                            Toast.makeText(InrPrepaidHomeActivity.this, ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    hideLoading();
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<String> call, Response<String> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onInternalServerError() {
+                    hideLoading();
+
+                }
+            });
+
+        }else{
+            hideLoading();
+            Toast.makeText(InrPrepaidHomeActivity.this, getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 
 }

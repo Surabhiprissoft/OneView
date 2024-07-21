@@ -35,6 +35,8 @@ import com.sbi.oneview.base.ResponseBaseModel;
 import com.sbi.oneview.network.APIRequests;
 import com.sbi.oneview.network.NetworkResponseCallback;
 import com.sbi.oneview.network.RequestModel.LoginWithOtpRequestModel;
+import com.sbi.oneview.network.RequestModel.Transit.ResendOtpRequestModel;
+import com.sbi.oneview.network.RequestModel.ValidateCaptchaRequestModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.LoginWithOtpResponseModel;
 import com.sbi.oneview.ui.mainDashboard.DashboardCardSelectionActivity;
 import com.sbi.oneview.utils.CommonUtils;
@@ -51,7 +53,7 @@ public class EnterOtp extends BaseActivity {
 
     EditText etFirstOTP, etSecondOTP, etThirdOTP, etFourthOTP;
     MaterialButton btnVerify;
-    TextView txtResendOtp,txtPhoneNumber,txtEnterOtp;
+    TextView tvResendOTP,txtPhoneNumber,txtEnterOtp;
     ImageView topRightImg,bottomLeftImg,bottomRightImg;
     String number;
     LinearLayout otpTextViewLayout;
@@ -79,7 +81,7 @@ public class EnterOtp extends BaseActivity {
         bottomLeftImg = findViewById(R.id.bottomLeft_image);
         bottomRightImg = findViewById(R.id.bottomRight_image);
         btnVerify = findViewById(R.id.btnVerify);
-        txtResendOtp = findViewById(R.id.txtResendOtp);
+        tvResendOTP = findViewById(R.id.txtResendOtp);
         txtPhoneNumber = findViewById(R.id.txtPhoneNumber);
         otpTextViewLayout = findViewById(R.id.otpTextViewLayout);
         txtEnterOtp = findViewById(R.id.txtEnterOtp);
@@ -89,6 +91,8 @@ public class EnterOtp extends BaseActivity {
         String maskedNumber = maskPhoneNumber(number);
         txtPhoneNumber.setText(""+maskedNumber);
 
+        tvResendOTP.setClickable(false);
+        CommonUtils.startTimer(tvResendOTP);
     }
 
     public void clickListners(){
@@ -327,6 +331,7 @@ public class EnterOtp extends BaseActivity {
 
                                                     Intent i=new Intent(EnterOtp.this, DashboardCardSelectionActivity.class);
                                                     startActivity(i);
+                                                    finish();
                                                 }
                                             }
 
@@ -405,11 +410,127 @@ public class EnterOtp extends BaseActivity {
             }
         });
 
-        txtResendOtp.setOnClickListener(new View.OnClickListener() {
+        tvResendOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
                 clearData();
+
+
+                    tvResendOTP.setClickable(false);
+                    tvResendOTP.setText("sendig OTP, Please wait");
+
+                    String randomKey = CommonUtils.generateRandomString();
+                    System.out.println("Random Key: " + randomKey);
+
+                    ValidateCaptchaRequestModel validateCaptchaRequestModel = new ValidateCaptchaRequestModel();
+                    validateCaptchaRequestModel.setUsername(number);
+                    validateCaptchaRequestModel.setText("");
+                    validateCaptchaRequestModel.setId(0);
+
+                    ObjectMapper om = new ObjectMapper();
+                    String req = null;
+                    try {
+                        req = om.writeValueAsString(validateCaptchaRequestModel);
+                    } catch (JsonProcessingException e) {
+                        Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                    }
+                    String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+                    System.out.println("Message : " + encryptedMsg);
+
+                    if (NetworkUtils.isNetworkConnected(EnterOtp.this))
+                    {
+                        APIRequests.LoginResendOtp(EnterOtp.this, encryptedMsg, randomKey, new NetworkResponseCallback<String>() {
+                            @Override
+                            public void onSuccess(Call<String> call, Response<String> response) {
+
+                                if (response.isSuccessful()){
+
+                                    String encryptedResponse = response.body();
+                                    encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                                    ObjectMapper om = new ObjectMapper();
+                                    ResponseBaseModel responseBaseModel = null;
+                                    JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                                    try {
+                                        responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                                    }catch (Exception e)
+                                    {
+                                        Log.d("EXCEPTION",e.getLocalizedMessage());
+                                    }
+
+                                    if (responseBaseModel != null) {
+
+                                        if (responseBaseModel.getStatusCode()==200) {
+                                            Toast.makeText(EnterOtp.this, "OTP successfully send to your mobile number", Toast.LENGTH_SHORT).show();
+                                            tvResendOTP.setClickable(false);
+                                            CommonUtils.startTimer(tvResendOTP);
+                                        }
+                                    }
+                                }
+                                else{
+                                    String encryptedResponse ="";
+                                    try {
+                                        encryptedResponse = response.errorBody().string();
+                                    } catch (IOException e) {
+                                        Log.d("EXCEPTION",e.getLocalizedMessage());
+                                    }
+                                    encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                                    ObjectMapper om = new ObjectMapper();
+                                    ResponseBaseModel responseBaseModel = null;
+                                    JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                                    try {
+                                        responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                                    }catch (Exception e)
+                                    {
+                                        Log.d("EXCEPTION",e.getLocalizedMessage());
+                                    }
+
+                                    if (responseBaseModel!=null)
+                                    {
+                                        Log.d("MSEF",responseBaseModel.getMessage());
+                                        Toast.makeText(EnterOtp.this, ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onResponseBodyNull(Call<String> call, Response<String> response) {
+                                tvResendOTP.setClickable(true);
+                                tvResendOTP.setText("Resend OTP");
+                            }
+
+                            @Override
+                            public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+                                tvResendOTP.setClickable(true);
+                                tvResendOTP.setText("Resend OTP");
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+                                tvResendOTP.setClickable(true);
+                                tvResendOTP.setText("Resend OTP");
+                            }
+
+                            @Override
+                            public void onInternalServerError() {
+                                tvResendOTP.setClickable(true);
+                                tvResendOTP.setText("Resend OTP");
+                            }
+                        });
+
+                    }else{
+                        tvResendOTP.setClickable(true);
+                        tvResendOTP.setText("Resend OTP");
+                        Toast.makeText(EnterOtp.this, getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+
             }
         });
 

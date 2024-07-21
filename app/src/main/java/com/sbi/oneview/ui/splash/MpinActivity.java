@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.sbi.oneview.R;
+import com.sbi.oneview.ui.registration.LoginActivity;
 
 public class MpinActivity extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class MpinActivity extends AppCompatActivity {
             KeyguardManager km = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
 
             if (km.isKeyguardSecure()) {
-                Intent authIntent = km.createConfirmDeviceCredentialIntent("set dialog","enter your screen lock");
+                Intent authIntent = km.createConfirmDeviceCredentialIntent("Unlock OneView","Enter phone screen lock pattern, PIN, password or fingerprint");
                 startActivityForResult(authIntent, INTENT_AUTHENTICATE);
             }
         }
@@ -43,6 +44,8 @@ public class MpinActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 //do something you want when pass the security
                 Log.e("YES","VALIDATED");
+                Intent loginIntent  = new Intent(MpinActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
             }
             else if(resultCode==0)
             {

@@ -241,17 +241,12 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
             {
                 //Intent i = new Intent(ApplyTransitCardActivity.this, SuccessfulRegistrationActivity.class);
                 //startActivity(i);
-                /*if (validateFields())
+                if (validateFields())
                 {
                     validateEform();
-                }*/
-
-                if (otpVerificationDialog != null && otpVerificationDialog.isShowing()) {
-                    otpVerificationDialog.dismiss();
                 }
-                otpVerificationDialog = new OTPVerificationDialog(ApplyTransitCardActivity.this::onVerifyClick,ApplyTransitCardActivity.this);
-                //otpVerificationDialog.setCancelable(false);
-                otpVerificationDialog.show();
+
+
 
             }
         });
@@ -285,10 +280,10 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
         }
 
 
-        if (TextUtils.isEmpty(etMiddleName.getText().toString().trim())) {
+        /*if (TextUtils.isEmpty(etMiddleName.getText().toString().trim())) {
             etMiddleName.setError("Middle Name is required");
             isValid = false;
-        }
+        }*/
 
         if (TextUtils.isEmpty(etLastName.getText().toString().trim())) {
             etLastName.setError(getString(R.string.enter_last_name));
@@ -425,7 +420,7 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
         ValidateEformRequestModel validateEformRequestModel = new ValidateEformRequestModel();
         validateEformRequestModel.setProductCode(productCode);
         if (!selectedDate.isEmpty()){
-        validateEformRequestModel.setDob(selectedDate+"T00:00:00.402");
+            validateEformRequestModel.setDob(selectedDate+"T00:00:00.402");
         }
         validateEformRequestModel.setSalutation(selectedSalutation);
         validateEformRequestModel.setMobileNo(etMobile.getText().toString());
@@ -496,7 +491,7 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
                                         if (otpVerificationDialog != null && otpVerificationDialog.isShowing()) {
                                             otpVerificationDialog.dismiss();
                                         }
-                                        otpVerificationDialog = new OTPVerificationDialog(ApplyTransitCardActivity.this::onVerifyClick,ApplyTransitCardActivity.this);
+                                        otpVerificationDialog = new OTPVerificationDialog(ApplyTransitCardActivity.this::onVerifyClick,ApplyTransitCardActivity.this,etMobile.getText().toString(),"","EFORM");
                                         //otpVerificationDialog.setCancelable(false);
                                         otpVerificationDialog.show();
 

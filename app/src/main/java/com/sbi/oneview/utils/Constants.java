@@ -42,11 +42,15 @@ public class Constants {
     public static final String TRANSITMINISTATEMENT = "s1/miniStatement";
     public static final String TRANSITREQUESTHOTLIST = "s1/requestHotlist";
     public static final String TRANSITPROCESSHOTLIST = "s1/processHotlist";
+    public static final String TRANSITTOPUP = "s1/initiateTopup";
     public static final String VALIDATEEFORM = "s1/applyForCard";
     public static final String PROCESSEFORM = "s1/processEform";
     public static final String RESENDOTP = "s1/resendOtp";
 
-    public static final String TRANSITTOPUP ="s1/initiateTopup";
+
+    public static final String LOGOUT = "service/logout";
+    public static final String LOGINRESENDOTP = "service/resendOtp";
+
 
 
 

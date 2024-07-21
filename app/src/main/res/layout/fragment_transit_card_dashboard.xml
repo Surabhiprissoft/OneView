@@ -411,6 +411,7 @@
                         tools:showIn="@layout/fragment_transit_card_dashboard" />
 
                     <TextView
+                        android:id="@+id/tvViewAll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
@@ -432,6 +433,12 @@
                     android:layout_marginBottom="@dimen/_60sdp"
                     app:cardElevation="@dimen/_7sdp"
                     android:backgroundTint="@color/white">
+
+                    <ProgressBar
+                        android:id="@+id/pbMiniStatement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvRecentTransaction"

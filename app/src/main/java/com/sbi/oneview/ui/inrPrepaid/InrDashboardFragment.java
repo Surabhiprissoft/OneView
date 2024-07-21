@@ -157,11 +157,11 @@ public class InrDashboardFragment extends BaseFragment implements MyFragmentCall
         cardTopUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if (inrPrepaidHomeActivity!=null){
+                if (inrPrepaidHomeActivity!=null){
                     inrPrepaidHomeActivity.drawerItemClick("cardManagement");
                     inrPrepaidHomeActivity.subMenuClicked(inrPrepaidHomeActivity.cardTopUpCard,true);
-                    inrPrepaidHomeActivity.replaceFragment(new TopUpFragment());
-                }*/
+                    inrPrepaidHomeActivity.replaceFragment(new InrCardTopupFragment());
+                }
             }
         });
 
@@ -251,7 +251,6 @@ public class InrDashboardFragment extends BaseFragment implements MyFragmentCall
 
     public void loadCardMiniStatement(String proxyNumber,String token){
 
-        showLoading();
 
         String randomKey = CommonUtils.generateRandomString();
         System.out.println("Random Key: " + randomKey);
@@ -313,8 +312,10 @@ public class InrDashboardFragment extends BaseFragment implements MyFragmentCall
 
                                 if (cardMiniStatementResponseModel!=null){
                                     if (cardMiniStatementResponseModel.getStatusCode()==200){
+
+                                        Log.d("MSGF",""+cardMiniStatementResponseModel.getData().getCardNumber());
                                         // Create an instance of the adapter
-                                        RecentTransactionAdapter adapterRecentTransaction = new RecentTransactionAdapter(getActivity(),cardMiniStatementResponseModel.getData());
+                                        RecentTransactionAdapter adapterRecentTransaction = new RecentTransactionAdapter(getActivity(),cardMiniStatementResponseModel.getData(),proxyNumber);
                                         // Set the adapter to the RecyclerView
                                         rvRecentTransaction.setAdapter(adapterRecentTransaction);
                                         // Set layout manager to position the items
@@ -356,31 +357,26 @@ public class InrDashboardFragment extends BaseFragment implements MyFragmentCall
                             Toast.makeText(getActivity(), ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
-                    hideLoading();
 
                 }
 
                 @Override
                 public void onResponseBodyNull(Call<String> call, Response<String> response) {
-                    hideLoading();
 
                 }
 
                 @Override
                 public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
-                    hideLoading();
 
                 }
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
-                    hideLoading();
 
                 }
 
                 @Override
                 public void onInternalServerError() {
-                    hideLoading();
 
                 }
             });

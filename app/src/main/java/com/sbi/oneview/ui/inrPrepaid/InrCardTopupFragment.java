@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -155,6 +156,13 @@ public class InrCardTopupFragment extends Fragment implements MyFragmentCallback
         btnProceedWithMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (etMoney.getText().toString().isEmpty()){
+                    Toast.makeText(getActivity(), "Please amount to proceed with top up", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(), "Work in Progress, please try again later", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

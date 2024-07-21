@@ -36,7 +36,20 @@ public class ResetPinWebViewActivity extends AppCompatActivity {
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         WebView webView = findViewById(R.id.webView);
 
-        // Enable JavaScript
+        webView.setWebViewClient(new WebViewClient()); // Open URL in WebView, not in the browser
+        webView.getSettings().setJavaScriptEnabled(true); // Enable JavaScript if needed
+
+        // Get the URL and POST data from the intent
+        String url = getIntent().getStringExtra("url");
+        String postData = getIntent().getStringExtra("postData");
+
+        if (url != null && postData != null) {
+            // Post the data to the URL
+            webView.postUrl(url, postData.getBytes());
+        }
+
+
+      /*  // Enable JavaScript
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
@@ -68,7 +81,7 @@ public class ResetPinWebViewActivity extends AppCompatActivity {
             String webUrl = intent.getStringExtra(RESET_URL);
             webView.loadUrl(webUrl);
 
-        }
+        }*/
 
 
 

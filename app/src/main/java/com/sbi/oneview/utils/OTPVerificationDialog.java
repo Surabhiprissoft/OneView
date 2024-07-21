@@ -19,19 +19,37 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.ResponseBaseModel;
+import com.sbi.oneview.network.APIRequests;
+import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.Transit.ResendOtpRequestModel;
 import com.sbi.oneview.ui.CallBackListner.OtpDialogueCallBack;
+import com.sbi.oneview.ui.registration.ApplyTransitCardActivity;
+import com.sbi.oneview.utils.encryption.CipherEncryption;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class OTPVerificationDialog extends Dialog {
 
     EditText etFirstOTP, etSecondOTP, etThirdOTP, etFourthOTP,et5,et6;
     Button btnVerify;
     TextView tvResendOTP;
+    String mobileNUmber,cardReferenceNUmber,action;
     private OtpDialogueCallBack otpDialogueCallBack;
 
-    public OTPVerificationDialog(OtpDialogueCallBack otpDialogueCallBack,@NonNull Context context) {
+    public OTPVerificationDialog(OtpDialogueCallBack otpDialogueCallBack,@NonNull Context context,String mobileNUmber,String cardReferenceNumber,String action) {
         super(context);
         this.otpDialogueCallBack=otpDialogueCallBack;
+        this.mobileNUmber = mobileNUmber;
+        this.cardReferenceNUmber = cardReferenceNumber;
+        this.action = action;
     }
 
     @Override
@@ -73,7 +91,118 @@ public class OTPVerificationDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getContext(), "CLICKED", Toast.LENGTH_SHORT).show();
+                tvResendOTP.setClickable(false);
+                tvResendOTP.setText("sendig OTP, Please wait");
+
+                String randomKey = CommonUtils.generateRandomString();
+                System.out.println("Random Key: " + randomKey);
+
+                ResendOtpRequestModel resendOtpRequestModel = new ResendOtpRequestModel();
+                resendOtpRequestModel.setAction(action);
+                resendOtpRequestModel.setCardRefNumber(cardReferenceNUmber);
+                resendOtpRequestModel.setMobileNumber(mobileNUmber);
+                resendOtpRequestModel.setSId(action.equals("EFORM") ? "" : "1");
+
+                ObjectMapper om = new ObjectMapper();
+                String req = null;
+                try {
+                    req = om.writeValueAsString(resendOtpRequestModel);
+                } catch (JsonProcessingException e) {
+                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                }
+                String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+                System.out.println("Message : " + encryptedMsg);
+
+                if (NetworkUtils.isNetworkConnected(getContext()))
+                {
+                    APIRequests.resendOTP(getContext(), encryptedMsg, randomKey, new NetworkResponseCallback<String>() {
+                        @Override
+                        public void onSuccess(Call<String> call, Response<String> response) {
+
+                            if (response.isSuccessful()){
+
+                                String encryptedResponse = response.body();
+                                encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                                ObjectMapper om = new ObjectMapper();
+                                ResponseBaseModel responseBaseModel = null;
+                                JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                                try {
+                                    responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                                }catch (Exception e)
+                                {
+                                    Log.d("EXCEPTION",e.getLocalizedMessage());
+                                }
+
+                                if (responseBaseModel != null) {
+
+                                    if (responseBaseModel.getStatusCode()==200) {
+                                        Toast.makeText(getContext(), "OTP successfully send to your mobile number", Toast.LENGTH_SHORT).show();
+                                        tvResendOTP.setClickable(false);
+                                        CommonUtils.startTimer(tvResendOTP);
+                                    }
+                                }
+                            }
+                            else{
+                                String encryptedResponse ="";
+                                try {
+                                    encryptedResponse = response.errorBody().string();
+                                } catch (IOException e) {
+                                    Log.d("EXCEPTION",e.getLocalizedMessage());
+                                }
+                                encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                                ObjectMapper om = new ObjectMapper();
+                                ResponseBaseModel responseBaseModel = null;
+                                JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                                try {
+                                    responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                                }catch (Exception e)
+                                {
+                                    Log.d("EXCEPTION",e.getLocalizedMessage());
+                                }
+
+                                if (responseBaseModel!=null)
+                                {
+                                    Log.d("MSEF",responseBaseModel.getMessage());
+                                    Toast.makeText(getContext(), ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onResponseBodyNull(Call<String> call, Response<String> response) {
+                            tvResendOTP.setClickable(true);
+                            tvResendOTP.setText("Resend OTP");
+                        }
+
+                        @Override
+                        public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+                            tvResendOTP.setClickable(true);
+                            tvResendOTP.setText("Resend OTP");
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            tvResendOTP.setClickable(true);
+                            tvResendOTP.setText("Resend OTP");
+                        }
+
+                        @Override
+                        public void onInternalServerError() {
+                            tvResendOTP.setClickable(true);
+                            tvResendOTP.setText("Resend OTP");
+                        }
+                    });
+
+                }else{
+                    tvResendOTP.setClickable(true);
+                    tvResendOTP.setText("Resend OTP");
+                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

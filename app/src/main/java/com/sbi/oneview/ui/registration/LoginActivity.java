@@ -90,7 +90,7 @@ public class LoginActivity extends BaseActivity {
         }, 500); // Delay in milliseconds
 
         //--------------------- calling captcha and displaying ----------------------------
-      //  implementCaptcha();
+        implementCaptcha();
 
     }
 
@@ -304,9 +304,12 @@ public class LoginActivity extends BaseActivity {
                             //received successful response, and redirecting to otp screen if code is 200.
                             if (responseBaseModel.getStatusCode()==200){
 
+
                                 Intent requestOtpIntent = new Intent(LoginActivity.this, EnterOtp.class);
                                 String message = etPhoneNumber.getText().toString();
                                 requestOtpIntent.putExtra("PHONE_NUMBER", message);
+                                etPhoneNumber.setText("");
+                                etCaptcha.setText("");
                                 startActivity(requestOtpIntent);
 
                             }

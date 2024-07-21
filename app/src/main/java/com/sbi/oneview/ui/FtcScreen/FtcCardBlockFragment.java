@@ -334,7 +334,7 @@ public class FtcCardBlockFragment extends BaseFragment implements MyFragmentCall
 
                                     if (cardBlockUnblockResponseModel.getStatusCode()==200){
 
-                                        Toast.makeText(getActivity(), getResources().getString(R.string.your_card_has_been_successfully), Toast.LENGTH_SHORT).show();
+                                        CommonUtils.showSuccessDialogue(getActivity(),"Congratulation, Your Card has been block successfully.");
                                         loginResponse.ftc.cardDetails.get(position).setCardStatus("BLOCKED");
                                         currentCardStatus="BLOCKED";
                                         SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
@@ -476,7 +476,7 @@ public class FtcCardBlockFragment extends BaseFragment implements MyFragmentCall
                                 if (cardBlockUnblockResponseModel!=null){
 
                                     if (cardBlockUnblockResponseModel.getStatusCode()==200){
-                                        Toast.makeText(getActivity(), getResources().getString(R.string.unblock_successfully), Toast.LENGTH_SHORT).show();
+                                        CommonUtils.showSuccessDialogue(getActivity(),getResources().getString(R.string.unblock_successfully));
                                         loginResponse.ftc.cardDetails.get(cardPosition).setCardStatus("ACTIVE");
                                         currentCardStatus="ACTIVE";
                                         SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
@@ -616,7 +616,7 @@ public class FtcCardBlockFragment extends BaseFragment implements MyFragmentCall
 
                                     if (cardHotlistResponseModel.getStatusCode()==200){
 
-                                        Toast.makeText(getActivity(), getResources().getString(R.string.your_card_has_been_hotlisted_successfully), Toast.LENGTH_SHORT).show();
+                                        CommonUtils.showSuccessDialogue(getActivity(),"Congratulation, Your Card has been permanently hotlisted.");
                                         loginResponse.ftc.cardDetails.get(cardPosition).setCardStatus("INACTIVE");
                                         currentCardStatus="INACTIVE";
                                         SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);

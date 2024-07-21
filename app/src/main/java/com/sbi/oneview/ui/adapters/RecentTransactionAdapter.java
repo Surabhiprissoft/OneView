@@ -26,12 +26,14 @@ public class RecentTransactionAdapter extends RecyclerView.Adapter<RecentTransac
 
     private final Context context;
     private Data miniStatementResponse;
+    private String cardNumber;
     Dialog dialog;
 
 
-    public RecentTransactionAdapter(Context context,Data miniStatementResponse) {
+    public RecentTransactionAdapter(Context context,Data miniStatementResponse,String cardNumber) {
         this.context = context;
         this.miniStatementResponse = miniStatementResponse;
+        this.cardNumber = cardNumber;
     }
 
     @NonNull
@@ -49,7 +51,7 @@ public class RecentTransactionAdapter extends RecyclerView.Adapter<RecentTransac
             @Override
             public void onClick(View v) {
 
-                showSingleTransaction(miniStatementResponse,position);
+                showSingleTransaction(miniStatementResponse,position,cardNumber);
             }
         });
 
@@ -126,7 +128,7 @@ public class RecentTransactionAdapter extends RecyclerView.Adapter<RecentTransac
     }
 
 
-    public void showSingleTransaction(Data miniStatementResponse,int position){
+    public void showSingleTransaction(Data miniStatementResponse,int position,String cardNumber){
 
 
         dialog.setContentView(R.layout.detail_info_recent_transaction);
@@ -160,7 +162,7 @@ public class RecentTransactionAdapter extends RecyclerView.Adapter<RecentTransac
 
         CommonUtils.setGradientColor(tvCustomerdetails);
 
-        tvCardNumberValue.setText(miniStatementResponse.getCardNumber());
+        tvCardNumberValue.setText(cardNumber);
         card_status_value.setText(miniStatementResponse.getCardStatus());
         description_value.setText(miniStatementResponse.getTxnResponses().get(position).getTxnDescr());
         form_value.setText(miniStatementResponse.getTxnResponses().get(position).getTxnForm());

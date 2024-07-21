@@ -19,18 +19,23 @@
         style="@style/dialogHeadingTextStyle" />
 
     <TextView
-        android:text="Congratulations, card has been permanently blocked."
+        android:id="@+id/tvMsg"
         android:layout_marginTop="@dimen/_25sdp"
         android:layout_marginStart="@dimen/_30sdp"
         android:layout_marginEnd="@dimen/_30sdp"
         style="@style/dialogNormalTextStyle" />
 
 
-    <TextView
-        android:text="Redirecting to Card Hotlist Page"
-        android:layout_marginTop="@dimen/_15sdp"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnClose"
+        android:text="Close"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="wrap_content"
+        app:cornerRadius="@dimen/_10sdp"
+        android:paddingStart="@dimen/_20sdp"
+        android:paddingEnd="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_25sdp"
         android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
-        style="@style/dialogNormalTextStyle" />
+        android:layout_marginEnd="@dimen/_20sdp"/>
 
 </LinearLayout>

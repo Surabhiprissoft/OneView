@@ -1,4 +1,4 @@
-package com.sbi.oneview.ui.transitScreen;
+package com.sbi.oneview.ui.inrPrepaid;
 
 import android.os.Bundle;
 
@@ -21,18 +21,24 @@ import com.sbi.oneview.utils.ContactUsMethod;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class ContactUsBlankFragment extends Fragment {
-
-
+public class InrContactUsFragment extends Fragment {
 
     private RecyclerView rvContactUs;
     private List<ContactUsMethod> mContactUsMethodList;
     TextView tvContactUs,tvCurrentDate;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_contact_us_blank, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_inr_contact_us, container, false);
     }
 
     @Override
@@ -51,10 +57,11 @@ public class ContactUsBlankFragment extends Fragment {
 
         // Initialize the list
         mContactUsMethodList = new ArrayList<>();
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.transit_contact_1)));
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.transit_contact_2)));
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.transit_contact_3)));
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.transit_contact_4)));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_1)));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_2)));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_3)));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_4)));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_5)));
         // Add more items as needed
 
         // Initialize the adapter

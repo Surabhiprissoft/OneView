@@ -43,6 +43,7 @@ import com.sbi.oneview.utils.encryption.CipherEncryption;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -256,13 +257,21 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
         String randomKey = CommonUtils.generateRandomString();
         System.out.println("Random Key: " + randomKey);
 
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);  // 24-hour format
+        int minute = calendar.get(Calendar.MINUTE);
+
+        // Format the time to always be two digits
+        String formattedHour = String.format("%02d", hour);
+        String formattedMinute = String.format("%02d", minute);
+
         TransitStatementRequestModel transitStatementRequestModel = new TransitStatementRequestModel();
         transitStatementRequestModel.setCardRefNumber(CardProxyNumber);
         transitStatementRequestModel.setSId("");
         transitStatementRequestModel.setPageNo(pageNumber);
         transitStatementRequestModel.setProductCode(productCode);
-        transitStatementRequestModel.setFromDate(tvStartDate.getText().toString()+"T15:35:22.044");
-        transitStatementRequestModel.setToDate(tvEndDate.getText().toString()+"T15:35:22.044");
+        transitStatementRequestModel.setFromDate(tvStartDate.getText().toString()+"T00:01:22.044");
+        transitStatementRequestModel.setToDate(tvEndDate.getText().toString()+"T"+formattedHour+"+:"+formattedMinute+":00.044");
 
         ObjectMapper om = new ObjectMapper();
         String req = null;
@@ -444,7 +453,7 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
 
             tvCRN.setText(loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber());
             tvCardNumber.setText(loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
-            tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"BLOCKED");
+            tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"INACTIVE");
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
             tvExpDate.setText(loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(0,2)+" / "+loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(2));

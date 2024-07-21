@@ -21,6 +21,7 @@ import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
 import com.sbi.oneview.ui.adapters.FtcBalanceAdapter;
+import com.sbi.oneview.ui.inrPrepaid.InrCardStatementFragment;
 import com.sbi.oneview.ui.inrPrepaid.InrPrepaidHomeActivity;
 import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
 import com.sbi.oneview.utils.CommonUtils;
@@ -121,6 +122,52 @@ public class FtcDashboardFragment extends Fragment implements MyFragmentCallback
 
 
     public void clickListener(){
+
+        cardBlock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ftcHomeActivity!=null){
+                    ftcHomeActivity.drawerItemClick("cardManagement");
+                    ftcHomeActivity.subMenuClicked(ftcHomeActivity.cardhotlistCard,true);
+                    ftcHomeActivity.replaceFragment(new FtcCardBlockFragment());
+                }
+            }
+        });
+
+        cardResetPin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ftcHomeActivity!=null){
+                    ftcHomeActivity.drawerItemClick("cardManagement");
+                    ftcHomeActivity.subMenuClicked(ftcHomeActivity.resetpinCard,true);
+                    ftcHomeActivity.replaceFragment(new FtcResetPinFragment());
+                }
+            }
+        });
+
+        cardLimit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ftcHomeActivity!=null){
+                    ftcHomeActivity.drawerItemClick("cardManagement");
+                    ftcHomeActivity.subMenuClicked(ftcHomeActivity.cardLimitCard,true);
+                    ftcHomeActivity.replaceFragment(new FtcCardLimitFragment());
+                }
+            }
+        });
+
+        cardStatement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ftcHomeActivity!=null){
+                    ftcHomeActivity.drawerItemClick("cardManagement");
+                    ftcHomeActivity.subMenuClicked(ftcHomeActivity.cardStatementCard,true);
+                    ftcHomeActivity.replaceFragment(new FtcCardStatementFragment());
+                }
+            }
+        });
+
+
 
     }
 

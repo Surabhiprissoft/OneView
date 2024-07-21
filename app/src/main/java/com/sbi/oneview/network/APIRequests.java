@@ -70,6 +70,26 @@ public class APIRequests {
     }
 
 
+    public static void LoginResendOtp(
+            Context context,
+            String validateCaptchaRequestModel,
+            String accessKey,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.getLoginResendOtp(validateCaptchaRequestModel,accessKey, Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call, response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
     public static void loginWithOTP(
             Context context,
             String loginWithOtpRequestModel,
@@ -396,14 +416,55 @@ public class APIRequests {
     }
 
 
-    public static void resendOTP(
+    public static void transitInitiateTopUp(
             Context context,
-            String resendOtpRequestModel,
+            String transitInitiateTopupRequestModel,
             String accessKey,
             String token,
             NetworkResponseCallback<String> callback
     ){
-        App.apiClientencrypt.getTransitHotlistProcess(resendOtpRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+        App.apiClientencrypt.getInitiateTopUP(transitInitiateTopupRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+    public static void resendOTP(
+            Context context,
+            String resendOtpRequestModel,
+            String accessKey,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.getResendOtp(resendOtpRequestModel,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
+
+    public static void logout(
+            Context context,
+            String logoutRequestModel,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.getLogout(logoutRequestModel,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 callback.onSuccess(call,response);

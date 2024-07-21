@@ -89,7 +89,18 @@ public interface APIInterface {
     @POST(Constants.TRANSITPROCESSHOTLIST)
     Call<String> getTransitHotlistProcess(@Body String transitProcessHotlistRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
 
+    @POST(Constants.TRANSITTOPUP)
+    Call<String> getInitiateTopUP(@Body String initiateTopupRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
+
+
     @POST(Constants.RESENDOTP)
-    Call<String> getResendOtp(@Body String resendOtpRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
+    Call<String> getResendOtp(@Body String resendOtpRequestModel,@Header("Access-Key") String accessKey,@Header("Host") String host);
+
+
+    @POST(Constants.LOGOUT)
+    Call<String> getLogout(@Body String logoutRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
+
+    @POST(Constants.LOGINRESENDOTP)
+    Call<String> getLoginResendOtp  (@Body String validateCaptchaRequestModel, @Header("Access-Key") String accessKey,@Header("Host") String host);
 
 }
