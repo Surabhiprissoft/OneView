@@ -419,4 +419,29 @@ public class CommonUtils {
     }
 
 
+    public static void showInputValidationMsgDialogue(Context context,String msg)
+    {
+        Dialog dialog = new Dialog(context);
+
+        dialog.setContentView(R.layout.success_dialogue);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        TextView tvMsg = dialog.findViewById(R.id.tvMsg);
+        MaterialButton btnClose = dialog.findViewById(R.id.btnClose);
+
+        tvMsg.setText(""+msg);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+
+            }
+        });
+        dialog.show();
+
+    }
+
 }

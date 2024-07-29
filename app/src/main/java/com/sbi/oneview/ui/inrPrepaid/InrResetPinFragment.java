@@ -2,6 +2,7 @@ package com.sbi.oneview.ui.inrPrepaid;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -46,6 +47,9 @@ import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.OTPVerificationDialog;
 import com.sbi.oneview.utils.SharedConfig;
 import com.sbi.oneview.utils.encryption.CipherEncryption;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -194,6 +198,36 @@ public class InrResetPinFragment extends BaseFragment implements MyFragmentCallb
                                 String strResponse = convertToJson(res);
                                 Log.d("RESPONSE",""+strResponse);
 
+                                String jsonResponse = "{\"statusCode\":200,\"data\":{\"message\":\"Success\",\"targetUrl\":\"http://10.176.6.136:8504/SBICMS/cms/tl_cfp/u_14.cms?es=%22OmXTrvINHbOSAqWfaM/FIc1m7YzSysG/&id=t255YAlyMp8%22\",\"id\":\"t255YAlyMp8\"},\"message\":\"Pin set successfully\"}";
+
+                                try {
+                                    // Create a JSONObject from the response string
+                                    JSONObject jsonObject = new JSONObject(jsonResponse);
+
+                                    // Get the "data" object
+                                    JSONObject dataObject = jsonObject.getJSONObject("data");
+
+                                    // Extract the "targetUrl" value
+                                    String targetUrl = dataObject.getString("targetUrl");
+
+                                    // Print or use the targetUrl as needed
+                                    System.out.println("Full Target URL: " + targetUrl);
+
+                                    /*Intent intent = new Intent(getActivity(), ResetPinWebViewActivity.class);
+                                    intent.putExtra("resetUrl", targetUrl);
+                                    startActivity(intent);*/
+
+                                    String url = targetUrl; // Replace with your desired URL
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                    startActivity(intent);
+
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+/*
                                 ObjectMapper objectMapper = new ObjectMapper();
                                 try {
                                     // Deserialize JSON string to SampleResponseModel
@@ -207,7 +241,11 @@ public class InrResetPinFragment extends BaseFragment implements MyFragmentCallb
 
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                }
+                                }*/
+
+
+
+
                                 /*ObjectMapper om = new ObjectMapper();
                                 String decryptedResponse = (String) CipherEncryption.decryptMessage(encryptedResponse,randomKey);
 

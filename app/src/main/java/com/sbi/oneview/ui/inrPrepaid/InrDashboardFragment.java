@@ -215,6 +215,7 @@ public class InrDashboardFragment extends BaseFragment implements MyFragmentCall
             tvActDate.setText(loginResponse.getPrepaid().getCardDetails().get(position).getCardActivDate().substring(3,5) +" / "+ loginResponse.getPrepaid().getCardDetails().get(position).getCardActivDate().substring(6));
             tvExpDate.setText(loginResponse.getPrepaid().getCardDetails().get(position).getCardExpiryDate().substring(3,5)+" / "+loginResponse.getPrepaid().getCardDetails().get(position).getCardExpiryDate().substring(6));
 
+            String currentCardNumber = loginResponse.getPrepaid().getCardDetails().get(position).getCardNumber();
             currentCardStatus = loginResponse.getFtc().getCardDetails().get(position).getCardStatus();
             if (currentCardStatus.equals("ACTIVE") || currentCardStatus.equals("A")){
                 tvCardStatus.setText("Active");
@@ -242,14 +243,14 @@ public class InrDashboardFragment extends BaseFragment implements MyFragmentCall
                 }
             }
 
-           loadCardMiniStatement(loginResponse.getPrepaid().getCardDetails().get(position).getProxyNumber(),loginResponse.getToken());
+           loadCardMiniStatement(loginResponse.getPrepaid().getCardDetails().get(position).getProxyNumber(),loginResponse.getToken(),currentCardNumber);
         }
 
 
     }
 
 
-    public void loadCardMiniStatement(String proxyNumber,String token){
+    public void loadCardMiniStatement(String proxyNumber,String token,String cardNumber){
 
 
         String randomKey = CommonUtils.generateRandomString();
@@ -315,7 +316,7 @@ public class InrDashboardFragment extends BaseFragment implements MyFragmentCall
 
                                         Log.d("MSGF",""+cardMiniStatementResponseModel.getData().getCardNumber());
                                         // Create an instance of the adapter
-                                        RecentTransactionAdapter adapterRecentTransaction = new RecentTransactionAdapter(getActivity(),cardMiniStatementResponseModel.getData(),proxyNumber);
+                                        RecentTransactionAdapter adapterRecentTransaction = new RecentTransactionAdapter(getActivity(),cardMiniStatementResponseModel.getData(),cardNumber);
                                         // Set the adapter to the RecyclerView
                                         rvRecentTransaction.setAdapter(adapterRecentTransaction);
                                         // Set layout manager to position the items

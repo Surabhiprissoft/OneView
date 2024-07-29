@@ -105,7 +105,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textStyle="bold"
-                                    android:text="@string/reset_pin" />
+                                    android:text="@string/card_limit" />
 
                             </LinearLayout>
 
@@ -349,6 +349,7 @@
                             android:id="@+id/imgExpDate"
                             android:layout_width="@dimen/_15sdp"
                             android:layout_height="@dimen/_15sdp"
+                            android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvED"
                             android:src="@drawable/hide_icon"/>
@@ -356,7 +357,7 @@
                             android:id="@+id/tvCardExpDate"
                             android:layout_marginEnd="@dimen/_5sdp"
                             app:layout_constraintTop_toBottomOf="@id/tvED"
-                            app:layout_constraintEnd_toStartOf="@id/imgExpDate"
+                            app:layout_constraintEnd_toEndOf="parent"
                             style="@style/cardDetailsValueTextStyle"
                             android:text="@string/xx_xx"/>
 
@@ -378,7 +379,7 @@
                         <TextView
                             android:id="@+id/tvChipB"
                             android:layout_marginTop="@dimen/_10sdp"
-                            app:layout_constraintTop_toBottomOf="@id/imgExpDate"
+                            app:layout_constraintTop_toBottomOf="@id/tvCardExpDate"
                             app:layout_constraintEnd_toEndOf="parent"
                             android:text="@string/card_chip_bal"
                             style="@style/cardDetailsHeadingTextStyle"/>

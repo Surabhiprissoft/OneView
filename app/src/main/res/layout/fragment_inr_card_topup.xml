@@ -386,6 +386,7 @@
                                 android:layout_height="@dimen/_30sdp"
                                 android:paddingStart="@dimen/_7sdp"
                                 android:paddingEnd="@dimen/_7sdp"
+                                android:inputType="number"
                                 android:background="@drawable/edit_text_border_bg"
                                 app:layout_constraintStart_toStartOf="parent"
                                 android:textSize="@dimen/_12ssp"

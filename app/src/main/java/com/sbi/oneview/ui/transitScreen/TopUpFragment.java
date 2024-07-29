@@ -29,12 +29,14 @@ import com.sbi.oneview.base.BaseFragment;
 import com.sbi.oneview.base.ResponseBaseModel;
 import com.sbi.oneview.network.APIRequests;
 import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.TopupWebPageRequestModel;
 import com.sbi.oneview.network.RequestModel.Transit.TransitInitiateTopupRequestModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
 import com.sbi.oneview.network.ResponseModel.TransitRequestHotlist.TransitRequestHotlistResponseModel;
 import com.sbi.oneview.network.ResponseModel.TransitTopup.TransitInitiateTopupResponseModel;
 import com.sbi.oneview.ui.WebView.ResetPinWebViewActivity;
+import com.sbi.oneview.ui.WebView.TopupWebViewActivity;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
 import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
 import com.sbi.oneview.utils.CommonUtils;
@@ -188,31 +190,13 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
                     Toast.makeText(getActivity(), "Please amount to proceed with top up", Toast.LENGTH_SHORT).show();
                 }else{
                     initiatTopUP();
-                    Toast.makeText(getActivity(), "Work in Progress, please try again later", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getActivity(), "Work in Progress, please try again later", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
 
-    private void addTextViews() {
-        String[] texts = {"Text 1", "Text 2", "Text 3", "Text 4", "Text 5","Text 1", "Text 2", "Text 3", "Text 4", "Text 5","Text 1", "Text 2", "Text 3", "Text 4", "Text 5"};
-
-        for (String text : texts) {
-            TextView textView = new TextView(getActivity());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            layoutParams.setMargins(8, 8, 8, 8);
-            textView.setLayoutParams(layoutParams);
-            textView.setText(text);
-            textView.setTextColor(Color.WHITE);
-            textView.setBackgroundColor(Color.BLUE);
-
-            container.addView(textView);
-        }
-    }
 
     public void initiatTopUP()
     {
@@ -277,8 +261,9 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
                                 {
                                     Log.d("MSFG",""+transitInitiateTopupResponseModel.getData().getTxndata());
                                     Log.d("MSFG",""+transitInitiateTopupResponseModel.getData().getMerchantCode());
+                                    Log.d("URL",""+transitInitiateTopupResponseModel.getData().getUrl());
 
-                                    String url = transitInitiateTopupResponseModel.getData().getUrl();
+                                    /*String url = transitInitiateTopupResponseModel.getData().getUrl();
                                     String merchantCode = transitInitiateTopupResponseModel.getData().getMerchantCode();
                                     String data = transitInitiateTopupResponseModel.getData().getTxndata();
                                     String postData = "txndata=" + data + "&merchantCode=" + merchantCode;
@@ -287,7 +272,20 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
                                     Intent intent = new Intent(getActivity(), ResetPinWebViewActivity.class);
                                     intent.putExtra("url", url);
                                     intent.putExtra("postData", postData);
-                                    startActivity(intent);
+                                    startActivity(intent);*/
+
+                                    String epayUrl = transitInitiateTopupResponseModel.getData().getUrl();
+                                    String encryptTrans = transitInitiateTopupResponseModel.getData().getTxndata();
+                                    String merchIdVal = transitInitiateTopupResponseModel.getData().getMerchantCode();
+
+                                    // Start WebViewActivity with the URL and POST data
+                                    /*Intent intent = new Intent(getActivity(), TopupWebViewActivity.class);
+                                    intent.putExtra("epayUrl", epayUrl);
+                                    intent.putExtra("encryptTrans", encryptTrans);
+                                    intent.putExtra("merchIdVal", merchIdVal);
+                                    startActivity(intent);*/
+
+                                    callingTopupWebpage(encryptTrans,merchIdVal);
 
                                 }
 
@@ -352,13 +350,51 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
 
     }
 
+
+    public void callingTopupWebpage(String txnData,String merchndId){
+
+
+        showLoading();
+
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
+
+        TopupWebPageRequestModel topupWebPageRequestModel = new TopupWebPageRequestModel();
+        topupWebPageRequestModel.setEncData(txnData);
+        topupWebPageRequestModel.setMerchIdVal(merchndId);
+
+        ObjectMapper om = new ObjectMapper();
+        String req = null;
+        try {
+            req = om.writeValueAsString(topupWebPageRequestModel);
+        } catch (JsonProcessingException e) {
+            Log.d("EXCEPTION",""+e.getLocalizedMessage());
+        }
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
+
+        hideLoading();
+
+        if (encryptedMsg!=null)
+        {
+
+            Intent intent = new Intent(getActivity(), TopupWebViewActivity.class);
+            intent.putExtra("txnData", txnData);
+            intent.putExtra("accessKey", merchndId);
+            startActivity(intent);
+
+        }
+
+
+    }
+
     @Override
     public void onPositionChange(int position) {
         Data loginResponse = SharedConfig.getInstance(getActivity()).getLoginResponse(getActivity());
         if (loginResponse!=null){
 
             tvCRN.setText(loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber());
-            tvCardNumber.setText(loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
+            tvCardNumber.setText("XXXX XXXX XXXX "+loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
             tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"INACTIVE");
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));

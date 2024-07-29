@@ -160,6 +160,11 @@
     <string name="max_pos">Max: \u20B9 200000.00</string>
     <string name="max_EComm">Max: \u20B9 200000.00</string>
     <string name="max_ContactLess">Max: \u20B9 5000.00</string>
+
+    <string name="FTC_max_atm">Max: \u20B9 3000.00</string>
+    <string name="FTC_max_pos">Max: \u20B9 10000.00</string>
+    <string name="FTC_max_EComm">Max: \u20B9 10000.00</string>
+
     <string name="balances">Balances</string>
     <string name="your_card_has_been_hotlisted_successfully">Your card has been hotlisted successfully</string>
     <string name="captcha">Captcha</string>

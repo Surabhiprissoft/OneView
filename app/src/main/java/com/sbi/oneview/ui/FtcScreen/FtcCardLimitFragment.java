@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -134,9 +136,9 @@ public class FtcCardLimitFragment extends BaseFragment implements MyFragmentCall
 
         btnLimitUpdate = view.findViewById(R.id.btnLimitUpdate);
 
-        seekBarAtm.setMax(40000);
-        seekBarPos.setMax(200000);
-        seekBarEcomm.setMax(200000);
+        seekBarAtm.setMax(3000);
+        seekBarPos.setMax(10000);
+        seekBarEcomm.setMax(10000);
         seekBarContactless.setMax(5000);
 
         tvCurrentDate.setText(CommonUtils.setCurrentDate());
@@ -225,10 +227,10 @@ public class FtcCardLimitFragment extends BaseFragment implements MyFragmentCall
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if(isChecked){
-                    etAtmValue.setFocusable(true);
+                    etAtmValue.setEnabled(true);
                     seekBarAtm.setEnabled(true);
                 }else{
-                    etAtmValue.setFocusable(false);
+                    etAtmValue.setEnabled(false);
                     seekBarAtm.setEnabled(false);
                 }
             }
@@ -238,11 +240,11 @@ public class FtcCardLimitFragment extends BaseFragment implements MyFragmentCall
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    etPosValue.setFocusable(true);
+                    etPosValue.setEnabled(true);
                     seekBarPos.setEnabled(true);
 
                 }else{
-                    etPosValue.setFocusable(false);
+                    etPosValue.setEnabled(false);
                     seekBarPos.setEnabled(false);
 
                 }
@@ -253,10 +255,10 @@ public class FtcCardLimitFragment extends BaseFragment implements MyFragmentCall
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    etEcommValue.setFocusable(true);
+                    etEcommValue.setEnabled(true);
                     seekBarEcomm.setEnabled(true);
                 }else{
-                    etEcommValue.setFocusable(false);
+                    etEcommValue.setEnabled(false);
                     seekBarEcomm.setEnabled(false);
                 }
             }
@@ -266,14 +268,107 @@ public class FtcCardLimitFragment extends BaseFragment implements MyFragmentCall
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    etContactlessValue.setFocusable(true);
+                    etContactlessValue.setEnabled(true);
                     seekBarContactless.setEnabled(true);
                 }else{
-                    etContactlessValue.setFocusable(false);
+                    etContactlessValue.setEnabled(false);
                     seekBarContactless.setEnabled(false);
                 }
             }
         });
+
+
+        etAtmValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (!s.toString().isEmpty()) {
+                    try {
+                        int input = Integer.parseInt(s.toString());
+                        if (input >= 3000) {
+                            etAtmValue.setError("Value cannot exceed 3000");
+                            etAtmValue.setText(String.valueOf(3000));
+                            etAtmValue.setSelection(etAtmValue.getText().length());
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle the exception if the input is not a valid integer
+                        etAtmValue.setText("");
+                    }
+                }
+
+
+            }
+        });
+        etPosValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty()) {
+                    try {
+                        int input = Integer.parseInt(s.toString());
+                        if (input >= 10000) {
+                            etPosValue.setError("Value cannot exceed 10000");
+                            etPosValue.setText(String.valueOf(10000));
+                            etPosValue.setSelection(etPosValue.getText().length());
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle the exception if the input is not a valid integer
+                        etPosValue.setText("");
+                    }
+                }
+            }
+        });
+        etEcommValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty()) {
+                    try {
+                        int input = Integer.parseInt(s.toString());
+                        if (input >= 10000) {
+                            etEcommValue.setError("Value cannot exceed 10000");
+                            etEcommValue.setText(String.valueOf(10000));
+                            etEcommValue.setSelection(etEcommValue.getText().length());
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle the exception if the input is not a valid integer
+                        etEcommValue.setText("");
+                    }
+                }
+
+            }
+        });
+
+
+
 
         btnLimitUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -412,10 +507,10 @@ public class FtcCardLimitFragment extends BaseFragment implements MyFragmentCall
                                             switchAtm.setChecked(inrLimitEnquiryResponseModel.getData().getAtmTxnFlag().equals("1") ? true : false);
 
                                             if (inrLimitEnquiryResponseModel.getData().getAtmTxnFlag().equals("1")){
-                                                etAtmValue.setFocusable(true);
+                                                etAtmValue.setEnabled(true);
                                                 seekBarAtm.setEnabled(true);
                                             }else{
-                                                etAtmValue.setFocusable(false);
+                                                etAtmValue.setEnabled(false);
                                                 seekBarAtm.setEnabled(false);
                                             }
                                         }
@@ -432,10 +527,10 @@ public class FtcCardLimitFragment extends BaseFragment implements MyFragmentCall
                                             switchPos.setChecked(inrLimitEnquiryResponseModel.getData().getPosTxnFlag().equals("1") ? true:false);
 
                                             if (inrLimitEnquiryResponseModel.getData().getPosTxnFlag().equals("1")){
-                                                etPosValue.setFocusable(true);
+                                                etPosValue.setEnabled(true);
                                                 seekBarPos.setEnabled(true);
                                             }else{
-                                                etPosValue.setFocusable(false);
+                                                etPosValue.setEnabled(false);
                                                 seekBarPos.setEnabled(false);
                                             }
                                         }
@@ -451,10 +546,10 @@ public class FtcCardLimitFragment extends BaseFragment implements MyFragmentCall
                                             switchEComm.setChecked(inrLimitEnquiryResponseModel.getData().getEcomTxnFlag().equals("1") ? true:false);
 
                                             if (inrLimitEnquiryResponseModel.getData().getEcomTxnFlag().equals("1")){
-                                                etEcommValue.setFocusable(true);
+                                                etEcommValue.setEnabled(true);
                                                 seekBarEcomm.setEnabled(true);
                                             }else{
-                                                etEcommValue.setFocusable(false);
+                                                etEcommValue.setEnabled(false);
                                                 seekBarEcomm.setEnabled(false);
                                             }
                                         }

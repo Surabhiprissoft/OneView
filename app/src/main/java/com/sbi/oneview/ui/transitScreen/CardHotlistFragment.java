@@ -231,7 +231,7 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
         if (loginResponse!=null){
 
             tvCRN.setText(loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber());
-            tvCardNumber.setText(loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
+            tvCardNumber.setText("XXXX XXXX XXXX "+loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
             tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"INACTIVE");
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));

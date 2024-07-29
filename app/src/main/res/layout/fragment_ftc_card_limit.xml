@@ -295,7 +295,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/max_atm"
+                                    android:text="@string/FTC_max_atm"
                                     android:layout_marginTop="@dimen/_3sdp"
                                     android:textStyle="bold"/>
 
@@ -360,7 +360,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/max_pos"
+                                    android:text="@string/FTC_max_pos"
                                     android:layout_marginTop="@dimen/_3sdp"
                                     android:textStyle="bold"/>
 
@@ -425,7 +425,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/max_EComm"
+                                    android:text="@string/FTC_max_EComm"
                                     android:layout_marginTop="@dimen/_3sdp"
                                     android:textStyle="bold"/>
 

@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -241,15 +243,16 @@ public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCal
             }
         });
 
+
         switchAtm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if(isChecked){
-                    etAtmValue.setFocusable(true);
+                    etAtmValue.setEnabled(isChecked);
                     seekBarAtm.setEnabled(true);
                 }else{
-                    etAtmValue.setFocusable(false);
+                    etAtmValue.setEnabled(isChecked);
                     seekBarAtm.setEnabled(false);
                 }
             }
@@ -259,11 +262,11 @@ public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCal
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    etPosValue.setFocusable(true);
+                    etPosValue.setEnabled(true);
                     seekBarPos.setEnabled(true);
 
                 }else{
-                    etPosValue.setFocusable(false);
+                    etPosValue.setEnabled(false);
                     seekBarPos.setEnabled(false);
 
                 }
@@ -274,10 +277,10 @@ public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCal
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    etEcommValue.setFocusable(true);
+                    etEcommValue.setEnabled(true);
                     seekBarEcomm.setEnabled(true);
                 }else{
-                    etEcommValue.setFocusable(false);
+                    etEcommValue.setEnabled(false);
                     seekBarEcomm.setEnabled(false);
                 }
             }
@@ -287,14 +290,137 @@ public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCal
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    etContactlessValue.setFocusable(true);
+                    etContactlessValue.setEnabled(true);
                     seekBarContactless.setEnabled(true);
                 }else{
-                    etContactlessValue.setFocusable(false);
+                    etContactlessValue.setEnabled(false);
                     seekBarContactless.setEnabled(false);
                 }
             }
         });
+
+
+
+        etAtmValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (!s.toString().isEmpty()) {
+                    try {
+                        int input = Integer.parseInt(s.toString());
+                        if (input >= 40000) {
+                            etAtmValue.setError("Value cannot exceed 40000");
+                            etAtmValue.setText(String.valueOf(40000));
+                            etAtmValue.setSelection(etAtmValue.getText().length());
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle the exception if the input is not a valid integer
+                        etAtmValue.setText("");
+                    }
+                }
+
+
+            }
+        });
+        etPosValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty()) {
+                    try {
+                        int input = Integer.parseInt(s.toString());
+                        if (input >= 200000) {
+                            etPosValue.setError("Value cannot exceed 200000");
+                            etPosValue.setText(String.valueOf(200000));
+                            etPosValue.setSelection(etPosValue.getText().length());
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle the exception if the input is not a valid integer
+                        etPosValue.setText("");
+                    }
+                }
+            }
+        });
+        etEcommValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty()) {
+                    try {
+                        int input = Integer.parseInt(s.toString());
+                        if (input >= 200000) {
+                            etEcommValue.setError("Value cannot exceed 200000");
+                            etEcommValue.setText(String.valueOf(200000));
+                            etEcommValue.setSelection(etEcommValue.getText().length());
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle the exception if the input is not a valid integer
+                        etEcommValue.setText("");
+                    }
+                }
+
+            }
+        });
+
+        etContactlessValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().isEmpty()) {
+                    try {
+                        int input = Integer.parseInt(s.toString());
+                        if (input >= 5000) {
+                            etContactlessValue.setError("Value cannot exceed 5000");
+                            etContactlessValue.setText(String.valueOf(5000));
+                            etContactlessValue.setSelection(etContactlessValue.getText().length());
+                        }
+                    } catch (NumberFormatException e) {
+                        // Handle the exception if the input is not a valid integer
+                        etContactlessValue.setText("");
+                    }
+                }
+
+            }
+        });
+
+
 
         btnLimitUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -451,34 +577,34 @@ public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCal
 
                                         //handle user interaction on editText and seekbar in accordance with response flag
                                         if (inrLimitEnquiryResponseModel.getData().getAtmTxnFlag().equals("1")){
-                                            etAtmValue.setFocusable(true);
+                                            etAtmValue.setEnabled(true);
                                             seekBarAtm.setEnabled(true);
                                         }else{
-                                            etAtmValue.setFocusable(false);
+                                            etAtmValue.setEnabled(false);
                                             seekBarAtm.setEnabled(false);
                                         }
 
                                         if (inrLimitEnquiryResponseModel.getData().getPosTxnFlag().equals("1")){
-                                            etPosValue.setFocusable(true);
+                                            etPosValue.setEnabled(true);
                                             seekBarPos.setEnabled(true);
                                         }else{
-                                            etPosValue.setFocusable(false);
+                                            etPosValue.setEnabled(false);
                                             seekBarPos.setEnabled(false);
                                         }
 
                                         if (inrLimitEnquiryResponseModel.getData().getEcomTxnFlag().equals("1")){
-                                            etEcommValue.setFocusable(true);
+                                            etEcommValue.setEnabled(true);
                                             seekBarEcomm.setEnabled(true);
                                         }else{
-                                            etEcommValue.setFocusable(false);
+                                            etEcommValue.setEnabled(false);
                                             seekBarEcomm.setEnabled(false);
                                         }
 
                                         if (inrLimitEnquiryResponseModel.getData().getClTxnFlag().equals("1")){
-                                            etContactlessValue.setFocusable(true);
+                                            etContactlessValue.setEnabled(true);
                                             seekBarContactless.setEnabled(true);
                                         }else{
-                                            etContactlessValue.setFocusable(false);
+                                            etContactlessValue.setEnabled(false);
                                             seekBarContactless.setEnabled(false);
                                         }
                                     }

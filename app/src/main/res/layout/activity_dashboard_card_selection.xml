@@ -281,6 +281,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="INR Prepaid Card"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:textStyle="bold"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_12ssp"/>

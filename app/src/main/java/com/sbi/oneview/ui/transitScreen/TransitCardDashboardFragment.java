@@ -181,7 +181,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
             public void onClick(View v) {
                 if (transitHomeActivity!=null){
                     transitHomeActivity.drawerItemClick("cardManagement");
-                    transitHomeActivity.subMenuClicked(transitHomeActivity.resetpinCard,true);
+                    transitHomeActivity.subMenuClicked(transitHomeActivity.cardLimitCard,true);
                     transitHomeActivity.replaceFragment(new ResetPinFragment());
                 }
             }
@@ -220,7 +220,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
         if (loginResponse!=null){
 
             tvCRN.setText(loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber());
-            tvCardNumber.setText("XXXX XXXX "+loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
+            tvCardNumber.setText("XXXX XXXX XXXX "+loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
             tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"INACTIVE");
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));

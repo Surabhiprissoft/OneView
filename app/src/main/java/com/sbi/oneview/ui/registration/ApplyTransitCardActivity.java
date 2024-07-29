@@ -268,11 +268,6 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
         // Validate Card Ref No
 
 
-        if (selectedSalutation.equalsIgnoreCase("")) {
-            Toast.makeText(App.getAppContext(), getString(R.string.select_salutation), Toast.LENGTH_SHORT).show();
-            isValid = false;
-        }
-
 
         if (TextUtils.isEmpty(etFirstName.getText().toString().trim())) {
             etFirstName.setError(getString(R.string.enter_first_name));
@@ -315,91 +310,107 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
 
         }
 
-        if (selectedOVDType.equalsIgnoreCase("")) {
-            Toast.makeText(App.getAppContext(), R.string.ovd_type_is_required, Toast.LENGTH_SHORT).show();
+        if (selectedCard.equalsIgnoreCase("")) {
+            Toast.makeText(App.getAppContext(), R.string.select_the_card, Toast.LENGTH_SHORT).show();
             isValid = false;
         }
-        else {
+        else{
 
-            
+            if (selectedSalutation.equalsIgnoreCase("")) {
+                Toast.makeText(App.getAppContext(), getString(R.string.select_salutation), Toast.LENGTH_SHORT).show();
+                isValid = false;
+            }else{
 
-            if (selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.aadhar))) {
-                String ovdNumber = etOvdDetails.getText().toString().trim();
-                if (TextUtils.isEmpty(ovdNumber)) {
-                    etOvdDetails.setError(getString(R.string.enter_aadhar_number));
+                if (selectedOVDType.equalsIgnoreCase("")) {
+                    Toast.makeText(App.getAppContext(), R.string.ovd_type_is_required, Toast.LENGTH_SHORT).show();
                     isValid = false;
-                } else if (!isValidAadharNumber(ovdNumber)) {
-                    etOvdDetails.setError(getString(R.string.invalid_aadhar_number));
-                    isValid = false;
-                } /*else if (ovdNumber.length()<12) {
+                }
+                else {
+
+                    if (selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.aadhar))) {
+                        String ovdNumber = etOvdDetails.getText().toString().trim();
+                        if (TextUtils.isEmpty(ovdNumber)) {
+                            etOvdDetails.setError(getString(R.string.enter_aadhar_number));
+                            isValid = false;
+                        } else if (!isValidAadharNumber(ovdNumber)) {
+                            etOvdDetails.setError(getString(R.string.invalid_aadhar_number));
+                            isValid = false;
+                        } /*else if (ovdNumber.length()<12) {
                     etOvdDetails.setError(getString(R.string.enter_aadhar_number));
                     isValid = false;
                 }*/
-            } else if (selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.passport)))
-            {
-                String ovdNumber = etOvdDetails.getText().toString().trim();
-                if (TextUtils.isEmpty(ovdNumber)) {
-                    etOvdDetails.setError(getString(R.string.invalid_passport_number));
-                    isValid = false;
-                } else if (!isValidPassportNumber(ovdNumber)) {
-                    etOvdDetails.setError(getString(R.string.invalid_passport_number));
-                    isValid = false;
-                }
+                    } else if (selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.passport)))
+                    {
+                        String ovdNumber = etOvdDetails.getText().toString().trim();
+                        if (TextUtils.isEmpty(ovdNumber)) {
+                            etOvdDetails.setError(getString(R.string.invalid_passport_number));
+                            isValid = false;
+                        } else if (!isValidPassportNumber(ovdNumber)) {
+                            etOvdDetails.setError(getString(R.string.invalid_passport_number));
+                            isValid = false;
+                        }
                 /*else if(ovdNumber.length()<8)
                 {
                     etOvdDetails.setError(getString(R.string.invalid_passport_number));
                     isValid=false;
                 }*/
-            } else if(selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.voter)))
-            {
-                String ovdNumber = etOvdDetails.getText().toString().trim();
-                if (TextUtils.isEmpty(ovdNumber)) {
-                    etOvdDetails.setError(getString(R.string.enter_voter_id));
-                    isValid = false;
-                } else if (!isValidVoterIdNumber(ovdNumber)) {
-                    etOvdDetails.setError(getString(R.string.invalid_voter_id));
-                    isValid = false;
-                }
+                    } else if(selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.voter)))
+                    {
+                        String ovdNumber = etOvdDetails.getText().toString().trim();
+                        if (TextUtils.isEmpty(ovdNumber)) {
+                            etOvdDetails.setError(getString(R.string.enter_voter_id));
+                            isValid = false;
+                        } else if (!isValidVoterIdNumber(ovdNumber)) {
+                            etOvdDetails.setError(getString(R.string.invalid_voter_id));
+                            isValid = false;
+                        }
                 /*else if(ovdNumber.length()<10)
                 {
                     etOvdDetails.setError(getString(R.string.invalid_voter_id));
                     isValid=false;
                 }*/
-            } else if(selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.job))) {
-                String ovdNumber = etOvdDetails.getText().toString().trim();
-                if (TextUtils.isEmpty(ovdNumber)) {
-                    etOvdDetails.setError(getString(R.string.enter_nrega_job_card_number));
-                    isValid = false;
-                }
-            } else if(selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.aadhar))){
-                String ovdNumber = etOvdDetails.getText().toString().trim();
+                    } else if(selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.job))) {
+                        String ovdNumber = etOvdDetails.getText().toString().trim();
+                        if (TextUtils.isEmpty(ovdNumber)) {
+                            etOvdDetails.setError(getString(R.string.enter_nrega_job_card_number));
+                            isValid = false;
+                        }
+                    } else if(selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.aadhar))){
+                        String ovdNumber = etOvdDetails.getText().toString().trim();
 
-                if (TextUtils.isEmpty(ovdNumber)) {
-                    etOvdDetails.setError(getString(R.string.enter_nprn));
-                    isValid = false;
-                }
+                        if (TextUtils.isEmpty(ovdNumber)) {
+                            etOvdDetails.setError(getString(R.string.enter_nprn));
+                            isValid = false;
+                        }
 
-            } else if (selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.licence))) {
-                String ovdNumber = etOvdDetails.getText().toString().trim();
-                if (TextUtils.isEmpty(ovdNumber)) {
-                    etOvdDetails.setError(getString(R.string.enter_driving_licence_number));
-                    isValid = false;
-                } else if (ovdNumber.length() < 15) {
-                    etOvdDetails.setError(getString(R.string.invalid_driving_licence_number));
-                    isValid = false;
+                    } else if (selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.licence))) {
+                        String ovdNumber = etOvdDetails.getText().toString().trim();
+                        if (TextUtils.isEmpty(ovdNumber)) {
+                            etOvdDetails.setError(getString(R.string.enter_driving_licence_number));
+                            isValid = false;
+                        } else if (ovdNumber.length() < 15) {
+                            etOvdDetails.setError(getString(R.string.invalid_driving_licence_number));
+                            isValid = false;
+                        }
+
+                    }
+
                 }
 
             }
 
         }
 
-        if (selectedCard.equalsIgnoreCase("")) {
-            Toast.makeText(App.getAppContext(), R.string.select_the_card, Toast.LENGTH_SHORT).show();
-            isValid = false;
-        }
+
+
+
+
+
+
+
         if (!checkBoxDeclaration.isChecked()) {
             // Show Toast message indicating that the declaration needs to be accepted
-            Toast.makeText(App.getAppContext(), "Please accept the declaration.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(App.getAppContext(), "Please accept the declaration.", Toast.LENGTH_SHORT).show();
             isValid = false;
 
             // Shake the checkbox to indicate validation failure

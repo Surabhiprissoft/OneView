@@ -198,10 +198,15 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
             public void onClick(View v) {
 
                 if (currentCardStatus.equals("ACTIVE") || currentCardStatus.equals("A")){
-                    if (!tvStartDate.getText().toString().isEmpty() && !tvEndDate.getText().toString().isEmpty()){
-                        getCardStatement(loginResponse.getToken(),"01","M");
+                    if (!tvStartDate.getText().toString().isEmpty()){
+
+                        if (!tvEndDate.getText().toString().isEmpty()) {
+                            getCardStatement(loginResponse.getToken(), "01", "M");
+                        }else{
+                            CommonUtils.showInputValidationMsgDialogue(getActivity(),"Please enter end date to proceed further");
+                        }
                     }else{
-                        Toast.makeText(getActivity(), "Please enter valid date in both field", Toast.LENGTH_SHORT).show();
+                        CommonUtils.showInputValidationMsgDialogue(getActivity(),"Please enter start date to proceed further");
                     }
                 }else{
                     Toast.makeText(getActivity(), "your current selected card is "+currentCardStatus, Toast.LENGTH_SHORT).show();
@@ -271,7 +276,10 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
         transitStatementRequestModel.setPageNo(pageNumber);
         transitStatementRequestModel.setProductCode(productCode);
         transitStatementRequestModel.setFromDate(tvStartDate.getText().toString()+"T00:01:22.044");
-        transitStatementRequestModel.setToDate(tvEndDate.getText().toString()+"T"+formattedHour+"+:"+formattedMinute+":00.044");
+        transitStatementRequestModel.setToDate(tvEndDate.getText().toString()+"T"+formattedHour+":"+formattedMinute+":00.044");
+
+        Log.d("START",""+tvStartDate.getText().toString()+"T00:01:22.044");
+        Log.d("END",""+tvEndDate.getText().toString()+"T"+formattedHour+":"+formattedMinute+":00.044");
 
         ObjectMapper om = new ObjectMapper();
         String req = null;
@@ -452,7 +460,7 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
         if (loginResponse!=null){
 
             tvCRN.setText(loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber());
-            tvCardNumber.setText(loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
+            tvCardNumber.setText("XXXX XXXX XXXX "+loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
             tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"INACTIVE");
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
@@ -491,4 +499,7 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
 
         }
     }
+
+
+
 }
