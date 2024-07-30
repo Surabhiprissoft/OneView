@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+<form id="myForm">
+    <input type="hidden" id="encryptTrans" name="encryptTrans">
+    <input type="hidden" id="merchIdVal" name="merchIdVal">
+    <button type="button" onclick="submitData()">Submit</button>
+</form>
+
+<script>
+    // Function to receive data from your app (assuming you've passed them to WebView)
+    function setFormData(encryptTransValue, merchIdValue) {
+      document.getElementById('encryptTrans').value = encryptTransValue;
+      document.getElementById('merchIdVal').value = merchIdValue;
+    }
+
+    function submitData() {
+      const encryptTrans = document.getElementById('encryptTrans').value;
+      const merchIdVal = document.getElementById('merchIdVal').value;
+
+      // Replace with your actual URL
+      const url = 'http://your-backend-url.com/submit-form';
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', url, true);
+      // Add headers (replace with your actual values)
+      xhr.setRequestHeader('Host', 'https://10.176.56.102:8502');  // Assuming host doesn't contain sensitive data
+      xhr.setRequestHeader('Referer', 'https://10.176.56.102:8502/');  // Assuming referer isn't sensitive data
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          // Handle successful response (potentially redirect)
+          console.log('Form submitted successfully');
+        } else {
+          // Handle errors
+          console.error('Error submitting form');
+        }
+      };
+      xhr.send(`encryptTrans=${encryptTrans}&merchIdVal=${merchIdVal}`);
+    }
+</script>
+
+</body>
+</html>

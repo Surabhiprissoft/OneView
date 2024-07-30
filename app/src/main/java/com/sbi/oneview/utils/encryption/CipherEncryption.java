@@ -69,7 +69,41 @@ public class CipherEncryption {
             }
 
         } catch (Exception ex) {
-            Log.d("Hello",ex.getLocalizedMessage());
+            Log.d("EXCEPTION",ex.getLocalizedMessage());
+        }
+
+        return null;
+    }
+
+
+    public static Object decryptMessage2(String encrypted, String key2) {
+        try {
+
+//              final String key = "1234567890123456"; // 16-byte key
+            final String initVector = "73efbfbd4e0aefbr"; // 16-byte IV
+
+            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes(StandardCharsets.UTF_8));
+            SecretKeySpec skeySpec = new SecretKeySpec(key2.getBytes(StandardCharsets.UTF_8), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
+
+            byte[] original = cipher.doFinal(java.util.Base64.getDecoder().decode(encrypted));
+
+            String res = new String(original, StandardCharsets.UTF_8);
+
+            ObjectMapper om = new ObjectMapper();
+
+            try {
+                JsonNode node = om.readTree(res);
+                return node;
+            } catch (IOException e) {
+                Log.d("EXCEPTION ",""+e.getLocalizedMessage());
+                return res;
+            }
+
+        } catch (Exception ex) {
+            Log.d("EXCEPTION",""+ex.getLocalizedMessage());
         }
 
         return null;

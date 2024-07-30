@@ -3,9 +3,11 @@ package com.sbi.oneview.ui.WebView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -39,11 +41,13 @@ import com.sbi.oneview.utils.Constants;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import okhttp3.OkHttpClient;
+
 public class TopupWebViewActivity extends AppCompatActivity {
 
     WebView webView;
     String origin = "https://10.176.56.102:8502";
-    String refered = "https://10.176.56.102:8502";
+    String Referer = "https://10.176.56.102:8502";
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +61,18 @@ public class TopupWebViewActivity extends AppCompatActivity {
         });
 
         webView = findViewById(R.id.wvTopup);
-
+/*
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient()); // Open URL in WebView, not in the browser
-
+        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient()); // Open URL in WebView, not in the browser*/
 
 
         // Get the URL and POST data from the intent
+        String epayUrl = getIntent().getStringExtra("epayUrl");
         String txnData = getIntent().getStringExtra("txnData");
         String accessKey = getIntent().getStringExtra("accessKey");
+
+        Log.d("URL",""+epayUrl);
 
         //Log.d("txnData",""+);
 
@@ -81,7 +88,7 @@ public class TopupWebViewActivity extends AppCompatActivity {
 
 
 
-       /*webView.setWebViewClient(new WebViewClient() {
+       webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -93,86 +100,32 @@ public class TopupWebViewActivity extends AppCompatActivity {
                 "<head><title>Submit Form</title></head>" +
                 "<body onload=\"document.getElementById('myform').submit();\">" +
                 "<form name='myform' id='myform' method='post' action='https://10.176.56.102:8502/oneview/epay/topup' target='_self'>" +
-                "<input type='hidden' name='transdata' value='" + txnData + "' >" +
-                "<input type='hidden' name='eval' value='" + accessKey + "'>" +
+                "<input type='text' name='transdata' value='" + txnData + "' >" +
+                "<input type='text' name='eval' value='" + accessKey + "'>" +
+                "<button type='submit'> submit </button>" +
                 "</form>" +
                 "</body></html>";
 
         Log.d("WEB_DATA",htmlContent);
 
         webView.loadDataWithBaseURL("https://10.176.56.102:8502/oneview/epay/topup", htmlContent, "text/html", "UTF-8", null);
-*/
-
-
-        /*String postData = "EncryptTrans=" + Uri.encode(encryptTrans) + "&merchIdVal=" + Uri.encode(merchIdVal);
-
-        // Construct the URL with POST data
-        String url = epayUrl + "?" + postData;
-
-        // Create the Intent to open the URL in an external browser
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-
-        // Set custom headers for the Intent
-        intent.putExtra("Origin", origin);
-        intent.putExtra("Referer", refered);
-
-        // Start the browser with the Intent
-        startActivity(intent);*/
-
-        /*webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                if (request.getUrl().toString().equals(epayUrl)) {
-                    String postData = "EncryptTrans=" + encryptTrans + "&merchIdVal=" + merchIdVal;
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Origin", origin);
-                    headers.put("Referer", refered);
-
-                    InputStream data = new ByteArrayInputStream(postData.getBytes(StandardCharsets.UTF_8));
-                    return new WebResourceResponse("application/x-www-form-urlencoded", "UTF-8", 200, "OK", headers, data);
-                }
-                return super.shouldInterceptRequest(view, request);
-            }
-        });
-
-        // POST data
-        String postData = "EncryptTrans=" + encryptTrans + "&merchIdVal=" + merchIdVal;
-        webView.postUrl(epayUrl, postData.getBytes(StandardCharsets.UTF_8));*/
 
 
 
 
-        /*String postData = "<html>" +
-                "<body>" +
-                "<form id='myForm' method='POST' action='" + "https://test.sbiepay.sbi/secure/AggregatorHostedListener" + "'>" +
-                "<input type='hidden' name='EncryptTrans' value='" + txnData + "'>" +
-                "<input type='hidden' name='merchIdVal' value='" + accessKey + "'>" +
-                "</form>" +
-                "<script type='text/javascript'>" +
-                "function setHeadersAndSubmit() {" +
-                "  var xhr = new XMLHttpRequest();" +
-                "  xhr.open('POST', '" + "https://test.sbiepay.sbi/secure/AggregatorHostedListener" + "', true);" +
-                "  xhr.setRequestHeader('Origin', '" + origin + "');" +
-                "  xhr.setRequestHeader('Referer', '" + refered + "');" +
-                "  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');" +
-                "  xhr.send(new URLSearchParams(new FormData(document.getElementById('myForm'))).toString());" +
-                "}" +
-                "window.onload = setHeadersAndSubmit;" +
-                "</script>" +
-                "</body>" +
-                "</html>";*/
+    }
 
-       // webView.loadDataWithBaseURL("",postData, "text/html", "UTF-8",null);
 
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Origin", origin);
-        headers.put("Referer", refered);
+    private String constructUrl(String baseUrl, String param1Name, String param1Value, String param2Name, String param2Value) {
+        final String EQUALS = "=";
+        final String APPENDER = "&";
 
-        String data = "encryptTrans=" + txnData + "&merchIdVal=" + accessKey;
-
-        webView.postUrl("https://test.sbiepay.sbi/secure/AggregatorHostedListener", data.getBytes());
-        webView.loadUrl("https://test.sbiepay.sbi/secure/AggregatorHostedListener", headers);
-
+        return new StringBuilder()
+                .append(baseUrl)
+                .append("?") // Assuming the baseUrl does not already contain a "?" to start the query params
+                .append(param1Name).append(EQUALS).append(param1Value).append(APPENDER)
+                .append(param2Name).append(EQUALS).append(param2Value)
+                .toString();
     }
 
 

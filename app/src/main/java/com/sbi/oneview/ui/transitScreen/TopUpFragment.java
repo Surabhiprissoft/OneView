@@ -2,6 +2,7 @@ package com.sbi.oneview.ui.transitScreen;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.button.MaterialButton;
@@ -45,8 +47,13 @@ import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
 import com.sbi.oneview.utils.encryption.CipherEncryption;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -228,12 +235,76 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
                     if (response.isSuccessful())
                     {
                         String encryptedResponse = response.body();
-                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+                        encryptedResponse = encryptedResponse.replaceAll("[\\\\\"]", "");
+
+                        String res = (String) CipherEncryption.decryptMessage(encryptedResponse,randomKey);
+
+
+                        String strResponse = convertToJson(res);
+                        Log.d("DECRYPTED RESPONSE",""+res);
+
+                        /*String res = (String) CipherEncryption.decryptMessage(encryptedResponse,randomKey);
+
+
+                        String strResponse = convertToJson(res);
+                        Log.d("DECRYPTED RESPONSE",""+res);
+                        Log.d("RESPONSE",""+strResponse);
+
+                        String jsonString = "{"
+                                + "\"statusCode\": 200,"
+                                + "\"data\": {"
+                                + "\"url\": \"https://test.sbiepay.sbi/secure/AggregatorHostedListener\","
+                                + "\"txndata\": \"zm3x1mTU=\","
+                                + "\"merchantCode\": \"1000001\","
+                                + "\"status\": \"A\","
+                                + "\"message\": \"The Card is eligible for TopUp ..!!\""
+                                + "},"
+                                + "\"message\": \"Success\""
+                                + "}";
+
+
+                        try {
+                            String cleanedJsonString = String.valueOf(cleanJSON(strResponse));
+                            String resString = cleanedJsonString.replace("\\", "");
+                            Log.d("CLEAN STRING",""+resString);
+
+
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            JsonNode rootNode = objectMapper.readTree(resString);
+
+                            // Access the fields
+                            JsonNode dataNode = rootNode.path("data");
+                            String url = dataNode.path("url").asText();
+                            String txndata = dataNode.path("txndata").asText();
+                            String merchantCode = dataNode.path("merchantCode").asText();
+
+
+                            Intent intent = new Intent(getActivity(), TopupWebViewActivity.class);
+                            intent.putExtra("epayUrl", url);
+                            intent.putExtra("encryptTrans", txndata);
+                            intent.putExtra("merchIdVal", merchantCode);
+                            startActivity(intent);
+
+
+
+
+                        } catch (JsonMappingException e) {
+                            Log.d("EXCEPTION MSG",""+e.getLocalizedMessage());
+
+                        } catch (JsonProcessingException e) {
+                            Log.d("EXCEPTION MSG",""+e.getLocalizedMessage());
+
+                        }
+*/
+
+
+
 
                         ObjectMapper om = new ObjectMapper();
                         ResponseBaseModel responseBaseModel = null;
-                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
                         try {
+                            JsonNode node = (JsonNode) CipherEncryption.decryptMessage2(encryptedResponse, randomKey);
+
                             responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
                         }catch (Exception e)
                         {
@@ -278,6 +349,7 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
                                     String encryptTrans = transitInitiateTopupResponseModel.getData().getTxndata();
                                     String merchIdVal = transitInitiateTopupResponseModel.getData().getMerchantCode();
 
+                                    //encryptTrans = encryptTrans.substring(0, encryptTrans.length() - 1);
                                     // Start WebViewActivity with the URL and POST data
                                     /*Intent intent = new Intent(getActivity(), TopupWebViewActivity.class);
                                     intent.putExtra("epayUrl", epayUrl);
@@ -291,7 +363,7 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
 
                             }
                         }
-                            }
+                    }
                     else{
                         String encryptedResponse ="";
                         try {
@@ -379,8 +451,8 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
         {
 
             Intent intent = new Intent(getActivity(), TopupWebViewActivity.class);
-            intent.putExtra("txnData", txnData);
-            intent.putExtra("accessKey", merchndId);
+            intent.putExtra("txnData", encryptedMsg);
+            intent.putExtra("accessKey", randomKey);
             startActivity(intent);
 
         }
@@ -432,5 +504,19 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
 
 
         }
+    }
+
+    public static String convertToJson(String input) {
+
+        String json = input.replaceAll("\\b(\\w+)\\s*=\\s*", "\"$1\": ");
+        json = json.replaceAll("(?<=\": )(?!\\[|\\{|(?:(?:null)[,}\n]))([^,}\n]*)", "\"$1\"");
+        return json;
+    }
+
+    public static String cleanJSON(String jsonString) {
+        // Regular expression to match the pattern: any text followed by ": ""=""
+        Pattern pattern = Pattern.compile(":[\\s\"]*\\\"\\\"\\s*=\\\"\\\"$");
+        Matcher matcher = pattern.matcher(jsonString);
+        return matcher.replaceAll("");
     }
 }
