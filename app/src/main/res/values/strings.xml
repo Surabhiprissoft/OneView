@@ -190,5 +190,6 @@
     <string name="https_transit_sbi">https://transit.sbi</string>
     <string name="https_prepaid_sbi">https://prepaid.sbi</string>
     <string name="contactcentre_sbi_co_in"><u>contactcentre@sbi.co.in</u></string>
+    <string name="succes_note">* To view your updated card balance after a top-up, please log in again. Your transaction history is available in recent transaction card on dashboard.</string>
 
 </resources>

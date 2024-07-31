@@ -241,7 +241,7 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
 
 
                         String strResponse = convertToJson(res);
-                        Log.d("DECRYPTED RESPONSE",""+res);
+                        Log.d("DECRYPTED RESPONSE",""+strResponse);
 
                         /*String res = (String) CipherEncryption.decryptMessage(encryptedResponse,randomKey);
 
@@ -351,13 +351,13 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
 
                                     //encryptTrans = encryptTrans.substring(0, encryptTrans.length() - 1);
                                     // Start WebViewActivity with the URL and POST data
-                                    /*Intent intent = new Intent(getActivity(), TopupWebViewActivity.class);
+                                    Intent intent = new Intent(getActivity(), TopupWebViewActivity.class);
                                     intent.putExtra("epayUrl", epayUrl);
                                     intent.putExtra("encryptTrans", encryptTrans);
                                     intent.putExtra("merchIdVal", merchIdVal);
-                                    startActivity(intent);*/
+                                    startActivity(intent);
 
-                                    callingTopupWebpage(encryptTrans,merchIdVal);
+                                    //callingTopupWebpage(encryptTrans,merchIdVal);
 
                                 }
 
