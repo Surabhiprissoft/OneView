@@ -87,7 +87,7 @@ public class FtcMyProfileFragment extends Fragment {
             dobTextView.setText(loginResponse.getFtc().getDob());
             ovdTypeTextView.setText(loginResponse.getFtc().getOvdType());
             ovdValueTextView.setText(loginResponse.getFtc().getOvdValue());
-            kycTypeTextView.setText(loginResponse.getFtc().getKyc());
+            kycTypeTextView.setText(loginResponse.getFtc().getKyc().equals("00")? "Min KYC":"Full KYC");
 
         }
 

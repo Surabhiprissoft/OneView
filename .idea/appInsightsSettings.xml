@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.sbi.oneview" />
+                  <option name="mobileSdkAppId" value="1:153699264214:android:b6341b815d5ecad1828b77" />
+                  <option name="projectId" value="oneview-ee385" />
+                  <option name="projectNumber" value="153699264214" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -69,8 +69,8 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
     String requestTxnID="";
     String CardProxyNumber,mobileNumber;
     int cardPosition;
-    TextView tvSpendLimit;
-    LinearLayout layoutCardStatus,layoutSpendLimitController;
+    TextView tvSpendLimit,tvHotlistNote;
+    LinearLayout layoutCardStatus,layoutSpendLimitController,layoutHotlistOption;
     TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal;
 
     @Override
@@ -116,6 +116,9 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
         tvExpDate = view.findViewById(R.id.tvCardExpDate);
         tvCardBal = view.findViewById(R.id.tvCardBalance);
         tvChipBal = view.findViewById(R.id.tvChipBalance);
+
+        tvHotlistNote = view.findViewById(R.id.tvHotlistNote);
+        layoutHotlistOption = view.findViewById(R.id.layoutHotlistOption);
 
 
         CommonUtils.setGradientColor(tvHotlist);
@@ -237,7 +240,7 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
             tvExpDate.setText(loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(0,2)+" / "+loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(2));
 
-            tvCardBal.setText(getResources().getString(R.string.Rs)+"0");
+            tvCardBal.setText(getResources().getString(R.string.Rs)+loginResponse.getTransit().getCardDetails().get(position).getWallBalPersonal());
             tvChipBal.setText(getResources().getString(R.string.Rs)+"0");
 
 
@@ -251,11 +254,15 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
 
                 tvCardStatus.setTextColor(Color.BLACK);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
+                layoutHotlistOption.setVisibility(View.VISIBLE);
+                tvHotlistNote.setVisibility(View.GONE);
 
             }else if(currentCardStatus.equals("PHL")){
 
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
+                layoutHotlistOption.setVisibility(View.GONE);
+                tvHotlistNote.setVisibility(View.VISIBLE);
 
             }
 

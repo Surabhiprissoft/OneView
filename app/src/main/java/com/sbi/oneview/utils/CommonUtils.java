@@ -261,7 +261,8 @@ public class CommonUtils {
             }
         });
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        Calendar minDate = getDate180DaysBack();
+        Calendar minDate = Calendar.getInstance();
+        minDate.set(2017, Calendar.JANUARY, 1);
         datePickerDialog.getDatePicker().setMinDate(minDate.getTimeInMillis());
         datePickerDialog.show();
 
@@ -370,7 +371,7 @@ public class CommonUtils {
 
 
     public static void startTimer(TextView txtTimer) {
-        final long timeLeftInMillis = 20000; //10 Minutes
+        final long timeLeftInMillis = 90000;
         CountDownTimer countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {

@@ -243,178 +243,218 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:padding="@dimen/_10sdp"
+                    android:layout_gravity="center_horizontal"
                     android:orientation="vertical">
-                    
+
                     <TextView
+                        android:id="@+id/tvTopupNote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:visibility="gone"
+                        android:layout_margin="@dimen/_10sdp"
                         android:textSize="@dimen/_13ssp"
-                        android:text="How much would you like top-up?"/>
-
+                        android:textStyle="bold"
+                        android:textColor="@color/failedTransaction"
+                        android:text="* Your selected card has been permanently block, Please choose any other card to procced with Topup."/>
 
                     <LinearLayout
-                        android:id="@+id/layoutChooseMoney"
+                        android:id="@+id/layoutTopupOption"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp"
                         android:orientation="vertical">
 
-                        <LinearLayout
+
+
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:weightSum="3"
-                            android:orientation="horizontal">
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:textSize="@dimen/_13ssp"
+                            android:text="How much would you like top-up?"/>
 
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/card500"
-                                android:layout_width="0dp"
+
+                        <LinearLayout
+                            android:id="@+id/layoutChooseMoney"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:backgroundTint="#662D91"
-                                app:cardCornerRadius="@dimen/_10sdp"
-                                android:layout_weight="1">
+                                android:weightSum="3"
+                                android:orientation="horizontal">
 
-                                <TextView
-                                    android:layout_width="match_parent"
+                                <com.google.android.material.card.MaterialCardView
+                                    android:id="@+id/card500"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/_7sdp"
-                                    android:textColor="@color/white"
-                                    android:gravity="center"
-                                    android:text="500"/>
+                                    android:backgroundTint="#662D91"
+                                    app:cardCornerRadius="@dimen/_10sdp"
+                                    android:layout_weight="1">
 
-                            </com.google.android.material.card.MaterialCardView>
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/card1000"
-                                android:layout_width="0dp"
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/_7sdp"
+                                        android:textColor="@color/white"
+                                        android:gravity="center"
+                                        android:text="500"/>
+
+                                </com.google.android.material.card.MaterialCardView>
+                                <com.google.android.material.card.MaterialCardView
+                                    android:id="@+id/card1000"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="#662D91"
+                                    android:layout_marginStart="@dimen/_7sdp"
+                                    android:layout_marginEnd="@dimen/_7sdp"
+                                    app:cardCornerRadius="@dimen/_10sdp"
+                                    android:layout_weight="1">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/_7sdp"
+                                        android:textColor="@color/white"
+                                        android:gravity="center"
+                                        android:text="1000"/>
+
+                                </com.google.android.material.card.MaterialCardView>
+                                <com.google.android.material.card.MaterialCardView
+                                    android:id="@+id/card2000"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="#662D91"
+                                    app:cardCornerRadius="@dimen/_10sdp"
+                                    android:layout_weight="1">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/_7sdp"
+                                        android:textColor="@color/white"
+                                        android:gravity="center"
+                                        android:text="2000"/>
+
+                                </com.google.android.material.card.MaterialCardView>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:backgroundTint="#662D91"
-                                android:layout_marginStart="@dimen/_7sdp"
-                                android:layout_marginEnd="@dimen/_7sdp"
-                                app:cardCornerRadius="@dimen/_10sdp"
-                                android:layout_weight="1">
+                                android:weightSum="3"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:orientation="horizontal">
 
-                                <TextView
-                                    android:layout_width="match_parent"
+                                <com.google.android.material.card.MaterialCardView
+                                    android:id="@+id/card5000"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/_7sdp"
-                                    android:textColor="@color/white"
-                                    android:gravity="center"
-                                    android:text="1000"/>
+                                    android:backgroundTint="#662D91"
+                                    app:cardCornerRadius="@dimen/_10sdp"
+                                    android:layout_weight="1">
 
-                            </com.google.android.material.card.MaterialCardView>
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/card2000"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:backgroundTint="#662D91"
-                                app:cardCornerRadius="@dimen/_10sdp"
-                                android:layout_weight="1">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/_7sdp"
+                                        android:textColor="@color/white"
+                                        android:gravity="center"
+                                        android:text="5000"/>
 
-                                <TextView
-                                    android:layout_width="match_parent"
+                                </com.google.android.material.card.MaterialCardView>
+                                <com.google.android.material.card.MaterialCardView
+                                    android:id="@+id/card10000"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/_7sdp"
-                                    android:textColor="@color/white"
-                                    android:gravity="center"
-                                    android:text="2000"/>
+                                    android:backgroundTint="#662D91"
+                                    android:layout_marginStart="@dimen/_4sdp"
+                                    android:layout_marginEnd="@dimen/_4sdp"
+                                    app:cardCornerRadius="@dimen/_10sdp"
+                                    android:layout_weight="1">
 
-                            </com.google.android.material.card.MaterialCardView>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/_7sdp"
+                                        android:textColor="@color/white"
+                                        android:gravity="center"
+                                        android:text="10000"/>
+
+                                </com.google.android.material.card.MaterialCardView>
+
+                            </LinearLayout>
+
 
                         </LinearLayout>
 
-                        <LinearLayout
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:weightSum="3"
-                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
                             android:orientation="horizontal">
 
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/card5000"
-                                android:layout_width="0dp"
+                            <EditText
+                                android:id="@+id/etMoney"
+                                android:layout_width="@dimen/_150sdp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:paddingStart="@dimen/_7sdp"
+                                android:paddingEnd="@dimen/_7sdp"
+                                android:inputType="number"
+                                android:background="@drawable/edit_text_border_bg"
+                                app:layout_constraintStart_toStartOf="parent"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintBottom_toBottomOf="@id/btnProceedWithMoney"
+                                app:layout_constraintTop_toTopOf="@id/btnProceedWithMoney"/>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnProceedWithMoney"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:backgroundTint="#662D91"
-                                app:cardCornerRadius="@dimen/_10sdp"
-                                android:layout_weight="1">
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:cornerRadius="@dimen/_10sdp"
+                                android:text="Proceed"
+                                style="@style/purpleButtonStyle" />
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/_7sdp"
-                                    android:textColor="@color/white"
-                                    android:gravity="center"
-                                    android:text="5000"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                            </com.google.android.material.card.MaterialCardView>
-                            <com.google.android.material.card.MaterialCardView
-                                android:id="@+id/card10000"
-                                android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:backgroundTint="#662D91"
-                                android:layout_marginStart="@dimen/_4sdp"
-                                android:layout_marginEnd="@dimen/_4sdp"
-                                app:cardCornerRadius="@dimen/_10sdp"
-                                android:layout_weight="1">
+                                android:text="@string/eligible_topup"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_13ssp"/>
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/_7sdp"
-                                    android:textColor="@color/white"
-                                    android:gravity="center"
-                                    android:text="10000"/>
+                            <TextView
+                                android:id="@+id/tvEligibleBal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:textSize="@dimen/_13ssp"/>
 
-                            </com.google.android.material.card.MaterialCardView>
 
                         </LinearLayout>
+
 
 
                     </LinearLayout>
 
-
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/etMoney"
-                            android:layout_width="@dimen/_150sdp"
-                            android:layout_height="@dimen/_30sdp"
-                            android:paddingStart="@dimen/_7sdp"
-                            android:paddingEnd="@dimen/_7sdp"
-                            android:inputType="number"
-                            android:background="@drawable/edit_text_border_bg"
-                            app:layout_constraintStart_toStartOf="parent"
-                            android:textSize="@dimen/_12ssp"
-                            app:layout_constraintBottom_toBottomOf="@id/btnProceedWithMoney"
-                            app:layout_constraintTop_toTopOf="@id/btnProceedWithMoney"/>
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnProceedWithMoney"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:cornerRadius="@dimen/_10sdp"
-                            android:text="Proceed"
-                            style="@style/purpleButtonStyle" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/eligible_topup"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:gravity="center"
-                        android:textSize="@dimen/_13ssp"/>
-
-
-                    
                 </LinearLayout>
+
+
                 
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
@@ -422,4 +462,5 @@
     </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
+
 </FrameLayout>

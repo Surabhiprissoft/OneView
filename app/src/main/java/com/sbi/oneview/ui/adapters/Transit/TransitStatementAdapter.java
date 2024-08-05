@@ -33,12 +33,30 @@ public class TransitStatementAdapter extends RecyclerView.Adapter<TransitStateme
     @Override
     public void onBindViewHolder(@NonNull TransitStatementAdapter.ViewHolder holder, int position) {
 
+        if (data.getStatements().get(position).getDate().length()==8 && data.getStatements().get(position).getTime().length()==6)
+        {
+            String date = data.getStatements().get(position).getDate();
+            String day = date.substring(0, 2);
+            String month = date.substring(2, 4);
+            String year = date.substring(4, 8);
+
+            String time = data.getStatements().get(position).getTime();
+            String hour = time.substring(0, 2);
+            String minute = time.substring(2, 4);
+            String second = time.substring(4, 6);
+
+            holder.tvDateTime.setText(day + "/" + month + "/" + year+"\n "+hour + ":" + minute + ":" + second);
+        }else{
+            holder.tvDateTime.setText(data.getStatements().get(position).getDate().length());
+        }
         String txnDate = data.getStatements().get(position).getDate();
 
-        holder.tvDateTime.setText(txnDate);
-        holder.tvForm.setText(data.getStatements().get(position).getTxnForm());
-        holder.tvStatus.setText(data.getStatements().get(position).getStatus());
-        holder.tvDetails.setText(data.getStatements().get(position).getAmount());
+        String status = data.getStatements().get(position).getStatus();
+
+
+        holder.tvForm.setText(data.getStatements().get(position).getTxnForm()!=null ? data.getStatements().get(position).getTxnForm():"NA");
+        holder.tvStatus.setText(status.substring(0,7).equalsIgnoreCase("Success")? "Success":"Failed");
+        holder.tvDetails.setText("Amount: "+data.getStatements().get(position).getAmount()+"\n"+"Merchant Name: "+data.getStatements().get(position).getMerchantName());
 
     }
 

@@ -83,7 +83,7 @@ public class InrMyProfileFragment extends Fragment {
             dobTextView.setText(loginResponse.getPrepaid().getDob());
             ovdTypeTextView.setText(loginResponse.getPrepaid().getOvdType());
             ovdValueTextView.setText(loginResponse.getPrepaid().getOvdValue());
-            kycTypeTextView.setText(loginResponse.getPrepaid().getKyc());
+            kycTypeTextView.setText(loginResponse.getPrepaid().getKyc().equals("00")? "Min KYC":"Full KYC");
 
         }
 

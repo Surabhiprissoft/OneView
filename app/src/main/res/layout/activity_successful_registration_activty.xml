@@ -9,8 +9,6 @@
     tools:context=".ui.registration.LoginActivity">
 
 
-
-
     <ImageView
         android:id="@+id/bottomLeft_image"
         android:layout_width="800dp"
@@ -52,7 +50,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:scaleType="centerCrop"
         android:layout_gravity="center"
         android:layout_height="@dimen/_130sdp">
@@ -76,7 +74,7 @@
                 android:src="@drawable/ic_done"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_height="@dimen/_60sdp">
             </ImageView>
 
@@ -95,7 +93,7 @@
             <TextView
                 style="@style/textstyle_18_400"
                 android:textColor="@color/white"
-                android:text="Congratulations, your Card application has been successfully created."
+                android:text="@string/congratulations_your_card_application_has_been_successfully_created"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="center"
                 android:layout_width="wrap_content"
@@ -105,7 +103,7 @@
             <TextView
                 style="@style/textstyle_16_400"
                 android:textColor="@color/white"
-                android:text="MCRN Number"
+                android:text="@string/mcrn_number"
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_25sdp"
                 android:layout_width="wrap_content"
@@ -194,7 +192,7 @@
                             android:background="@color/white"
                             android:gravity="center"
                             style="@style/textstyle_16_400"
-                            android:text="Copy"/>
+                            android:text="@string/copy"/>
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -202,6 +200,18 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+
+        <TextView
+            style="@style/textstyle_18_400"
+            android:textColor="@color/white"
+            android:text="@string/please_visit_nearest_tom_counter_for_issuing_your_transit_card"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center"
+            android:textSize="@dimen/_13ssp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </TextView>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLoginNow"

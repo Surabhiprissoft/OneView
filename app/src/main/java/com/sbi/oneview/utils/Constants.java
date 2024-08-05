@@ -31,6 +31,7 @@ public class Constants {
     public static final String LOGINWITHOTP = "service/login";
     public static final String CARDSTATEMENT = "s2/cardStatement";
     public static final String CARDMINISTATEMENT = "s2/cardMiniStatement";
+    public static final String INRCARDTOPUP = "s2/topUpNotification";
     public static final String CARDBLOCK = "s2/cardBlock";
     public static final String CARDUNBLOCK = "s2/cardUnblock";
     public static final String CARDHOTLIST = "s2/hotlist";

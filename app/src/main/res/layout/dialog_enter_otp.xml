@@ -28,7 +28,7 @@
 
             <TextView
                 android:id="@+id/h2"
-                android:text="OTP has been sent to your Email and Mobile number registered."
+                android:text="OTP has been sent to your registered Mobile number."
                 android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintTop_toBottomOf="@id/h1"
                 app:layout_constraintStart_toStartOf="parent"

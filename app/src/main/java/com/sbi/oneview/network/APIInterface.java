@@ -51,6 +51,9 @@ public interface APIInterface {
     @POST(Constants.CARDSTATEMENT)
     Call<String> getCardStatement(@Body String inrCardStatementRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
 
+    @POST(Constants.INRCARDTOPUP)
+    Call<String> getInrTopup(@Body String inrTopupRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
+
     @POST(Constants.CARDBLOCK)
     Call<String> getCardBlock(@Body String cardBlockUnblockRequestModel,@Header("Authorization") String token,@Header("Access-Key") String accessKey,@Header("Host") String host);
 

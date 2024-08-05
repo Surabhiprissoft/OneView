@@ -216,7 +216,7 @@ public class InrDashboardFragment extends BaseFragment implements MyFragmentCall
             tvExpDate.setText(loginResponse.getPrepaid().getCardDetails().get(position).getCardExpiryDate().substring(3,5)+" / "+loginResponse.getPrepaid().getCardDetails().get(position).getCardExpiryDate().substring(6));
 
             String currentCardNumber = loginResponse.getPrepaid().getCardDetails().get(position).getCardNumber();
-            currentCardStatus = loginResponse.getFtc().getCardDetails().get(position).getCardStatus();
+            currentCardStatus = loginResponse.getPrepaid().getCardDetails().get(position).getCardStatus();
             if (currentCardStatus.equals("ACTIVE") || currentCardStatus.equals("A")){
                 tvCardStatus.setText("Active");
                 tvCardStatus.setTextColor(Color.BLACK);

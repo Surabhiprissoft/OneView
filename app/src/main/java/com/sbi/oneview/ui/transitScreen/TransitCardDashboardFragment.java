@@ -54,7 +54,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
 
     TextView tvDashboard,tvCurrentDate,tvRecentTransaction,tvQuickAccess,tvMyCards,tvCardDetails,tvViewAll;
     //TextView tvTopUpRupee,tvSpendRupee,tvSinceLastTopUp,tvSuccessTxns,tvSinceLastLogin,tvLastStatementGenerated,tvAnalytics;
-    MaterialCardView cardCardTopUp,cardResetPin,cardHotList,cardStatement;
+    MaterialCardView cardCardTopUp,myProfileCard,cardHotList,cardStatement;
     RecyclerView rvRecentTransaction;
     TransitHomeActivity transitHomeActivity;
     ProgressBar pbMiniStatement;
@@ -102,7 +102,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
         tvViewAll = view.findViewById(R.id.tvViewAll);
         tvRecentTransaction = view.findViewById(R.id.tvRecentTransaction);
         cardCardTopUp = view.findViewById(R.id.cardCardTopup);
-        cardResetPin = view.findViewById(R.id.cardResetPin);
+        myProfileCard = view.findViewById(R.id.myProfileCard);
         cardHotList = view.findViewById(R.id.cardHotlist);
         cardStatement = view.findViewById(R.id.cardStatement);
         rvRecentTransaction = view.findViewById(R.id.rvRecentTransaction);
@@ -176,13 +176,13 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
             }
         });
 
-        cardResetPin.setOnClickListener(new View.OnClickListener() {
+        myProfileCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (transitHomeActivity!=null){
                     transitHomeActivity.drawerItemClick("cardManagement");
-                    transitHomeActivity.subMenuClicked(transitHomeActivity.cardLimitCard,true);
-                    transitHomeActivity.replaceFragment(new ResetPinFragment());
+                    transitHomeActivity.subMenuClicked(transitHomeActivity.myProfileCardView,true);
+                    transitHomeActivity.replaceFragment(new MyProfileFragment());
                 }
             }
         });
@@ -235,7 +235,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
                     tvChipBal.setText(loginResponse.getPrepaid().getCardDetails().get(position).getCardAccountDetails().get(i).getAccountBalance());
                 }
             }*/
-            tvCardBal.setText(getResources().getString(R.string.Rs)+"0");
+            tvCardBal.setText(getResources().getString(R.string.Rs)+loginResponse.getTransit().getCardDetails().get(position).getWallBalPersonal());
             tvChipBal.setText(getResources().getString(R.string.Rs)+"0");
 
 

@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background_one">#290174</color>
+    <color name="background_card">#662D91</color>
     <color name="background_dim">#473863</color>
     <color name="background_two">#D6224F</color>
     <color name="disable_button_color">#B6B1B1</color>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "153699264214",
+    "project_id": "oneview-ee385",
+    "storage_bucket": "oneview-ee385.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153699264214:android:b6341b815d5ecad1828b77",
+        "android_client_info": {
+          "package_name": "com.sbi.oneview"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABCJKLuNNah-YQMm3S4l6GUkkigXnlZvc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

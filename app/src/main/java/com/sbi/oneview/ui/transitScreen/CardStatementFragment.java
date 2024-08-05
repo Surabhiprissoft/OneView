@@ -42,7 +42,9 @@ import com.sbi.oneview.utils.encryption.CipherEncryption;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -188,7 +190,7 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
         cardEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommonUtils.showDatePickerDialogOnTextView(getActivity(),tvEndDate);
+                CommonUtils.showDatePickerDialogOnTextView(getActivity(), tvEndDate);
             }
         });
 
@@ -201,7 +203,18 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
                     if (!tvStartDate.getText().toString().isEmpty()){
 
                         if (!tvEndDate.getText().toString().isEmpty()) {
-                            getCardStatement(loginResponse.getToken(), "01", "M");
+
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                            LocalDate date1 = LocalDate.parse(tvStartDate.getText(), formatter);
+                            LocalDate date2 = LocalDate.parse(tvEndDate.getText(), formatter);
+
+                            boolean isDifferenceExceeds = isDateDifferenceExceeds(date1, date2, 180);
+
+                            if (isDifferenceExceeds){
+                                CommonUtils.showInputValidationMsgDialogue(getActivity(),"You can get only 180 days(6 months) of transaction statement at a time, please select date range between only 180 days.");
+                            }else {
+                                getCardStatement(loginResponse.getToken(), "01", "M");
+                            }
                         }else{
                             CommonUtils.showInputValidationMsgDialogue(getActivity(),"Please enter end date to proceed further");
                         }
@@ -253,6 +266,11 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
 
     }
 
+
+    public static boolean isDateDifferenceExceeds(LocalDate date1, LocalDate date2, int days) {
+        long difference = ChronoUnit.DAYS.between(date1, date2);
+        return Math.abs(difference) > days;
+    }
 
     public void getCardStatement(String token,String pageNumber,String action)
     {
@@ -475,7 +493,7 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
                     tvChipBal.setText(loginResponse.getPrepaid().getCardDetails().get(position).getCardAccountDetails().get(i).getAccountBalance());
                 }
             }*/
-            tvCardBal.setText(getResources().getString(R.string.Rs)+"0");
+            tvCardBal.setText(getResources().getString(R.string.Rs)+loginResponse.getTransit().getCardDetails().get(position).getWallBalPersonal());
             tvChipBal.setText(getResources().getString(R.string.Rs)+"0");
 
 
@@ -499,6 +517,7 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
 
         }
     }
+
 
 
 

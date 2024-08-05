@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,11 +71,11 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
 
     Data loginResponse;
     String currentCardStatus;
-
+    Double eligibleBalance;
     String CardProxyNumber,token;
     int cardPosition;
-    TextView tvSpendLimit;
-    LinearLayout layoutCardStatus,layoutSpendLimitController;
+    TextView tvSpendLimit,tvEligibleBal,tvTopupNote;
+    LinearLayout layoutCardStatus,layoutSpendLimitController,layoutTopupOption;
     TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal;
 
     @Override
@@ -139,6 +141,10 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
         tvExpDate = view.findViewById(R.id.tvCardExpDate);
         tvCardBal = view.findViewById(R.id.tvCardBalance);
         tvChipBal = view.findViewById(R.id.tvChipBalance);
+        tvEligibleBal = view.findViewById(R.id.tvEligibleBal);
+
+        layoutTopupOption = view.findViewById(R.id.layoutTopupOption);
+        tvTopupNote  =view.findViewById(R.id.tvTopupNote);
 
         /*container = view.findViewById(R.id.container);
         addTextViews();*/
@@ -157,35 +163,62 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
         card500.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                etMoney.setText("500");
+                if (eligibleBalance>=500.0) {
+                    etMoney.setText("500");
+                }else{
+                    etMoney.setText("");
+                    Toast.makeText(getActivity(), "You are exceeding your eligible balance", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         card1000.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                etMoney.setText("1000");
+
+                if (eligibleBalance>=1000.0) {
+                    etMoney.setText("10000");
+                }else{
+                    etMoney.setText("");
+                    Toast.makeText(getActivity(), "You are exceeding your eligible balance", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
         card2000.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                etMoney.setText("2000");
+                if (eligibleBalance>=2000.0) {
+                    etMoney.setText("2000");
+                }else{
+                    etMoney.setText("");
+                    Toast.makeText(getActivity(), "You are exceeding your eligible balance", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         card5000.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                etMoney.setText("5000");
+                if (eligibleBalance>=5000.0) {
+                    etMoney.setText("5000");
+                }else{
+                    etMoney.setText("");
+                    Toast.makeText(getActivity(), "You are exceeding your eligible balance", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         card10000.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                etMoney.setText("10000");
+                if (eligibleBalance>=10000.0) {
+                    etMoney.setText("10000");
+                }else{
+                    etMoney.setText("");
+                    Toast.makeText(getActivity(), "You are exceeding your eligible balance", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -194,18 +227,20 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
             @Override
             public void onClick(View v) {
                 if (etMoney.getText().toString().isEmpty()){
-                    Toast.makeText(getActivity(), "Please amount to proceed with top up", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please enter amount to proceed with top up", Toast.LENGTH_SHORT).show();
                 }else{
-                    initiatTopUP();
+                    int topUpAmount = Integer.parseInt(etMoney.getText().toString());
+                    initiatTopUP(topUpAmount);
                    // Toast.makeText(getActivity(), "Work in Progress, please try again later", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
 
 
-    public void initiatTopUP()
+    public void initiatTopUP(int amount)
     {
         showLoading();
 
@@ -213,7 +248,7 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
         System.out.println("Random Key: " + randomKey);
 
         TransitInitiateTopupRequestModel transitInitiateTopupRequestModel = new TransitInitiateTopupRequestModel();
-        transitInitiateTopupRequestModel.setAmount(100);
+        transitInitiateTopupRequestModel.setAmount(amount);
         transitInitiateTopupRequestModel.setCardRefNumber(CardProxyNumber);
         transitInitiateTopupRequestModel.setSId("1");
 
@@ -472,17 +507,10 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
             tvExpDate.setText(loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(0,2)+" / "+loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(2));
 
-
-           /* for(int i=0;i<loginResponse.getTransit().getCardDetails().get(position).getCardAccountDetails().size();i++){
-                if (loginResponse.getPrepaid().getCardDetails().get(position).getCardAccountDetails().get(i).getAccountType().equals("Online")){
-                    tvCardBal.setText(getResources().getString(R.string.Rs)+""+loginResponse.getPrepaid().getCardDetails().get(position).getCardAccountDetails().get(i).getAccountBalance());
-                }
-                else{
-                    tvChipBal.setText(loginResponse.getPrepaid().getCardDetails().get(position).getCardAccountDetails().get(i).getAccountBalance());
-                }
-            }*/
-            tvCardBal.setText(getResources().getString(R.string.Rs)+"0");
+            tvCardBal.setText(getResources().getString(R.string.Rs)+loginResponse.getTransit().getCardDetails().get(position).getWallBalPersonal());
             tvChipBal.setText(getResources().getString(R.string.Rs)+"0");
+            eligibleBalance = 10000-(Double.parseDouble(loginResponse.getTransit().getCardDetails().get(position).getWallBalPersonal()));
+            tvEligibleBal.setText(""+eligibleBalance.toString());
 
 
             CardProxyNumber = loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber();
@@ -494,15 +522,57 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
 
                 tvCardStatus.setTextColor(Color.BLACK);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
+                tvTopupNote.setVisibility(View.GONE);
+                layoutTopupOption.setVisibility(View.VISIBLE);
 
             }else if(currentCardStatus.equals("PHL")){
-
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
-
+                tvTopupNote.setVisibility(View.VISIBLE);
+                layoutTopupOption.setVisibility(View.GONE);
             }
 
+            setTopUpCardColor();
 
+
+        }
+    }
+
+    public void setTopUpCardColor()
+    {
+        if (eligibleBalance>=500.0)
+        {
+            card500.setCardBackgroundColor(getActivity().getColor(R.color.background_card));
+        }else{
+            card500.setCardBackgroundColor(getActivity().getColor(R.color.background_dim));
+        }
+
+        if (eligibleBalance>=1000.0)
+        {
+            card1000.setCardBackgroundColor(getActivity().getColor(R.color.background_card));
+        }else{
+            card1000.setCardBackgroundColor(getActivity().getColor(R.color.background_dim));
+        }
+
+        if (eligibleBalance>=2000.0)
+        {
+            card2000.setCardBackgroundColor(getActivity().getColor(R.color.background_card));
+        }else{
+            card2000.setCardBackgroundColor(getActivity().getColor(R.color.background_dim));
+        }
+
+        if (eligibleBalance>=5000.0)
+        {
+            card5000.setCardBackgroundColor(getActivity().getColor(R.color.background_card));
+        }else{
+            card5000.setCardBackgroundColor(getActivity().getColor(R.color.background_dim));
+        }
+
+        if (eligibleBalance>=10000.0)
+        {
+            card10000.setCardBackgroundColor(getActivity().getColor(R.color.background_card));
+        }else{
+            card10000.setCardBackgroundColor(getActivity().getColor(R.color.background_dim));
         }
     }
 

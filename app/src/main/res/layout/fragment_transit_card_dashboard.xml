@@ -75,17 +75,17 @@
                         </com.google.android.material.card.MaterialCardView>
 
                         <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/cardResetPin"
+                            android:id="@+id/cardStatement"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginEnd="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_20sdp"
                             android:layout_weight="1"
                             android:backgroundTint="@color/white"
                             app:cardCornerRadius="@dimen/_7sdp"
-                            app:cardElevation="@dimen/_7sdp"
+                            app:cardElevation="@dimen/_10sdp"
                             app:strokeWidth="0dp">
 
                             <LinearLayout
@@ -98,16 +98,17 @@
                                     android:layout_width="@dimen/_40sdp"
                                     android:layout_height="@dimen/_40sdp"
                                     android:layout_margin="@dimen/_10sdp"
-                                    android:src="@drawable/reset_pin_qa" />
+                                    android:src="@drawable/card_statement_qa" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textStyle="bold"
-                                    android:text="@string/card_limit" />
+                                    android:text="@string/card_statement"/>
 
                             </LinearLayout>
+
 
                         </com.google.android.material.card.MaterialCardView>
 
@@ -156,7 +157,7 @@
                         </com.google.android.material.card.MaterialCardView>
 
                         <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/cardStatement"
+                            android:id="@+id/myProfileCard"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_5sdp"
@@ -185,7 +186,7 @@
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
                                     android:textStyle="bold"
-                                    android:text="@string/card_statement"/>
+                                    android:text="My Profile"/>
 
                             </LinearLayout>
 

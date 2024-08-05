@@ -156,6 +156,26 @@ public class APIRequests {
         });
     }
 
+    public static void inrCardTopup(
+            Context context,
+            String inrCardTopup,
+            String accessKey,
+            String token,
+            NetworkResponseCallback<String> callback
+    ){
+        App.apiClientencrypt.getInrTopup(inrCardTopup,"Bearer "+token,accessKey,Constants.BASE_URL_HOSTNAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                callback.onSuccess(call,response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(call,t);
+            }
+        });
+    }
+
 
     public static void CardBlock(
             Context context,

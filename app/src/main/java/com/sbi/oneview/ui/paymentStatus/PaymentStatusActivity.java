@@ -1,6 +1,7 @@
 package com.sbi.oneview.ui.paymentStatus;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
 import com.sbi.oneview.ui.transitScreen.TransitHomeActivity;
+import com.sbi.oneview.utils.CommonUtils;
 
 public class PaymentStatusActivity extends AppCompatActivity {
 
@@ -40,6 +42,8 @@ public class PaymentStatusActivity extends AppCompatActivity {
 
 
         String status = getIntent().getStringExtra("status");
+        CommonUtils.setGradientColor(tvStatusDesc);
+        CommonUtils.setGradientColor(tvSuccessNote);
 
         if (status!=null)
         {
@@ -47,12 +51,13 @@ public class PaymentStatusActivity extends AppCompatActivity {
             if (status.equals("s"))
             {
                 imgStatus.setImageDrawable(getDrawable(R.drawable.ic_success));
-                tvStatus.setText("Successful");
+                tvStatus.setText("Transaction Successful");
                 tvStatusDesc.setText("Congratulation, Your transaction has been completed successfully.");
 
             }else{
                 imgStatus.setImageDrawable(getDrawable(R.drawable.again_transaction));
-                tvStatus.setText("Failed");
+                tvStatus.setText("Transaction Failed");
+                tvStatus.setTextColor(Color.RED);
                 tvStatusDesc.setText("Your topup transaction has been failed. Please try making another payment.");
 
             }

@@ -78,7 +78,7 @@ public class MyProfileFragment extends Fragment {
             dobTextView.setText(loginResponse.getTransit().getDob());
             ovdTypeTextView.setText(loginResponse.getTransit().getOvdType());
             ovdValueTextView.setText(loginResponse.getTransit().getOvdValue());
-            kycTypeTextView.setText(loginResponse.getTransit().getKyc());
+            kycTypeTextView.setText(loginResponse.getTransit().getKyc().equals("00")? "Min KYC":"Full KYC");
         }
         else{
             Toast.makeText(getActivity(), "No data Found", Toast.LENGTH_SHORT).show();

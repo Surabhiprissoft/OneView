@@ -246,88 +246,111 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:padding="@dimen/_15sdp"
+                    android:layout_gravity="center_horizontal"
                     android:orientation="vertical">
 
-                    <Spinner
-                        android:id="@+id/spinnerHotlistReason"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:paddingLeft="@dimen/_8sdp"
-                        android:overlapAnchor="false"
-                        android:background="@drawable/bg_spinner_black_border"
-                        android:textColor="@color/white"/>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnHotlist"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cornerRadius="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_gravity="center"
-                        android:text="Hotlist"
-                        style="@style/purpleButtonStyle" />
-
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvHotlistNote"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_marginBottom="@dimen/_5sdp"
                         android:visibility="gone"
-                        android:text="* Your card has been permantly blocked."
-                        android:textColor="@color/failedTransaction"
-                        android:textStyle="bold"/>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="*Note:"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:textSize="@dimen/_13ssp"
                         android:textStyle="bold"
-                        style="@style/cardDetailsHeadingTextStyle"/>
+                        android:textColor="@color/failedTransaction"
+                        android:text="* Your selected card has already been permanently hotlisted, Please choose any other card to procced with hotllist."/>
+
 
                     <LinearLayout
+                        android:id="@+id/layoutHotlistOption"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:padding="@dimen/_15sdp"
+                        android:orientation="vertical">
+
+                        <Spinner
+                            android:id="@+id/spinnerHotlistReason"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:paddingLeft="@dimen/_8sdp"
+                            android:overlapAnchor="false"
+                            android:background="@drawable/bg_spinner_black_border"
+                            android:textColor="@color/white"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnHotlist"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cornerRadius="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_gravity="center"
+                            android:text="Hotlist"
+                            style="@style/purpleButtonStyle" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1. "
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:visibility="gone"
+                            android:text="* Your card has been permantly blocked."
+                            android:textColor="@color/failedTransaction"
+                            android:textStyle="bold"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="*Note:"
+                            android:textStyle="bold"
                             style="@style/cardDetailsHeadingTextStyle"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/hotlist_reason_one"
-                            android:textSize="@dimen/_11ssp"
-                            android:textFontWeight="500"/>
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1. "
+                                style="@style/cardDetailsHeadingTextStyle"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/hotlist_reason_one"
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2. "
+                                style="@style/cardDetailsHeadingTextStyle"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/hotlist_reason_two"
+                                android:textSize="@dimen/_11ssp"
+                                android:textFontWeight="500"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2. "
-                            style="@style/cardDetailsHeadingTextStyle"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/hotlist_reason_two"
-                            android:textSize="@dimen/_11ssp"
-                            android:textFontWeight="500"/>
-
-                    </LinearLayout>
 
                 </LinearLayout>
+
 
             </com.google.android.material.card.MaterialCardView>
 

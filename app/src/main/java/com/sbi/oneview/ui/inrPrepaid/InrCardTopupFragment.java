@@ -1,14 +1,15 @@
 package com.sbi.oneview.ui.inrPrepaid;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,20 +18,36 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
+import com.sbi.oneview.base.BaseFragment;
+import com.sbi.oneview.base.ResponseBaseModel;
+import com.sbi.oneview.network.APIRequests;
+import com.sbi.oneview.network.NetworkResponseCallback;
+import com.sbi.oneview.network.RequestModel.InrTopupRequestModel;
+import com.sbi.oneview.network.ResponseModel.InrTopup.InrTopupResponseModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.CardDetailsItem;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
+import com.sbi.oneview.ui.WebView.TopupWebViewActivity;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
+import com.sbi.oneview.utils.NetworkUtils;
 import com.sbi.oneview.utils.SharedConfig;
+import com.sbi.oneview.utils.encryption.CipherEncryption;
 
+import java.io.IOException;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Response;
 
-public class InrCardTopupFragment extends Fragment implements MyFragmentCallback{
+
+public class InrCardTopupFragment extends BaseFragment implements MyFragmentCallback{
 
     TextView tvContactUs,tvCurrentDate,tvTopUp,tvMyCards,tvCardDetails;
     private LinearLayout container;
@@ -40,7 +57,7 @@ public class InrCardTopupFragment extends Fragment implements MyFragmentCallback
     MaterialButton btnProceedWithMoney;
 
     Data loginResponse;
-    String currentCardStatus;
+    String currentCardStatus,token;
 
     String CardProxyNumber;
     int cardPosition;
@@ -160,6 +177,7 @@ public class InrCardTopupFragment extends Fragment implements MyFragmentCallback
                 if (etMoney.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(), "Please amount to proceed with top up", Toast.LENGTH_SHORT).show();
                 }else{
+                    initiateTopup("100");
                     Toast.makeText(getActivity(), "Work in Progress, please try again later", Toast.LENGTH_SHORT).show();
                 }
 
@@ -192,6 +210,7 @@ public class InrCardTopupFragment extends Fragment implements MyFragmentCallback
 
             CardProxyNumber = loginResponse.getPrepaid().getCardDetails().get(position).getProxyNumber();
             cardPosition = position;
+            token = loginResponse.getToken();
 
             currentCardStatus = loginResponse.getPrepaid().getCardDetails().get(position).getCardStatus();
             if (currentCardStatus.equals("ACTIVE")){
@@ -221,5 +240,159 @@ public class InrCardTopupFragment extends Fragment implements MyFragmentCallback
 
 
         }
+    }
+
+
+
+    public void initiateTopup(String amount)
+    {
+        showLoading();
+
+        String randomKey = CommonUtils.generateRandomString();
+        System.out.println("Random Key: " + randomKey);
+
+        InrTopupRequestModel inrTopupRequestModel = new InrTopupRequestModel();
+        inrTopupRequestModel.setProxyNumber(CardProxyNumber);
+        inrTopupRequestModel.setTopUpAmount(amount);
+        inrTopupRequestModel.setRemark("Epaytxn");
+        inrTopupRequestModel.setSId("");
+
+        ObjectMapper om = new ObjectMapper();
+        String req = null;
+        try {
+            req = om.writeValueAsString(inrTopupRequestModel);
+        } catch (JsonProcessingException e) {
+            Log.d("EXCEPTION",""+e.getLocalizedMessage());
+        }
+        String encryptedMsg = CipherEncryption.encryptMessage(req,randomKey);
+        System.out.println("Message : " + encryptedMsg);
+
+        if (NetworkUtils.isNetworkConnected(getActivity()))
+        {
+
+            APIRequests.inrCardTopup(getActivity(), encryptedMsg, randomKey, token, new NetworkResponseCallback<String>() {
+                @Override
+                public void onSuccess(Call<String> call, Response<String> response) {
+
+                    if (response.isSuccessful())
+                    {
+                        String encryptedResponse = response.body();
+                        encryptedResponse = encryptedResponse.replaceAll("[\\\\\"]", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        try {
+                            JsonNode node = (JsonNode) CipherEncryption.decryptMessage2(encryptedResponse, randomKey);
+
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null) {
+                            if (responseBaseModel.getStatusCode() == 200) {
+
+                                Log.d("RESPONSE",""+responseBaseModel.getData().toString());
+
+                                InrTopupResponseModel inrTopupResponseModel = null;
+                                try{
+                                    Object data = responseBaseModel;
+
+                                    // Convert LinkedHashMap to JSON string
+                                    ObjectMapper om1 = new ObjectMapper();
+                                    String jsonString = om1.writeValueAsString(data);
+                                    inrTopupResponseModel = om1.readValue(jsonString, InrTopupResponseModel.class);
+
+                                }catch (Exception e){
+                                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
+                                }
+
+                                if (inrTopupResponseModel!=null)
+                                {
+
+                                    Log.d("MSFG",""+inrTopupResponseModel.getData().getData());
+                                    Log.d("MSFG",""+inrTopupResponseModel.getData().getValue());
+                                    Log.d("URL",""+inrTopupResponseModel.getData().getUrl());
+
+                                    String epayUrl = inrTopupResponseModel.getData().getUrl();
+                                    String encryptTrans = inrTopupResponseModel.getData().getData();
+                                    String merchIdVal = inrTopupResponseModel.getData().getValue();
+
+                                    //encryptTrans = encryptTrans.substring(0, encryptTrans.length() - 1);
+                                    // Start WebViewActivity with the URL and POST data
+                                    Intent intent = new Intent(getActivity(), TopupWebViewActivity.class);
+                                    intent.putExtra("epayUrl", epayUrl);
+                                    intent.putExtra("encryptTrans", encryptTrans);
+                                    intent.putExtra("merchIdVal", merchIdVal);
+                                    startActivity(intent);
+                                }
+
+                            }
+                        }
+
+                    }
+                    else{
+                        String encryptedResponse ="";
+                        try {
+                            encryptedResponse = response.errorBody().string();
+                        } catch (IOException e) {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+                        encryptedResponse = encryptedResponse.replaceAll("^\"|\"$", "");
+
+                        ObjectMapper om = new ObjectMapper();
+                        ResponseBaseModel responseBaseModel = null;
+                        JsonNode node = (JsonNode) CipherEncryption.decryptMessage(encryptedResponse, randomKey);
+                        try {
+                            responseBaseModel = om.treeToValue(node, ResponseBaseModel.class);
+                        }catch (Exception e)
+                        {
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
+                        }
+
+                        if (responseBaseModel!=null)
+                        {
+                            Log.d("MSEF",responseBaseModel.getMessage());
+                            Toast.makeText(getActivity(), ""+responseBaseModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onResponseBodyNull(Call<String> call, Response<String> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onResponseUnsuccessful(Call<String> call, Response<String> response) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    hideLoading();
+
+                }
+
+                @Override
+                public void onInternalServerError() {
+                    hideLoading();
+
+                }
+            });
+
+        }else{
+            hideLoading();
+            Toast.makeText(getActivity(), getResources().getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 }

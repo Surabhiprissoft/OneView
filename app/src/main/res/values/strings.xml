@@ -57,7 +57,7 @@
     <string name="Rs">\u20B9</string>
     <string name="resendOtp"><u>Resend OTP</u></string>
     <string name="noInternet"><u>No Internet available at this moment, Please try again later.</u></string>
-    <string name="eligible_topup">Eligible Balance for Topup :  <b>\u20B9</b></string>
+    <string name="eligible_topup">Eligible Balance for Topup :  <b>\u20B9</b> </string>
     <string name="last_topup">Last topup <b>₹500.00</b> on <b>03 Jan 2024</b></string>
     <string name="hotlist_reason_one">Please note that the Card will be permanently blocked after Hot listing.</string>
     <string name="hotlist_reason_two">Please visit the Nearest Branch for Issuance of New Card.</string>
@@ -97,7 +97,6 @@
         <item>Nation First Transit Card</item>
         <item>Maha Card Nagpur Metro</item>
         <item>Go Smart Kanpur Metro</item>
-        <item>Parliment Canteen</item>
     </string-array>
 
     <string-array name="ovdType_array">
@@ -126,7 +125,7 @@
     <string name="card_act_date">Card Act. Date</string>
     <string name="card_exp_date">Card Exp. Date</string>
     <string name="xx_xx">XX / XX</string>
-    <string name="card_bal">Card Bal.</string>
+    <string name="card_bal">Card Host Bal.</string>
     <string name="card_chip_bal">Card Chip Bal.</string>
     <string name="recent_transaction">Recent Transaction</string>
     <string name="card_limit">Card Limit</string>
@@ -191,5 +190,10 @@
     <string name="https_prepaid_sbi">https://prepaid.sbi</string>
     <string name="contactcentre_sbi_co_in"><u>contactcentre@sbi.co.in</u></string>
     <string name="succes_note">* To view your updated card balance after a top-up, please log in again. Your transaction history is available in recent transaction card on dashboard.</string>
+    <string name="please_visit_nearest_tom_counter_for_issuing_your_transit_card">* Please visit nearest TOM counter for issuing your transit card.</string>
+    <string name="congratulations_your_card_application_has_been_successfully_created">Congratulations, your Card application has been successfully created.</string>
+    <string name="mcrn_number">MCRN Number</string>
+    <string name="copy">Copy</string>
+    <string name="cancel_transaction">Cancel Transaction</string>
 
 </resources>
