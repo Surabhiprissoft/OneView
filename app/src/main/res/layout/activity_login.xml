@@ -52,11 +52,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+
+
+        <TextView
+            android:id="@+id/tvOneview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:text="OneView"
+            android:textSize="@dimen/_30ssp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+        <ImageView
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvOneview"
+            app:layout_constraintBottom_toBottomOf="@id/tvOneview"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:scaleType="fitXY"
+            android:src="@drawable/sbi_logo"/>
+
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/_90sdp"
             android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/tvOneview"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/_20sdp"
             android:orientation="vertical">
 
 
@@ -200,15 +229,7 @@
 
 
 
-        <ImageView
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:scaleType="fitXY"
-            android:layout_marginBottom="@dimen/_40sdp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/sbi_logo"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

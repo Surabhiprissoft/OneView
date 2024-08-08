@@ -92,7 +92,7 @@
     <string-array name="cards_array">
         <item>Select Card *</item>
         <item>Singara Chennai</item>
-        <item>MMRC-City 1 Metro</item>
+        <item>Noida NMRC-City 1 Metro</item>
         <item>Mumbai-1 MMRDA Metro</item>
         <item>Nation First Transit Card</item>
         <item>Maha Card Nagpur Metro</item>
@@ -180,20 +180,22 @@
     <string name="prepaid_contact_4"><u>2227580506</u></string>
     <string name="prepaid_contact_5"><u>2227566598</u></string>
 
-    <string name="transit_contact_1"><u>18001234</u></string>
-    <string name="transit_contact_2"><u>18002100</u></string>
-    <string name="transit_contact_3"><u>180012211</u></string>
-    <string name="transit_contact_4"><u>180004253800</u></string>
+    <string name="transit_contact_1"><u>18008899</u></string>
+    <string name="transit_contact_2"><u>18008899</u></string>
+    <string name="transit_contact_3"><u>18001234</u></string>
+    <string name="transit_contact_4"><u>00918026599990</u></string>
 
 
     <string name="https_transit_sbi">https://transit.sbi</string>
     <string name="https_prepaid_sbi">https://prepaid.sbi</string>
     <string name="contactcentre_sbi_co_in"><u>contactcentre@sbi.co.in</u></string>
+    <string name="fail_note">Please try again after sometime</string>
     <string name="succes_note">* To view your updated card balance after a top-up, please log in again. Your transaction history is available in recent transaction card on dashboard.</string>
     <string name="please_visit_nearest_tom_counter_for_issuing_your_transit_card">* Please visit nearest TOM counter for issuing your transit card.</string>
     <string name="congratulations_your_card_application_has_been_successfully_created">Congratulations, your Card application has been successfully created.</string>
     <string name="mcrn_number">MCRN Number</string>
     <string name="copy">Copy</string>
     <string name="cancel_transaction">Cancel Transaction</string>
+    <string name="hotlist_note">The offline balance of the hotlisted card will be transferred to the new card after T+7 days of replacement of card, provided the hotlisted card is handed over to the Metro Counter/Branch issuing SBI NCMC Prepaid Cards.</string>
 
 </resources>

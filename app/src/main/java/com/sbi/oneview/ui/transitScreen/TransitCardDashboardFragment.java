@@ -52,7 +52,7 @@ import retrofit2.Response;
 public class TransitCardDashboardFragment extends BaseFragment implements MyFragmentCallback {
 
 
-    TextView tvDashboard,tvCurrentDate,tvRecentTransaction,tvQuickAccess,tvMyCards,tvCardDetails,tvViewAll;
+    TextView tvDashboard,tvCurrentDate,tvRecentTransaction,tvQuickAccess,tvMyCards,tvCardDetails,tvViewAll,tvNoData;
     //TextView tvTopUpRupee,tvSpendRupee,tvSinceLastTopUp,tvSuccessTxns,tvSinceLastLogin,tvLastStatementGenerated,tvAnalytics;
     MaterialCardView cardCardTopUp,myProfileCard,cardHotList,cardStatement;
     RecyclerView rvRecentTransaction;
@@ -66,7 +66,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
     int cardPosition;
     TextView tvSpendLimit;
     LinearLayout layoutCardStatus,layoutSpendLimitController;
-    TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal;
+    TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal,tvCardBalanceSync,tvChipBalanceSync;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,6 +119,9 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
         tvExpDate = view.findViewById(R.id.tvCardExpDate);
         tvCardBal = view.findViewById(R.id.tvCardBalance);
         tvChipBal = view.findViewById(R.id.tvChipBalance);
+        tvNoData = view.findViewById(R.id.tvNoData);
+        tvCardBalanceSync = view.findViewById(R.id.tvCardBalanceSync);
+        tvChipBalanceSync = view.findViewById(R.id.tvChipBalanceSync);
 
 
         tvCurrentDate.setText(CommonUtils.setCurrentDate());
@@ -225,16 +228,8 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
             tvExpDate.setText(loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(0,2)+" / "+loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(2));
-
-
-           /* for(int i=0;i<loginResponse.getTransit().getCardDetails().get(position).getCardAccountDetails().size();i++){
-                if (loginResponse.getPrepaid().getCardDetails().get(position).getCardAccountDetails().get(i).getAccountType().equals("Online")){
-                    tvCardBal.setText(getResources().getString(R.string.Rs)+""+loginResponse.getPrepaid().getCardDetails().get(position).getCardAccountDetails().get(i).getAccountBalance());
-                }
-                else{
-                    tvChipBal.setText(loginResponse.getPrepaid().getCardDetails().get(position).getCardAccountDetails().get(i).getAccountBalance());
-                }
-            }*/
+            tvCardBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncPersonal() +"]");
+            tvChipBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncTransit()+"]");
             tvCardBal.setText(getResources().getString(R.string.Rs)+loginResponse.getTransit().getCardDetails().get(position).getWallBalPersonal());
             tvChipBal.setText(getResources().getString(R.string.Rs)+"0");
 
@@ -268,6 +263,16 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
     public void LoadTransitCardMiniStatement(String proxyNumber,String productCode,String token){
 
         //showLoading();
+
+        tvNoData.setVisibility(View.GONE);
+        pbMiniStatement.setVisibility(View.VISIBLE);
+        // Create an instance of the adapter
+        TransitRecentTransactionAdapter transitRecentTransactionAdapter1 = null;
+        // Set the adapter to the RecyclerView
+        rvRecentTransaction.setAdapter(transitRecentTransactionAdapter1);
+        // Set layout manager to position the items
+        rvRecentTransaction.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
         String randomKey = CommonUtils.generateRandomString();
         System.out.println("Random Key: " + randomKey);
@@ -327,13 +332,20 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
                                 if(transitMiniStatementResponseModel!=null){
                                     if (transitMiniStatementResponseModel.getStatusCode()==200)
                                     {
-                                        pbMiniStatement.setVisibility(View.GONE);
-                                        // Create an instance of the adapter
-                                        TransitRecentTransactionAdapter transitRecentTransactionAdapter = new TransitRecentTransactionAdapter(getActivity(),transitMiniStatementResponseModel);
-                                        // Set the adapter to the RecyclerView
-                                        rvRecentTransaction.setAdapter(transitRecentTransactionAdapter);
-                                        // Set layout manager to position the items
-                                        rvRecentTransaction.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                        if (transitMiniStatementResponseModel.getData().isEmpty()){
+                                            tvNoData.setVisibility(View.VISIBLE);
+                                            pbMiniStatement.setVisibility(View.GONE);
+                                        }else{
+                                            tvNoData.setVisibility(View.GONE);
+                                            pbMiniStatement.setVisibility(View.GONE);
+                                            // Create an instance of the adapter
+                                            TransitRecentTransactionAdapter transitRecentTransactionAdapter = new TransitRecentTransactionAdapter(getActivity(),transitMiniStatementResponseModel);
+                                            // Set the adapter to the RecyclerView
+                                            rvRecentTransaction.setAdapter(transitRecentTransactionAdapter);
+                                            // Set layout manager to position the items
+                                            rvRecentTransaction.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                        }
+
                                     }
                                 }
 

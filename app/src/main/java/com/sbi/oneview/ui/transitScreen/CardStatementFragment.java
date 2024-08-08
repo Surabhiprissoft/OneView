@@ -72,8 +72,9 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
     String CardProxyNumber,productCode;
     int cardPosition;
     TextView tvSpendLimit;
-    LinearLayout layoutCardStatus,layoutSpendLimitController;
-    TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal;
+    LinearLayout layoutCardStatus,layoutSpendLimitController,layoutStatement;
+    MaterialCardView cardNote;
+    TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal,tvCardBalanceSync,tvChipBalanceSync;
     String currentTransactionLength;
     int currentTransactionPageLength,currentPage=1;
     @Override
@@ -162,6 +163,11 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
         imgPrev = view.findViewById(R.id.imgPrev);
         rvTransactionStatement = view.findViewById(R.id.rvTransactionStatement);
         layoutNavButton = view.findViewById(R.id.layoutNavButton);
+        tvCardBalanceSync = view.findViewById(R.id.tvCardBalanceSync);
+        tvChipBalanceSync = view.findViewById(R.id.tvChipBalanceSync);
+
+        layoutStatement = view.findViewById(R.id.layoutStatement);
+        cardNote = view.findViewById(R.id.cardNote);
 
 
     }
@@ -211,7 +217,7 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
                             boolean isDifferenceExceeds = isDateDifferenceExceeds(date1, date2, 180);
 
                             if (isDifferenceExceeds){
-                                CommonUtils.showInputValidationMsgDialogue(getActivity(),"You can get only 180 days(6 months) of transaction statement at a time, please select date range between only 180 days.");
+                                CommonUtils.showInputValidationMsgDialogue(getActivity(),"You can get only 180 days(6 months) of transaction statement at a time, please select date range between 180 days only.");
                             }else {
                                 getCardStatement(loginResponse.getToken(), "01", "M");
                             }
@@ -481,6 +487,8 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
             tvCardNumber.setText("XXXX XXXX XXXX "+loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
             tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"INACTIVE");
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
+            tvCardBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncPersonal() +"]");
+            tvChipBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncTransit()+"]");
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
             tvExpDate.setText(loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(0,2)+" / "+loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(2));
 
@@ -507,10 +515,16 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
                 tvCardStatus.setTextColor(Color.BLACK);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
 
+                layoutStatement.setVisibility(View.VISIBLE);
+                cardNote.setVisibility(View.GONE);
+
             }else if(currentCardStatus.equals("PHL")){
 
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
+
+                layoutStatement.setVisibility(View.GONE);
+                cardNote.setVisibility(View.VISIBLE);
 
             }
 

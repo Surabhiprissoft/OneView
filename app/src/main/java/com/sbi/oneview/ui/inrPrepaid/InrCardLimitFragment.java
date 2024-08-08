@@ -558,55 +558,66 @@ public class InrCardLimitFragment extends BaseFragment implements  MyFragmentCal
                                     if (inrLimitEnquiryResponseModel.getStatusCode()==200)
                                     {
                                         Log.d("RESPOSNE",""+inrLimitEnquiryResponseModel.getData().toString());
-                                        etAtmValue.setText(inrLimitEnquiryResponseModel.getData().getAtmTxnAmount().equals("") ? "0":inrLimitEnquiryResponseModel.getData().getAtmTxnAmount());
-                                        seekBarAtm.setProgress(inrLimitEnquiryResponseModel.getData().getAtmTxnAmount().equals("") ? 0:Integer.parseInt(inrLimitEnquiryResponseModel.getData().getAtmTxnAmount()),true);
+                                        etAtmValue.setText(inrLimitEnquiryResponseModel.getData().getAtmTxnAmount()==null || inrLimitEnquiryResponseModel.getData().getAtmTxnAmount().isEmpty() ? "0":inrLimitEnquiryResponseModel.getData().getAtmTxnAmount());
+                                        seekBarAtm.setProgress(inrLimitEnquiryResponseModel.getData().getAtmTxnAmount()==null || inrLimitEnquiryResponseModel.getData().getAtmTxnAmount().isEmpty()  ? 0:Integer.parseInt(inrLimitEnquiryResponseModel.getData().getAtmTxnAmount()),true);
 
-                                        etPosValue.setText(inrLimitEnquiryResponseModel.getData().getPosTxnAmount().equals("") ? "0":inrLimitEnquiryResponseModel.getData().getPosTxnAmount());
-                                        seekBarPos.setProgress(inrLimitEnquiryResponseModel.getData().getPosTxnAmount().equals("") ? 0:Integer.parseInt(inrLimitEnquiryResponseModel.getData().getPosTxnAmount()),true);
+                                        etPosValue.setText(inrLimitEnquiryResponseModel.getData().getPosTxnAmount() == null || inrLimitEnquiryResponseModel.getData().getPosTxnAmount().isEmpty() ? "0":inrLimitEnquiryResponseModel.getData().getPosTxnAmount());
+                                        seekBarPos.setProgress(inrLimitEnquiryResponseModel.getData().getPosTxnAmount()==null || inrLimitEnquiryResponseModel.getData().getPosTxnAmount().isEmpty() ? 0:Integer.parseInt(inrLimitEnquiryResponseModel.getData().getPosTxnAmount()),true);
 
-                                        etEcommValue.setText(inrLimitEnquiryResponseModel.getData().getEcomTxnAmount().equals("") ? "0":inrLimitEnquiryResponseModel.getData().getEcomTxnAmount());
-                                        seekBarEcomm.setProgress(inrLimitEnquiryResponseModel.getData().getEcomTxnAmount().equals("") ? 0:Integer.parseInt(inrLimitEnquiryResponseModel.getData().getEcomTxnAmount()),true);
+                                        etEcommValue.setText(inrLimitEnquiryResponseModel.getData().getEcomTxnAmount()==null || inrLimitEnquiryResponseModel.getData().getEcomTxnAmount().isEmpty() ? "0":inrLimitEnquiryResponseModel.getData().getEcomTxnAmount());
+                                        seekBarEcomm.setProgress(inrLimitEnquiryResponseModel.getData().getEcomTxnAmount()==null || inrLimitEnquiryResponseModel.getData().getEcomTxnAmount().isEmpty() ? 0:Integer.parseInt(inrLimitEnquiryResponseModel.getData().getEcomTxnAmount()),true);
 
-                                        etContactlessValue.setText(inrLimitEnquiryResponseModel.getData().getClTxnAmount().equals("") ? "0":inrLimitEnquiryResponseModel.getData().getClTxnAmount());
-                                        seekBarContactless.setProgress(inrLimitEnquiryResponseModel.getData().getClTxnAmount().equals("") ? 0:Integer.parseInt(inrLimitEnquiryResponseModel.getData().getClTxnAmount()),true);
+                                        etContactlessValue.setText(inrLimitEnquiryResponseModel.getData().getClTxnAmount()==null || inrLimitEnquiryResponseModel.getData().getClTxnAmount().isEmpty() ? "0":inrLimitEnquiryResponseModel.getData().getClTxnAmount());
+                                        seekBarContactless.setProgress(inrLimitEnquiryResponseModel.getData().getClTxnAmount()==null || inrLimitEnquiryResponseModel.getData().getClTxnAmount().isEmpty() ? 0:Integer.parseInt(inrLimitEnquiryResponseModel.getData().getClTxnAmount()),true);
 
-                                        switchAtm.setChecked(inrLimitEnquiryResponseModel.getData().getAtmTxnFlag().equals("1") ? true:false);
-                                        switchPos.setChecked(inrLimitEnquiryResponseModel.getData().getPosTxnFlag().equals("1") ? true:false);
-                                        switchEComm.setChecked(inrLimitEnquiryResponseModel.getData().getEcomTxnFlag().equals("1") ? true:false);
-                                        switchContactless.setChecked(inrLimitEnquiryResponseModel.getData().getClTxnFlag().equals("1") ? true:false);
+
+                                        String atmTxnFlag = inrLimitEnquiryResponseModel.getData().getAtmTxnFlag();
+                                        switchAtm.setChecked("1".equals(atmTxnFlag));
+
+                                        String posTxnFlag = inrLimitEnquiryResponseModel.getData().getPosTxnFlag();
+                                        switchPos.setChecked("1".equals(posTxnFlag));
+
+                                        String ecomTxnFlag = inrLimitEnquiryResponseModel.getData().getEcomTxnFlag();
+                                        switchEComm.setChecked("1".equals(ecomTxnFlag));
+
+                                        String clTxnFlag = inrLimitEnquiryResponseModel.getData().getClTxnFlag();
+                                        switchContactless.setChecked("1".equals(clTxnFlag));
 
                                         //handle user interaction on editText and seekbar in accordance with response flag
-                                        if (inrLimitEnquiryResponseModel.getData().getAtmTxnFlag().equals("1")){
+                                        if ("1".equals(atmTxnFlag)) {
                                             etAtmValue.setEnabled(true);
                                             seekBarAtm.setEnabled(true);
-                                        }else{
+                                        } else {
                                             etAtmValue.setEnabled(false);
                                             seekBarAtm.setEnabled(false);
                                         }
 
-                                        if (inrLimitEnquiryResponseModel.getData().getPosTxnFlag().equals("1")){
+                                        if ("1".equals(posTxnFlag)) {
                                             etPosValue.setEnabled(true);
                                             seekBarPos.setEnabled(true);
-                                        }else{
+                                        } else {
                                             etPosValue.setEnabled(false);
                                             seekBarPos.setEnabled(false);
                                         }
 
-                                        if (inrLimitEnquiryResponseModel.getData().getEcomTxnFlag().equals("1")){
+                                        if ("1".equals(ecomTxnFlag)) {
                                             etEcommValue.setEnabled(true);
                                             seekBarEcomm.setEnabled(true);
-                                        }else{
+                                        } else {
                                             etEcommValue.setEnabled(false);
                                             seekBarEcomm.setEnabled(false);
                                         }
 
-                                        if (inrLimitEnquiryResponseModel.getData().getClTxnFlag().equals("1")){
+                                        if ("1".equals(clTxnFlag)) {
                                             etContactlessValue.setEnabled(true);
                                             seekBarContactless.setEnabled(true);
-                                        }else{
+                                        } else {
                                             etContactlessValue.setEnabled(false);
                                             seekBarContactless.setEnabled(false);
                                         }
+
+
+
                                     }
                                 }
                             }

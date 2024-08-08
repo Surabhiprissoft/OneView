@@ -58,10 +58,19 @@ public class TransitRecentTransactionAdapter extends RecyclerView.Adapter<Transi
             }
         });
 
+        String txnForm = miniStatementResponse.get(position).getTxnForm();
+        if (txnForm.equals("Credit"))
+        {
+            holder.tvTnxsForm.setTextColor(context.getColor(R.color.creditTransaction));
+            holder.tvAmount.setTextColor(context.getColor(R.color.creditTransaction));
+        }else{
+            holder.tvTnxsForm.setTextColor(context.getColor(R.color.failedTransaction));
+            holder.tvAmount.setTextColor(context.getColor(R.color.failedTransaction));
+        }
         holder.tvTnxId.setText(miniStatementResponse.get(position).getTxnId());
         holder.tvRecievedUrl.setText(miniStatementResponse.get(position).getMerchantName()); // +"/"+miniStatementResponse.get(position).getTxnDescr()+"/"+miniStatementResponse.getTxnResponses().get(position).getAccountType());
         holder.tvAmount.setText(context.getString(R.string.Rs)+" "+miniStatementResponse.get(position).getAmount());
-        holder.tvTnxsForm.setText(miniStatementResponse.get(position).getTxnForm());
+        holder.tvTnxsForm.setText(txnForm);
         holder.tvDayDate.setText(miniStatementResponse.get(position).getDate().substring(0,2));
         holder.tvMonthYear.setText(getMonthAbbreviation(miniStatementResponse.get(position).getDate())+" "+miniStatementResponse.get(position).getDate().substring(4));
 
@@ -143,7 +152,7 @@ public class TransitRecentTransactionAdapter extends RecyclerView.Adapter<Transi
         }
         transaction_id_value.setText(miniStatementResponse.getTxnId());
         transaction_status_value.setText(miniStatementResponse.getStatus());
-        failure_reason_value.setText(miniStatementResponse.getFailedReason());
+        failure_reason_value.setText(miniStatementResponse.getStatus().substring(0,7).equalsIgnoreCase("Success") ? "-":miniStatementResponse.getFailedReason());
         wallet_value.setText(miniStatementResponse.getWallet());
         merchant_value.setText(miniStatementResponse.getMerchantName());
         merchant_id_value.setText(miniStatementResponse.getMechantId());

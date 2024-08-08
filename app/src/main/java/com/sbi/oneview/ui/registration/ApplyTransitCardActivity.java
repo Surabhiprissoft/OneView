@@ -123,6 +123,7 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
                 if(i==0)
                 {
                     selectedCard="";
+                    etPan.setVisibility(View.GONE);
                     ((TextView) view.findViewById(android.R.id.text1)).setTextColor(getResources().getColor(R.color.transperant_white));
                 }
                 else
@@ -130,16 +131,22 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
                     if (i==1)
                     {
                         productCode = "266";
+                        etPan.setVisibility(View.VISIBLE);
                     }else if(i==2){
                         productCode = "262";
+                        etPan.setVisibility(View.GONE);
                     }else if(i==3){
                         productCode = "267";
+                        etPan.setVisibility(View.VISIBLE);
                     }else if(i==4){
                         productCode = "267";
+                        etPan.setVisibility(View.VISIBLE);
                     }else if(i==5){
                         productCode = "263";
+                        etPan.setVisibility(View.GONE);
                     }else if(i==6){
                         productCode = "270";
+                        etPan.setVisibility(View.VISIBLE);
                     }
 
                     selectedCard=adapterView.getSelectedItem().toString();
@@ -172,7 +179,7 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
                         etOvdDetails.setHint(R.string.nprn);
                         etOvdDetails.setInputType(InputType.TYPE_CLASS_TEXT);
                         etOvdDetails.setFilters(new InputFilter[]{new InputFilter.LengthFilter(40)});
-                        etOvdDetails.setFilters(new InputFilter[]{new CustomInputFilter()});
+                       // etOvdDetails.setFilters(new InputFilter[]{new CustomInputFilter()});
                         selectedOVDType = "NPR_NUMBER";
 
                     } else if (checkedId == 4) {
@@ -191,7 +198,7 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
                         etOvdDetails.setHint(R.string.job);
                         etOvdDetails.setInputType(InputType.TYPE_CLASS_TEXT);
                         etOvdDetails.setFilters(new InputFilter[]{new InputFilter.LengthFilter(40)});
-                        etOvdDetails.setFilters(new InputFilter[]{new CustomInputFilter()});
+                        //etOvdDetails.setFilters(new InputFilter[]{new CustomInputFilter()});
                         selectedOVDType = "NREGA_JOB_CARD";
 
                     } else if (checkedId == 3) {
@@ -335,10 +342,7 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
                         } else if (!isValidAadharNumber(ovdNumber)) {
                             etOvdDetails.setError(getString(R.string.invalid_aadhar_number));
                             isValid = false;
-                        } /*else if (ovdNumber.length()<12) {
-                    etOvdDetails.setError(getString(R.string.enter_aadhar_number));
-                    isValid = false;
-                }*/
+                        }
                     } else if (selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.passport)))
                     {
                         String ovdNumber = etOvdDetails.getText().toString().trim();
@@ -349,11 +353,6 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
                             etOvdDetails.setError(getString(R.string.invalid_passport_number));
                             isValid = false;
                         }
-                /*else if(ovdNumber.length()<8)
-                {
-                    etOvdDetails.setError(getString(R.string.invalid_passport_number));
-                    isValid=false;
-                }*/
                     } else if(selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.voter)))
                     {
                         String ovdNumber = etOvdDetails.getText().toString().trim();
@@ -364,18 +363,13 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
                             etOvdDetails.setError(getString(R.string.invalid_voter_id));
                             isValid = false;
                         }
-                /*else if(ovdNumber.length()<10)
-                {
-                    etOvdDetails.setError(getString(R.string.invalid_voter_id));
-                    isValid=false;
-                }*/
                     } else if(selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.job))) {
                         String ovdNumber = etOvdDetails.getText().toString().trim();
                         if (TextUtils.isEmpty(ovdNumber)) {
                             etOvdDetails.setError(getString(R.string.enter_nrega_job_card_number));
                             isValid = false;
                         }
-                    } else if(selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.aadhar))){
+                    } else if(selectedOVDType.equalsIgnoreCase(App.getAppContext().getString(R.string.nprn))){
                         String ovdNumber = etOvdDetails.getText().toString().trim();
 
                         if (TextUtils.isEmpty(ovdNumber)) {

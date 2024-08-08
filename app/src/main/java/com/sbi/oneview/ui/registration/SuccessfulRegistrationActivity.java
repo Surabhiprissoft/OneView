@@ -3,10 +3,13 @@ package com.sbi.oneview.ui.registration;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.sbi.oneview.R;
@@ -14,7 +17,7 @@ import com.sbi.oneview.R;
 public class SuccessfulRegistrationActivity extends AppCompatActivity {
 
     MaterialButton btnLoginNow;
-    TextView tvCardRefNumber;
+    TextView tvCardRefNumber,tvCopy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +28,8 @@ public class SuccessfulRegistrationActivity extends AppCompatActivity {
         String tempCardRefNumber = intent.getStringExtra("TXNID");
 
         tvCardRefNumber = findViewById(R.id.tvCardRefNumber);
+        tvCopy = findViewById(R.id.tvCopy);
+
         btnLoginNow=findViewById(R.id.btnLoginNow);
 
         if (tempCardRefNumber!=null)
@@ -39,5 +44,25 @@ public class SuccessfulRegistrationActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        tvCopy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                copyTextToClipboard();
+            }
+        });
+
+    }
+
+    private void copyTextToClipboard() {
+        String textToCopy = tvCardRefNumber.getText().toString();
+        if (!textToCopy.isEmpty()) {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(this.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Copied Text", textToCopy);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(this, "copied card reference number", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Card reference number not available", Toast.LENGTH_SHORT).show();
+        }
     }
 }

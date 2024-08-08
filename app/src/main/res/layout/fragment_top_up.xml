@@ -202,6 +202,11 @@
                         app:layout_constraintStart_toStartOf="parent"
                         style="@style/cardDetailsValueTextStyle"
                         android:text="@string/no_value_dots"/>
+                    <TextView
+                        android:id="@+id/tvCardBalanceSync"
+                        app:layout_constraintTop_toBottomOf="@id/tvCardBalance"
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/cardDetailsValueTextStyle"/>
 
 
                     <TextView
@@ -218,6 +223,11 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         style="@style/cardDetailsValueTextStyle"
                         android:text="@string/no_value_dots"/>
+                    <TextView
+                        android:id="@+id/tvChipBalanceSync"
+                        app:layout_constraintTop_toBottomOf="@id/tvChipBalance"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/cardDetailsValueTextStyle"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -255,7 +265,7 @@
                         android:textSize="@dimen/_13ssp"
                         android:textStyle="bold"
                         android:textColor="@color/failedTransaction"
-                        android:text="* Your selected card has been permanently block, Please choose any other card to procced with Topup."/>
+                        android:text="* Your selected card has been permanently blocked, Top-ups can only be performed on active cards."/>
 
                     <LinearLayout
                         android:id="@+id/layoutTopupOption"
@@ -391,12 +401,19 @@
 
                         </LinearLayout>
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_11ssp"
+                            android:text="* Top up amount should be a multiplier of 100."/>
 
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_4sdp"
                             android:orientation="horizontal">
 
                             <EditText

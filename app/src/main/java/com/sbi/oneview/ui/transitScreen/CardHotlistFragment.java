@@ -1,6 +1,7 @@
 package com.sbi.oneview.ui.transitScreen;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -39,8 +40,10 @@ import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
 import com.sbi.oneview.network.ResponseModel.TransitMiniStatement.TransitMiniStatementResponseModel;
 import com.sbi.oneview.network.ResponseModel.TransitRequestHotlist.TransitRequestHotlistResponseModel;
 import com.sbi.oneview.ui.CallBackListner.OtpDialogueCallBack;
+import com.sbi.oneview.ui.WebView.TopupWebViewActivity;
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
 import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
+import com.sbi.oneview.ui.paymentStatus.PaymentStatusActivity;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
 import com.sbi.oneview.utils.NetworkUtils;
@@ -71,7 +74,7 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
     int cardPosition;
     TextView tvSpendLimit,tvHotlistNote;
     LinearLayout layoutCardStatus,layoutSpendLimitController,layoutHotlistOption;
-    TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal;
+    TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal,tvCardBalanceSync,tvChipBalanceSync;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,6 +119,8 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
         tvExpDate = view.findViewById(R.id.tvCardExpDate);
         tvCardBal = view.findViewById(R.id.tvCardBalance);
         tvChipBal = view.findViewById(R.id.tvChipBalance);
+        tvCardBalanceSync = view.findViewById(R.id.tvCardBalanceSync);
+        tvChipBalanceSync = view.findViewById(R.id.tvChipBalanceSync);
 
         tvHotlistNote = view.findViewById(R.id.tvHotlistNote);
         layoutHotlistOption = view.findViewById(R.id.layoutHotlistOption);
@@ -237,6 +242,8 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
             tvCardNumber.setText("XXXX XXXX XXXX "+loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
             tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"INACTIVE");
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
+            tvCardBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncPersonal() +"]");
+            tvChipBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncTransit()+"]");
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
             tvExpDate.setText(loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(0,2)+" / "+loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(2));
 
@@ -481,13 +488,17 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
                                 if (transitRequestHotlistResponseModel!=null)
                                 {
 
-                                    CommonUtils.showSuccessDialogue(getActivity(),"Congratulation, Your Card has been permanently hotlisted.");
+                                    //CommonUtils.showSuccessDialogue(getActivity(),"Your Card has been permanently hotlisted.");
                                     //Toast.makeText(getActivity(), ""+transitRequestHotlistResponseModel.getData().getMessage(), Toast.LENGTH_SHORT).show();
                                     loginResponse.transit.cardDetails.get(cardPosition).setCardStatus("INACTIVE");
                                     currentCardStatus="INACTIVE";
                                     SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
                                     onPositionChange(cardPosition);
                                     otpVerificationDialog.dismiss();
+
+                                    Intent i = new Intent(getActivity(), PaymentStatusActivity.class);
+                                    i.putExtra("status","h");
+                                    startActivity(i);
                                 }
 
                             }

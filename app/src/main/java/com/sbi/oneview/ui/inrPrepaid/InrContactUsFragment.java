@@ -57,11 +57,11 @@ public class InrContactUsFragment extends Fragment {
 
         // Initialize the list
         mContactUsMethodList = new ArrayList<>();
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_1)));
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_2)));
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_3)));
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_4)));
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_5)));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_1),""));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_2),""));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_3),""));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_4),""));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.prepaid_contact_5),""));
         // Add more items as needed
 
         // Initialize the adapter

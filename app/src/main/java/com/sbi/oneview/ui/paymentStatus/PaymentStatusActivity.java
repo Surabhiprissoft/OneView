@@ -42,24 +42,32 @@ public class PaymentStatusActivity extends AppCompatActivity {
 
 
         String status = getIntent().getStringExtra("status");
-        CommonUtils.setGradientColor(tvStatusDesc);
-        CommonUtils.setGradientColor(tvSuccessNote);
 
         if (status!=null)
         {
 
             if (status.equals("s"))
             {
-                imgStatus.setImageDrawable(getDrawable(R.drawable.ic_success));
-                tvStatus.setText("Transaction Successful");
-                tvStatusDesc.setText("Congratulation, Your transaction has been completed successfully.");
+                imgStatus.setImageDrawable(getDrawable(R.drawable.success_icon));
+                tvStatus.setText("Congratulations !");
+                tvStatus.setTextColor(Color.GREEN);
+                tvStatusDesc.setText("Your Transaction has been successful.");
+                tvSuccessNote.setText(""+getResources().getString(R.string.succes_note));
 
-            }else{
-                imgStatus.setImageDrawable(getDrawable(R.drawable.again_transaction));
-                tvStatus.setText("Transaction Failed");
+            }else if (status.equals("f")){
+                imgStatus.setImageDrawable(getDrawable(R.drawable.fail_icon));
+                tvStatus.setText("Failed !");
                 tvStatus.setTextColor(Color.RED);
-                tvStatusDesc.setText("Your topup transaction has been failed. Please try making another payment.");
+                tvStatusDesc.setText("Your transaction has been failed.");
+                tvSuccessNote.setText(""+getResources().getString(R.string.fail_note));
 
+            }
+            else{
+                imgStatus.setImageDrawable(getDrawable(R.drawable.success_icon));
+                tvStatus.setText("Success");
+                tvStatus.setTextColor(Color.GREEN);
+                tvStatusDesc.setText("Your card has been permanently hotlisted.");
+                tvSuccessNote.setText(""+getResources().getString(R.string.hotlist_note));
             }
 
 

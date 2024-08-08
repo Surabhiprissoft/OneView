@@ -375,6 +375,11 @@
                             app:layout_constraintStart_toStartOf="parent"
                             style="@style/cardDetailsValueTextStyle"
                             android:text="@string/no_value_dots"/>
+                        <TextView
+                            android:id="@+id/tvCardBalanceSync"
+                            app:layout_constraintTop_toBottomOf="@id/tvCardBalance"
+                            app:layout_constraintStart_toStartOf="parent"
+                            style="@style/cardDetailsValueTextStyle"/>
 
 
                         <TextView
@@ -391,6 +396,11 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             style="@style/cardDetailsValueTextStyle"
                             android:text="@string/no_value_dots"/>
+                        <TextView
+                            android:id="@+id/tvChipBalanceSync"
+                            app:layout_constraintTop_toBottomOf="@id/tvChipBalance"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            style="@style/cardDetailsValueTextStyle"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -435,6 +445,16 @@
                     android:layout_marginBottom="@dimen/_60sdp"
                     app:cardElevation="@dimen/_7sdp"
                     android:backgroundTint="@color/white">
+
+                    <TextView
+                        android:id="@+id/tvNoData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No Data Found"
+                        android:textSize="@dimen/_13ssp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:visibility="gone"/>
 
                     <ProgressBar
                         android:id="@+id/pbMiniStatement"

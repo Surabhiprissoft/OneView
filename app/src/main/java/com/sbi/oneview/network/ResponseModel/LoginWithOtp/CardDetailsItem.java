@@ -45,7 +45,7 @@ public class CardDetailsItem{
 	private String wallBalTransit;
 
 	@SerializedName("lastSyncPersonal")
-	private Object lastSyncPersonal;
+	private String lastSyncPersonal;
 
 	@SerializedName("expDate")
 	private String expDate;
@@ -54,7 +54,7 @@ public class CardDetailsItem{
 	private String wallBalPersonal;
 
 	@SerializedName("lastSyncTransit")
-	private Object lastSyncTransit;
+	private String lastSyncTransit;
 
 	public String getProductCode(){
 		return productCode;
@@ -116,7 +116,7 @@ public class CardDetailsItem{
 		this.wallBalTransit = wallBalTransit;
 	}
 
-	public void setLastSyncPersonal(Object lastSyncPersonal) {
+	public void setLastSyncPersonal(String lastSyncPersonal) {
 		this.lastSyncPersonal = lastSyncPersonal;
 	}
 
@@ -128,7 +128,7 @@ public class CardDetailsItem{
 		this.wallBalPersonal = wallBalPersonal;
 	}
 
-	public void setLastSyncTransit(Object lastSyncTransit) {
+	public void setLastSyncTransit(String lastSyncTransit) {
 		this.lastSyncTransit = lastSyncTransit;
 	}
 
@@ -176,7 +176,7 @@ public class CardDetailsItem{
 		return wallBalTransit;
 	}
 
-	public Object getLastSyncPersonal(){
+	public String getLastSyncPersonal(){
 		return lastSyncPersonal;
 	}
 

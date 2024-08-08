@@ -51,10 +51,10 @@ public class ContactUsBlankFragment extends Fragment {
 
         // Initialize the list
         mContactUsMethodList = new ArrayList<>();
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.transit_contact_1)));
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.transit_contact_2)));
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.transit_contact_3)));
-        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.transit_contact_4)));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.transit_contact_1),"Nation First Transit Card"));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.transit_contact_2),"Mumbai One Card"));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.transit_contact_3),"All Metro"));
+        mContactUsMethodList.add(new ContactUsMethod(getString(R.string.transit_contact_4),"STD/ISD No."));
         // Add more items as needed
 
         // Initialize the adapter

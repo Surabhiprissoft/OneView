@@ -204,6 +204,11 @@
                         app:layout_constraintStart_toStartOf="parent"
                         style="@style/cardDetailsValueTextStyle"
                         android:text="@string/no_value_dots"/>
+                    <TextView
+                        android:id="@+id/tvCardBalanceSync"
+                        app:layout_constraintTop_toBottomOf="@id/tvCardBalance"
+                        app:layout_constraintStart_toStartOf="parent"
+                        style="@style/cardDetailsValueTextStyle"/>
 
 
                     <TextView
@@ -220,6 +225,11 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         style="@style/cardDetailsValueTextStyle"
                         android:text="@string/no_value_dots"/>
+                    <TextView
+                        android:id="@+id/tvChipBalanceSync"
+                        app:layout_constraintTop_toBottomOf="@id/tvChipBalance"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        style="@style/cardDetailsValueTextStyle"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -258,7 +268,7 @@
                         android:textSize="@dimen/_13ssp"
                         android:textStyle="bold"
                         android:textColor="@color/failedTransaction"
-                        android:text="* Your selected card has already been permanently hotlisted, Please choose any other card to procced with hotllist."/>
+                        android:text="* Your selected card has already been permanently hotlisted, Please choose any other card to proceed with hotllist."/>
 
 
                     <LinearLayout

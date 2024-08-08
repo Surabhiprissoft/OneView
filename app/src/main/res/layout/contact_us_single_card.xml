@@ -3,16 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
+    android:orientation="horizontal"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:id="@+id/tvDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        android:textFontWeight="600" />
 
     <TextView
         android:id="@+id/tvContactInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_4sdp"
         android:textColor="#00B5EF"
         android:textSize="@dimen/_12ssp"
         android:textFontWeight="600" />
+
 
 
 </LinearLayout>

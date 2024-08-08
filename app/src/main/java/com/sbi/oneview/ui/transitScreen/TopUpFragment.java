@@ -76,7 +76,7 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
     int cardPosition;
     TextView tvSpendLimit,tvEligibleBal,tvTopupNote;
     LinearLayout layoutCardStatus,layoutSpendLimitController,layoutTopupOption;
-    TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal;
+    TextView tvCardNumber,tvCRN,tvCardStatus,tvProductName,tvActDate,tvExpDate,tvCardBal,tvChipBal,tvCardBalanceSync,tvChipBalanceSync;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,6 +142,8 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
         tvCardBal = view.findViewById(R.id.tvCardBalance);
         tvChipBal = view.findViewById(R.id.tvChipBalance);
         tvEligibleBal = view.findViewById(R.id.tvEligibleBal);
+        tvCardBalanceSync = view.findViewById(R.id.tvCardBalanceSync);
+        tvChipBalanceSync = view.findViewById(R.id.tvChipBalanceSync);
 
         layoutTopupOption = view.findViewById(R.id.layoutTopupOption);
         tvTopupNote  =view.findViewById(R.id.tvTopupNote);
@@ -177,7 +179,7 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
             public void onClick(View v) {
 
                 if (eligibleBalance>=1000.0) {
-                    etMoney.setText("10000");
+                    etMoney.setText("1000");
                 }else{
                     etMoney.setText("");
                     Toast.makeText(getActivity(), "You are exceeding your eligible balance", Toast.LENGTH_SHORT).show();
@@ -504,6 +506,8 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
             tvCardNumber.setText("XXXX XXXX XXXX "+loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
             tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"INACTIVE");
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
+            tvCardBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncPersonal() +"]");
+            tvChipBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncTransit()+"]");
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
             tvExpDate.setText(loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(0,2)+" / "+loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(2));
 
@@ -532,7 +536,7 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
                 layoutTopupOption.setVisibility(View.GONE);
             }
 
-            setTopUpCardColor();
+            //setTopUpCardColor();
 
 
         }

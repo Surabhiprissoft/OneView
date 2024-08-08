@@ -5,25 +5,34 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_main"
+    android:background="@color/white"
     tools:context=".ui.paymentStatus.PaymentStatusActivity">
+
+    <ImageView
+        android:id="@+id/imgSbi"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_60sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/sbi_logo_purple"/>
 
 
     <ImageView
         android:id="@+id/imgStatus"
-        android:layout_width="@dimen/_130sdp"
-        android:layout_height="@dimen/_130sdp"
-        android:layout_marginTop="@dimen/_50sdp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_120sdp"
+        android:src="@drawable/success_icon"
+        android:layout_marginTop="@dimen/_30sdp"
+        app:layout_constraintTop_toBottomOf="@id/imgSbi"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_success"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Transaction successful"
         android:textColor="@color/creditTransaction"
         android:layout_marginTop="@dimen/_20sdp"
         android:textSize="@dimen/_22ssp"
@@ -33,22 +42,18 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvStatus"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:cardCornerRadius="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginStart="@dimen/_20sdp"
-        android:layout_marginEnd="@dimen/_20sdp">
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/_12sdp"
+            app:layout_constraintTop_toBottomOf="@id/tvStatus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_horizontal"
+            app:cardCornerRadius="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
             android:orientation="vertical">
 
 
@@ -56,30 +61,25 @@
                 android:id="@+id/tvStatusDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:textAlignment="center"
+                android:textSize="@dimen/_13ssp"
                 app:layout_constraintTop_toBottomOf="@id/tvStatus"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:background="@color/black"/>
 
             <TextView
                 android:id="@+id/successNote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/succes_note"
                 android:textAlignment="center"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_30sdp"
                 android:textColor="@color/faintWhite"/>
 
         </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
 
 
     <com.google.android.material.button.MaterialButton
@@ -87,6 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Got to Dashboard"
+        android:backgroundTint="#290174"
         app:cornerRadius="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_30sdp"
         android:layout_marginStart="@dimen/_20sdp"
