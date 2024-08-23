@@ -130,22 +130,22 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
                 {
                     if (i==1)
                     {
-                        productCode = "266";
+                        productCode = "215";
                         etPan.setVisibility(View.VISIBLE);
                     }else if(i==2){
-                        productCode = "262";
+                        productCode = "208";
                         etPan.setVisibility(View.GONE);
                     }else if(i==3){
-                        productCode = "267";
+                        productCode = "216";
                         etPan.setVisibility(View.VISIBLE);
                     }else if(i==4){
-                        productCode = "267";
+                        productCode = "216";
                         etPan.setVisibility(View.VISIBLE);
                     }else if(i==5){
-                        productCode = "263";
+                        productCode = "213";
                         etPan.setVisibility(View.GONE);
                     }else if(i==6){
-                        productCode = "270";
+                        productCode = "217";
                         etPan.setVisibility(View.VISIBLE);
                     }
 

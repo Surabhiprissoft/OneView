@@ -82,7 +82,7 @@
                 android:textFontWeight="700"
                 android:textSize="@dimen/_25ssp"
                 android:textColor="@color/white"
-                android:text="SUCCESS"
+                android:text="@string/success"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_20sdp"
@@ -223,7 +223,7 @@
                 android:textColor="@color/white"
                 android:padding="@dimen/_12sdp"
                 app:cornerRadius="@dimen/_10sdp"
-                android:text="Login Now !"/>
+                android:text="@string/login_now"/>
 
 
 

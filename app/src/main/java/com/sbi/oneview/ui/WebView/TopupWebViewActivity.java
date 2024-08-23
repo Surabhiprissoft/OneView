@@ -69,7 +69,7 @@ public class TopupWebViewActivity extends AppCompatActivity {
 
         String epayUrl = getIntent().getStringExtra("epayUrl");
         String txnData = getIntent().getStringExtra("encryptTrans");
-        String accessKey = getIntent().getStringExtra("merchIdVal");
+        String merchID = getIntent().getStringExtra("merchIdVal");
 
         tvCancelTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,28 +87,20 @@ public class TopupWebViewActivity extends AppCompatActivity {
                 .append("EncryptTrans")
                 .append(txnData)
                 .append("merchIdVal")
-                .append(accessKey);
+                .append(merchID);
         String finalUrl = str.toString();
 
         String htmlContent = "<html>" +
                 "<head><title>Submit Form</title></head>" +
                 "<body onload=\"document.getElementById('myform').submit();\">" +
-                "<form name='myform' id='myform' method='post' action='https://test.sbiepay.sbi/secure/AggregatorHostedListener' target='_self'>" +
+                "<form name='myform' id='myform' method='post' action='"+epayUrl+"' target='_self'>" +
                 "<input type='hidden' name='EncryptTrans' value='" + txnData + "' >" +
-                "<input type='hidden' name='merchIdVal' value='" + accessKey + "'>" +
+                "<input type='hidden' name='merchIdVal' value='" + merchID + "'>" +
                 "<b>Please wait, redirecting to payment portal</b>"+
                 "</form>" +
                 "</body></html>";
 
 
-        /*String htmlContent = "<html>" +
-                "<head><title>Submit Form</title></head>" +
-                "<body onload=\"document.getElementById('myform').submit();\">" +
-                "<form name='myform' id='myform' method='post' action='https://corpuat.prepaid.sbi:444/oneview/epay/topup' target='_self'>" +
-                "<input type='text' name='transdata' value='" + txnData + "' >" +
-                "<input type='text' name='eval' value='" + accessKey + "'>" +
-                "</form>" +
-                "</body></html>";*/
 
 
         Map<String, String> headers = new HashMap<>();
@@ -134,13 +126,13 @@ public class TopupWebViewActivity extends AppCompatActivity {
 
                 Log.d("STARTED",""+url);
 
-                if (url.equals("https://corpuat.prepaid.sbi:444/oneview/epay/topup-success"))
+                if (url.equals(Constants.TOP_UP_SUCCESS_URL))
                 {
                     Intent i = new Intent(TopupWebViewActivity.this, PaymentStatusActivity.class);
                     i.putExtra("status","s");
                     startActivity(i);
                 }
-                if(url.equals("https://corpuat.prepaid.sbi:444/oneview/epay/topup-fail"))
+                if(url.equals(Constants.TOP_UP_FAIL_URL))
                 {
                     Intent i = new Intent(TopupWebViewActivity.this, PaymentStatusActivity.class);
                     i.putExtra("status","f");

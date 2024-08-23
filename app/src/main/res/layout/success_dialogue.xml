@@ -22,7 +22,7 @@
         app:cornerRadius="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:text="Understood"/>
+        android:text="@string/understood"/>
 
 
 

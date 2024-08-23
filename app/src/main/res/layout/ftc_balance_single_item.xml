@@ -34,8 +34,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/_12ssp"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="united state of america"/>
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tvCurrency"
@@ -43,8 +42,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/_11ssp"
             android:textColor="@color/faintWhite"
-            android:textStyle="bold"
-            android:text="USD"/>
+            android:textStyle="bold"/>
         
     </LinearLayout>
     
@@ -57,7 +55,6 @@
         android:layout_gravity="center"
         android:textColor="@color/black"
         android:gravity="end"
-        android:textSize="@dimen/_13ssp"
-        android:text="$1233"/>
+        android:textSize="@dimen/_13ssp"/>
     
 </LinearLayout>

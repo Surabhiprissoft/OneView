@@ -58,7 +58,7 @@
                       android:layout_marginTop="@dimen/_10sdp"
                       android:layout_gravity="center"
                       android:textSize="@dimen/_14ssp"
-                      android:text="Contact"
+                      android:text="@string/contact"
                       android:textFontWeight="600"
                       android:textColor="@color/black"
                       android:gravity="center"/>
@@ -131,7 +131,7 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="center"
                       android:textSize="@dimen/_14ssp"
-                      android:text="Contact"
+                      android:text="@string/contact"
                       android:textFontWeight="600"
                       android:textColor="@color/black"
                       android:gravity="center"/>
@@ -205,7 +205,7 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="center"
                       android:textSize="@dimen/_14ssp"
-                      android:text="WebSite"
+                      android:text="@string/website"
                       android:textFontWeight="600"
                       android:textColor="@color/black"
                       android:gravity="center"/>
@@ -216,7 +216,7 @@
                       android:layout_gravity="center"
                       android:textSize="@dimen/_12ssp"
                       android:textColor="@color/black"
-                      android:text="Please visit our website"
+                      android:text="@string/please_visit_our_website"
                       android:textFontWeight="400"
                       android:gravity="center"/>
 

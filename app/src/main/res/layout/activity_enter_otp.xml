@@ -89,7 +89,7 @@
                 app:layout_constraintTop_toBottomOf="@id/imgMain"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Enter OTP"
+                android:text="@string/enter_otp"
                 android:textStyle="bold"
                 android:focusable="false"
                 android:textColor="@color/white"
@@ -104,7 +104,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginStart="@dimen/_20sdp"
-            android:text="A 4 digit code has been sent to "
+            android:text="@string/a_4_digit_code_has_been_sent_to"
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp"/>
 
@@ -116,7 +116,6 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="@dimen/_20sdp"
             android:maxLength="10"
-            android:text=""
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp"/>
 
@@ -203,7 +202,7 @@
             android:textColor="#290174"
             android:padding="@dimen/_12sdp"
             app:cornerRadius="@dimen/_10sdp"
-            android:text="Verify"/>
+            android:text="@string/verify"/>
 
         <TextView
             android:id="@+id/txtResendOtp"
@@ -213,7 +212,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="Resend OTP"
+            android:text="@string/resend_otp"
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

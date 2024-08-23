@@ -4,9 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.sbi.oneview.network.APIClient;
-import com.sbi.oneview.network.APIClientSSL;
 import com.sbi.oneview.network.APIInterface;
-import com.sbi.oneview.utils.SecretManager;
 
 public class App extends Application {
 

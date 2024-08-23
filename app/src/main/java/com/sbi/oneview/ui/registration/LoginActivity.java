@@ -140,10 +140,11 @@ public class LoginActivity extends BaseActivity {
                     if (etCaptcha.getText().toString().isEmpty()){
                         Toast.makeText(LoginActivity.this, "Please enter captcha", Toast.LENGTH_SHORT).show();
                     }else{
+                        CommonUtils.timerForGetOTPApi(btnRequestOtp);
                         try {
                             validateCaptcha();
                         } catch (JsonProcessingException e) {
-                            throw new RuntimeException(e);
+                            Log.d("EXCEPTION",e.getLocalizedMessage());
                         }
 
                     }

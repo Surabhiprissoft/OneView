@@ -119,12 +119,9 @@ public class SharedConfig {
 
     public Data getLoginResponse(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(KEY_RESPONSE, Context.MODE_PRIVATE);
-        String json = sharedPreferences.getString(KEY_RESPONSE, null);
-        if (json != null) {
-            Gson gson = new Gson();
-            return gson.fromJson(json, Data.class);
-        }
-        return null;
+        String json = sharedPreferences.getString(KEY_RESPONSE, context.getString(R.string.no_data));
+        Gson gson = new Gson();
+        return gson.fromJson(json, Data.class);
     }
 
 

@@ -258,7 +258,7 @@
                                             android:layout_height="wrap_content"
                                             android:padding="@dimen/_5sdp"
                                             android:textStyle="bold"
-                                            android:text="Block/Unblock" />
+                                            android:text="@string/block_unblock" />
 
                                     </LinearLayout>
 
@@ -286,7 +286,7 @@
                                             android:padding="@dimen/_5sdp"
                                             android:textStyle="bold"
                                             android:textColor="@color/white"
-                                            android:text="Hotlist" />
+                                            android:text="@string/hotlist" />
 
                                     </LinearLayout>
 

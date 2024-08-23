@@ -165,7 +165,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="Transit Card"
+                            android:text="@string/transit_card"
                             android:textStyle="bold"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_12ssp"/>
@@ -177,7 +177,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:backgroundTint="#662D91"
                             app:cornerRadius="@dimen/_10sdp"
-                            android:text="Proceed"/>
+                            android:text="@string/proceed"/>
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -280,7 +280,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="INR Prepaid Card"
+                            android:text="@string/inr_prepaid_card"
                             android:maxLines="1"
                             android:ellipsize="end"
                             android:textStyle="bold"
@@ -294,7 +294,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:backgroundTint="#662D91"
                             app:cornerRadius="@dimen/_10sdp"
-                            android:text="Proceed"/>
+                            android:text="@string/proceed"/>
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -357,7 +357,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="FTC Card"
+                            android:text="@string/ftc_card"
                             android:textStyle="bold"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_12ssp"/>
@@ -369,7 +369,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:backgroundTint="#662D91"
                             app:cornerRadius="@dimen/_10sdp"
-                            android:text="Proceed"/>
+                            android:text="@string/proceed"/>
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -418,7 +418,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
-                                android:text="lorem ipsum lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum lorem ipsumlorem ipsumlorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum"/>
+                                android:text="@string/FTCCardInfo"/>
 
                         </LinearLayout>
 

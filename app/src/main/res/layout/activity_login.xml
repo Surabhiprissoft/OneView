@@ -62,7 +62,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="@dimen/_40sdp"
             android:layout_marginStart="@dimen/_20sdp"
-            android:text="OneView"
+            android:text="@string/oneview"
             android:textSize="@dimen/_30ssp"
             android:textStyle="bold"
             android:textColor="@color/white"/>
@@ -141,7 +141,7 @@
                         android:textColorHint="#B6B1B1"
                         android:inputType="none"
                         android:enabled="false"
-                        android:text="+91"
+                        android:text="@string/_91"
                         android:clickable="false"
                         android:textColor="@color/white"/>
 
@@ -187,7 +187,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:text="Type the above word"
+                    android:text="@string/type_the_above_word"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_13ssp"/>
 

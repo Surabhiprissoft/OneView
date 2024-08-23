@@ -57,10 +57,10 @@ public class DashboardCardSelectionActivity extends AppCompatActivity {
         if (loginResponse!=null){
             if (loginResponse.getTransit()!=null){
                 transitStatus=true;
-                btnTransitProceed.setText("Proceed");
+                btnTransitProceed.setText(this.getString(R.string.proceed));
             }
             else{
-                btnTransitProceed.setText("Apply");
+                btnTransitProceed.setText(this.getString(R.string.apply));
             }
 
 
@@ -83,7 +83,7 @@ public class DashboardCardSelectionActivity extends AppCompatActivity {
 
         }
         else {
-            Toast.makeText(this, "Something went wrong, Please login again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, this.getString(R.string.login_again), Toast.LENGTH_SHORT).show();
             Intent loginIntent = new Intent(DashboardCardSelectionActivity.this, LoginActivity.class);
             startActivity(loginIntent);
         }
@@ -131,7 +131,6 @@ public class DashboardCardSelectionActivity extends AppCompatActivity {
             public void onClick(View view)
             {
 
-                Log.d("TransitDashBoard", "Back image clicked");
                 flipcard(transitCardLayout,transitInstructionCardLayout);
             }
         });
@@ -150,7 +149,6 @@ public class DashboardCardSelectionActivity extends AppCompatActivity {
             public void onClick(View view)
             {
 
-                Log.d("TransitDashBoard", "Back image clicked");
                 flipcard(inrCardLayout,inrInstructionCardLayout);
             }
         });

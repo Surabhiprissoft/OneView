@@ -18,7 +18,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
-                android:text="11/11/2001 1:21 AM"
+                android:text="@string/_11_11_2001_1_21_am"
                 style="@style/textStyle_14_400_statement_table" />
 
             <TextView
@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 style="@style/textStyle_14_400_statement_table"
-                android:text="piad to : merchant Name" />
+                android:text="@string/piad_to_merchant_name" />
 
             <TextView
                 android:id="@+id/tvForm"
@@ -35,7 +35,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
                 style="@style/textStyle_14_400_statement_table"
-                android:text="Form" />
+                android:text="@string/form" />
 
             <TextView
                 android:id="@+id/tvStatus"
@@ -43,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
                 style="@style/textStyle_14_400_statement_table"
-                android:text="Status" />
+                android:text="@string/status" />
 
         </TableRow>
 

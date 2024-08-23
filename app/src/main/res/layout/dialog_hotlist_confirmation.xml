@@ -23,7 +23,7 @@
 
             <TextView
                 android:id="@+id/h1"
-                android:text="Are you sure?"
+                android:text="@string/are_you_sure"
                 android:layout_marginTop="@dimen/_15sdp"
                 app:layout_constraintTop_toBottomOf="@id/imgClose"
                 app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
 
             <TextView
                 android:id="@+id/h2"
-                android:text="Do you really want to permanently block this card ?"
+                android:text="@string/do_you_really_want_to_permanently_block_this_card"
                 android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintTop_toBottomOf="@id/h1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btnNo"
                 android:layout_gravity="center"
-                android:text="Yes"
+                android:text="@string/yes"
                 style="@style/purpleButtonStyle" />
 
 
@@ -63,7 +63,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btnYes"
                 android:layout_gravity="center"
-                android:text="No"
+                android:text="@string/no"
                 app:strokeWidth="@dimen/_1sdp"
                 app:strokeColor="#290174"
                 android:textColor="@color/black"

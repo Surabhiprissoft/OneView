@@ -58,7 +58,7 @@
         android:id="@+id/txtNewCardApplication"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Transit Card Application"
+        android:text="@string/new_transit_card_application"
         android:focusable="false"
         android:textAlignment="center"
         android:textColor="@color/header_white_color"
@@ -91,7 +91,7 @@
                 android:orientation="vertical"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Select Card"
+                    android:text="@string/select_card"
                     style="@style/textstyle_16_400"
                     android:textColor="@color/white"
                     android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
                 android:orientation="vertical"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Basic Details"
+                    android:text="@string/basic_details"
                     style="@style/textstyle_16_400"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:textColor="@color/white"
@@ -134,13 +134,13 @@
                 <EditText
                     android:id="@+id/et_firstname"
                     android:inputType="text"
-                    android:hint="First Name *"
+                    android:hint="@string/first_name_apply"
                     android:maxLength="30"
                     style="@style/edittext_registration" />
                 <EditText
                     android:id="@+id/et_middlename"
                     android:inputType="text"
-                    android:hint="Middle Name"
+                    android:hint="@string/middle_name"
                     android:maxLength="30"
                     style="@style/edittext_registration" />
 
@@ -148,13 +148,13 @@
                     android:id="@+id/et_lastname"
                     style="@style/edittext_registration"
                     android:maxLength="30"
-                    android:hint="Last Name *"
+                    android:hint="@string/last_name_apply"
                     android:inputType="text" />
 
                 <EditText
                     android:id="@+id/et_mobile"
                     style="@style/edittext_registration"
-                    android:hint="Mobile Number *"
+                    android:hint="@string/mobile_number_apply"
                     android:maxLength="10"
                     android:inputType="number" />
 
@@ -162,13 +162,13 @@
                     android:id="@+id/et_dob"
                     android:inputType="none"
                     android:editable="false"
-                    android:hint="Date of Birth"
+                    android:hint="@string/date_of_birth"
                     style="@style/edittext_registration" />
 
                 <EditText
                     android:id="@+id/et_pan"
                     android:inputType="text"
-                    android:hint="PAN"
+                    android:hint="@string/pan"
                     android:maxLength="10"
                     style="@style/edittext_registration" />
             </LinearLayout>
@@ -179,7 +179,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="OVD Details"
+                    android:text="@string/ovd_details"
                     android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -197,7 +197,7 @@
                 <EditText
                     android:id="@+id/et_ovddetails"
                     android:inputType="text"
-                    android:hint="OVD Details *"
+                    android:hint="@string/ovd_details_mandatory"
                     style="@style/edittext_registration" />
             </LinearLayout>
             <LinearLayout
@@ -215,7 +215,7 @@
 
                 </androidx.appcompat.widget.AppCompatCheckBox>
                 <TextView
-                    android:text="I accept all declarations pertaining to SBI Prepaid Card Application."
+                    android:text="@string/apply_card_declaration"
                     android:textFontWeight="400"
                     android:textSize="@dimen/_10ssp"
                     android:textColor="@color/white"

@@ -21,6 +21,6 @@
         android:textSize="@dimen/_13ssp"
         android:layout_marginStart="@dimen/_20sdp"
         android:textStyle="bold"
-        android:text="Loading Please wait..."/>
+        android:text="@string/loading_please_wait"/>
 
 </LinearLayout>

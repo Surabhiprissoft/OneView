@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:text="26"
+                android:text="@string/_26"
                 style="@style/textstyle_14_600" />
 
             <TextView
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/header_white_color"
                 android:layout_gravity="center"
-                android:text="Dec 23"
+                android:text="@string/dec_23"
                 style="@style/textStyle_10_400" />
 
         </LinearLayout>
@@ -59,7 +59,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="MMRDA/TOPUP FEE/Personal"
+            android:text="@string/mmrda_topup_fee_personal"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/cardDate"
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:text="TXN Id: 123456789"
+            android:text="@string/txn_id_123456789"
             android:textColor="#757575"
             android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -93,7 +93,7 @@
             android:id="@+id/tvAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3000000000000.00"
+            android:text="@string/_3000000000000_00"
             android:textColor="#0A9420"
             android:layout_gravity="end"
             android:textStyle="bold" />
@@ -102,7 +102,7 @@
             android:id="@+id/tvTxnsForm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Credited"
+            android:text="@string/credited"
             android:layout_gravity="end"
             android:textColor="#0A9420"
             android:textStyle="bold" />

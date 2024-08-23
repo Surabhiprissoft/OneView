@@ -26,7 +26,7 @@
 
             <TextView
                 android:id="@+id/h2"
-                android:text="Are you sure you wanted to cancel the transaction ?"
+                android:text="@string/are_you_sure_you_wanted_to_cancel_the_transaction"
                 android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintTop_toBottomOf="@id/h1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     app:cornerRadius="@dimen/_8sdp"
                     android:layout_gravity="center"
-                    android:text="Yes"
+                    android:text="@string/yes"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/faintWhite"/>
 
@@ -58,7 +58,7 @@
                     android:layout_marginStart="@dimen/_10sdp"
                     app:cornerRadius="@dimen/_7sdp"
                     android:layout_gravity="center"
-                    android:text="Continue Transaction"
+                    android:text="@string/continue_transaction"
                     android:textColor="@color/white"
                     android:backgroundTint="@color/background_one"/>
 

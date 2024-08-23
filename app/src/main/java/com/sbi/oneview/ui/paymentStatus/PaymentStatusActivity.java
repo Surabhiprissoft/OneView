@@ -49,24 +49,24 @@ public class PaymentStatusActivity extends AppCompatActivity {
             if (status.equals("s"))
             {
                 imgStatus.setImageDrawable(getDrawable(R.drawable.success_icon));
-                tvStatus.setText("Congratulations !");
+                tvStatus.setText(this.getString(R.string.cong));
                 tvStatus.setTextColor(Color.GREEN);
-                tvStatusDesc.setText("Your Transaction has been successful.");
+                tvStatusDesc.setText(this.getString(R.string.success_transaction));
                 tvSuccessNote.setText(""+getResources().getString(R.string.succes_note));
 
             }else if (status.equals("f")){
                 imgStatus.setImageDrawable(getDrawable(R.drawable.fail_icon));
-                tvStatus.setText("Failed !");
+                tvStatus.setText(this.getString(R.string.fail));
                 tvStatus.setTextColor(Color.RED);
-                tvStatusDesc.setText("Your transaction has been failed.");
+                tvStatusDesc.setText(this.getString(R.string.failed_transaction));
                 tvSuccessNote.setText(""+getResources().getString(R.string.fail_note));
 
             }
             else{
                 imgStatus.setImageDrawable(getDrawable(R.drawable.success_icon));
-                tvStatus.setText("Success");
+                tvStatus.setText(this.getString(R.string.success));
                 tvStatus.setTextColor(Color.GREEN);
-                tvStatusDesc.setText("Your card has been permanently hotlisted.");
+                tvStatusDesc.setText(this.getString(R.string.card_hotlisted));
                 tvSuccessNote.setText(""+getResources().getString(R.string.hotlist_note));
             }
 

@@ -27,7 +27,7 @@
 
             <TextView
                 android:id="@+id/tvMyCards"
-                android:text="My Cards"
+                android:text="@string/my_cards"
                 style="@style/menuHeadingGradientTextStyle" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -47,7 +47,7 @@
 
             <TextView
                 android:id="@+id/tvCardDetails"
-                android:text="Card Details"
+                android:text="@string/card_details"
                 style="@style/menuHeadingGradientTextStyle"/>
 
             <com.google.android.material.card.MaterialCardView
@@ -238,7 +238,7 @@
 
             <TextView
                 android:id="@+id/tvTransaction"
-                android:text="Transaction"
+                android:text="@string/transaction"
                 style="@style/menuHeadingGradientTextStyle" />
 
             <com.google.android.material.card.MaterialCardView
@@ -259,7 +259,7 @@
                     android:textSize="@dimen/_13ssp"
                     android:textStyle="bold"
                     android:textColor="@color/failedTransaction"
-                    android:text="* Your selected card has permanently hotlisted, Please choose any other card to get statement."/>
+                    android:text="@string/your_selected_card_has_permanently_hotlisted_please_choose_any_other_card_to_get_statement"/>
 
 
             </com.google.android.material.card.MaterialCardView>
@@ -351,8 +351,7 @@
                         android:layout_weight="1"
                         android:padding="@dimen/_3sdp"
                         android:src="@drawable/search_icon"
-                        android:layout_alignParentStart="true"
-                        android:contentDescription="Open Navigation Drawer" />
+                        android:layout_alignParentStart="true"/>
 
                 </LinearLayout>
 
@@ -375,7 +374,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1.5"
-                            android:text="Date Time"
+                            android:text="@string/date_time"
                             android:backgroundTint="#B9B9B9"
                             style="@style/textStyle_14_600_statement_table" />
 
@@ -385,7 +384,7 @@
                             android:layout_weight="3"
                             android:backgroundTint="#B9B9B9"
                             style="@style/textStyle_14_600_statement_table"
-                            android:text="Transaction Details" />
+                            android:text="@string/transaction_details" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -393,7 +392,7 @@
                             android:layout_weight="1.5"
                             android:backgroundTint="#B9B9B9"
                             style="@style/textStyle_14_600_statement_table"
-                            android:text="Form" />
+                            android:text="@string/form" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -401,7 +400,7 @@
                             android:layout_weight="1.5"
                             android:backgroundTint="#B9B9B9"
                             style="@style/textStyle_14_600_statement_table"
-                            android:text="Status" />
+                            android:text="@string/status" />
                     </TableRow>
 
 

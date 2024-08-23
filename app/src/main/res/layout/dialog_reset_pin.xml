@@ -17,7 +17,7 @@
          android:layout_height="@dimen/_240sdp">
      <TextView
          android:textAlignment="center"
-         android:text="Redirecting"
+         android:text="@string/redirecting"
          android:textSize="@dimen/_24ssp"
          android:textColor="@color/black"
          android:textFontWeight="600"
@@ -45,7 +45,6 @@
                  android:textColor="@color/white"
                  android:layout_gravity="center"
                  android:gravity="center"
-                 android:text="1"
                  android:textFontWeight="700"
                  android:textSize="@dimen/_22ssp"
                  style="@style/textstyle_20_600" />
@@ -62,7 +61,7 @@
              android:textFontWeight="700"
              android:textColor="@color/black"
              android:layout_marginTop="@dimen/_15sdp"
-             android:text="You will now be Redirected to another page and You will be Logged Out of the One View Customer Portal"
+             android:text="@string/redirect_to_another_page"
              android:layout_height="wrap_content"></TextView>
 
          <ImageView

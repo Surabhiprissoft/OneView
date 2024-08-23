@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/h1"
-                android:text="Enter OTP"
+                android:text="@string/enter_otp"
                 android:layout_marginTop="@dimen/_15sdp"
                 app:layout_constraintTop_toBottomOf="@id/imgClose"
                 app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
 
             <TextView
                 android:id="@+id/h2"
-                android:text="OTP has been sent to your registered Mobile number."
+                android:text="@string/otp_has_been_sent_to_your_registered_mobile_number"
                 android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintTop_toBottomOf="@id/h1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +106,7 @@
                 app:cornerRadius="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_gravity="center"
-                android:text="Verify"
+                android:text="@string/verify"
                 style="@style/purpleButtonStyle" />
 
             <TextView

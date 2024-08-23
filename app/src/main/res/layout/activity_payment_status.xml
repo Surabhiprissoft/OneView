@@ -86,7 +86,7 @@
         android:id="@+id/btnDashboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Got to Dashboard"
+        android:text="@string/got_to_dashboard"
         android:backgroundTint="#290174"
         app:cornerRadius="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_30sdp"

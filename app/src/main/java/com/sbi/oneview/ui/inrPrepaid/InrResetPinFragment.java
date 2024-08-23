@@ -224,7 +224,7 @@ public class InrResetPinFragment extends BaseFragment implements MyFragmentCallb
 
 
                                 } catch (JSONException e) {
-                                    e.printStackTrace();
+                                    Log.d("EXCEPTION",""+e.getLocalizedMessage());
                                 }
 
 /*

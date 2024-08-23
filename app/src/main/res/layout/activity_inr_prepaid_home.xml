@@ -661,7 +661,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:textSize="@dimen/_12ssp"
                                                 android:textColor="@color/white"
-                                                android:text="Card Block/Unblock"/>
+                                                android:text="@string/card_block_unblock"/>
 
                                         </LinearLayout>
                                     </com.google.android.material.card.MaterialCardView>

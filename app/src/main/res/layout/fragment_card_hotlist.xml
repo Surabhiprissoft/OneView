@@ -29,7 +29,7 @@
 
             <TextView
                 android:id="@+id/tvMyCards"
-                android:text="My Cards"
+                android:text="@string/my_cards"
                 style="@style/menuHeadingGradientTextStyle" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -49,7 +49,7 @@
 
             <TextView
                 android:id="@+id/tvCardDetails"
-                android:text="Card Details"
+                android:text="@string/card_details"
                 style="@style/menuHeadingGradientTextStyle"/>
 
             <com.google.android.material.card.MaterialCardView
@@ -240,7 +240,7 @@
 
             <TextView
                 android:id="@+id/tvCardHotlist"
-                android:text="Card Hotlist"
+                android:text="@string/card_hotlist"
                 style="@style/menuHeadingGradientTextStyle" />
 
             <com.google.android.material.card.MaterialCardView
@@ -268,7 +268,7 @@
                         android:textSize="@dimen/_13ssp"
                         android:textStyle="bold"
                         android:textColor="@color/failedTransaction"
-                        android:text="* Your selected card has already been permanently hotlisted, Please choose any other card to proceed with hotllist."/>
+                        android:text="@string/your_selected_card_has_already_been_permanently_hotlisted_please_choose_any_other_card_to_proceed_with_hotllist"/>
 
 
                     <LinearLayout
@@ -304,7 +304,7 @@
                             android:layout_marginTop="@dimen/_5sdp"
                             android:layout_marginBottom="@dimen/_5sdp"
                             android:visibility="gone"
-                            android:text="* Your card has been permantly blocked."
+                            android:text="@string/your_card_has_been_permantly_blocked"
                             android:textColor="@color/failedTransaction"
                             android:textStyle="bold"/>
 
@@ -312,7 +312,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="*Note:"
+                            android:text="@string/note"
                             android:textStyle="bold"
                             style="@style/cardDetailsHeadingTextStyle"/>
 
@@ -324,7 +324,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1. "
+                                android:text="@string/_1"
                                 style="@style/cardDetailsHeadingTextStyle"/>
 
                             <TextView
@@ -344,7 +344,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="2. "
+                                android:text="@string/_2"
                                 style="@style/cardDetailsHeadingTextStyle"/>
 
                             <TextView

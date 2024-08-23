@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -444,5 +445,31 @@ public class CommonUtils {
         dialog.show();
 
     }
+
+
+    public static void timerForGetOTPApi(Button button) {
+        final long timeLeftInMillis = 10000;
+        CountDownTimer countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // timeLeftInMillis = millisUntilFinished;
+                int minutes = (int) (millisUntilFinished / 1000) / 60;
+                int seconds = (int) (millisUntilFinished / 1000) % 60;
+                String timeFormatted = String.format("%02d:%02d", minutes, seconds);
+                //.setText(timeFormatted);
+                button.setText("Request OTP in " + seconds);
+                button.setClickable(false);
+            }
+
+            @Override
+            public void onFinish() {
+                button.setText("Request OTP");
+                button.setClickable(true);
+                // Timer finished
+                // Handle expiration, e.g., regenerate OTP or show a message
+            }
+        }.start();
+    }
+
 
 }

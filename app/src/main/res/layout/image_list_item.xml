@@ -43,7 +43,7 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/tvCardNumber"
-                        android:text="Card Number"
+                        android:text="@string/card_number"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp"/>
 
@@ -54,7 +54,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/tvValid"
                         android:layout_marginBottom="@dimen/_15sdp"
-                        android:text="XXXX XXXX XXXX 2345"
+                        android:text="@string/xxxx_xxxx_xxxx_2345"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp"/>
 
@@ -64,7 +64,7 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/tvUpto"
-                        android:text="Valid"
+                        android:text="@string/valid"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp"/>
 
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="@id/tvValid"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:text="Upto"
+                        android:text="@string/upto"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp"/>
 
@@ -86,7 +86,7 @@
                         android:layout_marginStart="@dimen/_10sdp"
                         app:layout_constraintStart_toEndOf="@id/tvValid"
                         app:layout_constraintTop_toTopOf="@id/tvValid"
-                        android:text="XX/XX"
+                        android:text="@string/xx_xx"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp"/>
 

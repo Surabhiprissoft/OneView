@@ -14,7 +14,7 @@
 
     <TextView
         android:id="@+id/h1"
-        android:text="Success"
+        android:text="@string/success"
         android:layout_marginTop="@dimen/_15sdp"
         style="@style/dialogHeadingTextStyle" />
 
@@ -28,7 +28,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnClose"
-        android:text="Close"
+        android:text="@string/close"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="wrap_content"
         app:cornerRadius="@dimen/_10sdp"
