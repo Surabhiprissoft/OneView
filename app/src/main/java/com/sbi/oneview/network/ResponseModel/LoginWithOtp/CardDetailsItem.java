@@ -188,7 +188,7 @@ public class CardDetailsItem{
 		return wallBalPersonal;
 	}
 
-	public Object getLastSyncTransit(){
+	public String getLastSyncTransit(){
 		return lastSyncTransit;
 	}
 }

@@ -228,10 +228,40 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
             tvExpDate.setText(loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(0,2)+" / "+loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(2));
-            tvCardBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncPersonal() +"]");
-            tvChipBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncTransit()+"]");
             tvCardBal.setText(getResources().getString(R.string.Rs)+loginResponse.getTransit().getCardDetails().get(position).getWallBalPersonal());
             tvChipBal.setText(getResources().getString(R.string.Rs)+"0");
+
+            String cardBalanceSync = loginResponse.getTransit().getCardDetails().get(position).getLastSyncPersonal();
+            String chipBalanceSync = loginResponse.getTransit().getCardDetails().get(position).getLastSyncTransit();
+
+            if (cardBalanceSync.length() != 14)
+            {
+                tvCardBalanceSync.setText("[As on "+cardBalanceSync +"]");
+            }else{
+                String day = cardBalanceSync.substring(0,2);
+                String month = cardBalanceSync.substring(2,4);
+                String year = cardBalanceSync.substring(4,8);
+                String hour = cardBalanceSync.substring(8,10);
+                String minute = cardBalanceSync.substring(10,12);
+                String second = cardBalanceSync.substring(12,14);
+
+                tvCardBalanceSync.setText("[As on "+day+"/"+month+"/"+year+" "+hour+":"+minute+":"+second+"]");
+            }
+
+            if (chipBalanceSync.length() != 14)
+            {
+                tvChipBalanceSync.setText("[As on "+chipBalanceSync+"]");
+            }else{
+                String day = chipBalanceSync.substring(0,2);
+                String month = chipBalanceSync.substring(2,4);
+                String year = chipBalanceSync.substring(4,8);
+                String hour = chipBalanceSync.substring(8,10);
+                String minute = chipBalanceSync.substring(10,12);
+                String second = chipBalanceSync.substring(12,14);
+
+                tvChipBalanceSync.setText("[As on "+day+"/"+month+"/"+year+" "+hour+":"+minute+":"+second+"]");
+            }
+
 
 
             CardProxyNumber = loginResponse.getTransit().getCardDetails().get(position).getProxyNumber();
