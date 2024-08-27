@@ -49,8 +49,8 @@ import okhttp3.OkHttpClient;
 public class TopupWebViewActivity extends AppCompatActivity {
 
     WebView webView;
-    String origin = "https://10.176.56.102:8502";
-    String Referer = "https://10.176.56.102:8502/";
+    String origin = "https://oneview.prepaid.sbi";
+    String Referer = "https://oneview.prepaid.sbi/";
     TextView tvCancelTransaction;
     @SuppressLint("SetJavaScriptEnabled")
     @Override

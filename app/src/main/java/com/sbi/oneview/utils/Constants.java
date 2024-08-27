@@ -9,18 +9,18 @@ public class Constants {
 
 
 
-   public static final String BASE_URL ="https://oneview.prepaid.sbi:444/oneview/" ;     // Production URL
+   public static final String BASE_URL ="https://oneview.prepaid.sbi/oneview/" ;     // Production URL
  //  public static final String BASE_URL ="http://192.168.155.136:8080/" ;  // LAPTOP Local
   // public static final String BASE_URL ="https://corpuat.prepaid.sbi:444/oneview/" ;  // UAT
 
    public static final String BASE_URL_HOSTNAME ="oneview.prepaid.sbi" ;   // Production
-  // public static final String BASE_URL_HOSTNAME ="corpuat.prepaid.sbi" ;   // UAT
+ //  public static final String BASE_URL_HOSTNAME ="corpuat.prepaid.sbi" ;   // UAT
 
 
     public static final String TOP_UP_SUCCESS_URL = "https://oneview.prepaid.sbi/oneview/epay/topup-success";    //PROD
-   // public static final String TOP_UP_SUCCESS_URL = "https://corpuat.prepaid.sbi:444/oneview/epay/topup-success";  //UAT
+  //  public static final String TOP_UP_SUCCESS_URL = "https://corpuat.prepaid.sbi:444/oneview/epay/topup-success";  //UAT
     public static final String TOP_UP_FAIL_URL = "https://oneview.prepaid.sbi/oneview/epay/topup-fail";    //PROD
-    //public static final String TOP_UP_FAIL_URL = "https://corpuat.prepaid.sbi:444/oneview/epay/topup-fail";   //UAT
+  //  public static final String TOP_UP_FAIL_URL = "https://corpuat.prepaid.sbi:444/oneview/epay/topup-fail";   //UAT
 
 
 

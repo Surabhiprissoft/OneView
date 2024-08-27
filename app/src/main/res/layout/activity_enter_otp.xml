@@ -128,8 +128,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtPhoneNumber"
-            android:weightSum="6"
-            android:gravity="start"
+            android:weightSum="7"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <EditText
@@ -137,8 +137,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_45sdp"
                 android:background="@drawable/edit_text_otp_style"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:inputType="number"
                 android:maxLength="1"
                 android:gravity="center"
@@ -151,7 +150,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_45sdp"
                 android:background="@drawable/edit_text_otp_style"
-                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:maxLength="1"
                 android:inputType="number"
                 android:gravity="center"
@@ -164,7 +163,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_45sdp"
                 android:background="@drawable/edit_text_otp_style"
-                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:maxLength="1"
                 android:inputType="number"
                 android:gravity="center"
@@ -177,7 +176,33 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_45sdp"
                 android:background="@drawable/edit_text_otp_style"
-                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:maxLength="1"
+                android:inputType="number"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/et5"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:background="@drawable/edit_text_otp_style"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:maxLength="1"
+                android:inputType="number"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/et6"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_45sdp"
+                android:background="@drawable/edit_text_otp_style"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:maxLength="1"
                 android:inputType="number"
                 android:gravity="center"

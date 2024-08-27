@@ -264,7 +264,7 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
                 layoutHotlistOption.setVisibility(View.VISIBLE);
                 tvHotlistNote.setVisibility(View.GONE);
 
-            }else if(currentCardStatus.equals("PHL")){
+            }else{
 
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));

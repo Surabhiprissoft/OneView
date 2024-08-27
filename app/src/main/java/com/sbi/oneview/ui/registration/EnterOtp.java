@@ -51,12 +51,13 @@ import retrofit2.Response;
 
 public class EnterOtp extends BaseActivity {
 
-    EditText etFirstOTP, etSecondOTP, etThirdOTP, etFourthOTP;
+    EditText etFirstOTP, etSecondOTP, etThirdOTP, etFourthOTP,etFifthOTP,etSixthOTP;
     MaterialButton btnVerify;
     TextView tvResendOTP,txtPhoneNumber,txtEnterOtp;
     ImageView topRightImg,bottomLeftImg,bottomRightImg;
     String number;
     LinearLayout otpTextViewLayout;
+    int resendOTPCounter=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +78,8 @@ public class EnterOtp extends BaseActivity {
         etSecondOTP = findViewById(R.id.et2);
         etThirdOTP = findViewById(R.id.et3);
         etFourthOTP = findViewById(R.id.et4);
+        etFifthOTP = findViewById(R.id.et5);
+        etSixthOTP = findViewById(R.id.et6);
         topRightImg = findViewById(R.id.topRight_image);
         bottomLeftImg = findViewById(R.id.bottomLeft_image);
         bottomRightImg = findViewById(R.id.bottomRight_image);
@@ -234,7 +237,7 @@ public class EnterOtp extends BaseActivity {
                 if(s.length()==1)
                 {
 
-                    performNext(etFourthOTP, etFourthOTP);
+                    performNext(etFifthOTP, etFourthOTP);
                 }
                 else
                 {
@@ -248,14 +251,69 @@ public class EnterOtp extends BaseActivity {
             }
         });
 
+        etFifthOTP.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2)
+            {
+
+                if(s.length()==1)
+                {
+
+                    performNext(etSixthOTP, etFifthOTP);
+                }
+                else
+                {
+                    performBack(etFourthOTP, etFifthOTP);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        etSixthOTP.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2)
+            {
+
+                if(s.length()==1)
+                {
+
+                    performNext(etSixthOTP, etSixthOTP);
+                }
+                else
+                {
+                    performBack(etFifthOTP, etSixthOTP);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
         performNext(etFirstOTP, etFirstOTP);
 
         btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-                String otpTxt = etFirstOTP.getText().toString()+ etSecondOTP.getText().toString()+ etThirdOTP.getText().toString()+ etFourthOTP.getText().toString();
-                if (otpTxt.length()==4)
+                String otpTxt = etFirstOTP.getText().toString()+ etSecondOTP.getText().toString()+ etThirdOTP.getText().toString()+ etFourthOTP.getText().toString()+ etFifthOTP.getText().toString()+ etSixthOTP.getText().toString();
+                if (otpTxt.length()==6)
                 {
 
                     showLoading();
@@ -465,6 +523,11 @@ public class EnterOtp extends BaseActivity {
                                             Toast.makeText(EnterOtp.this, "OTP successfully send to your mobile number", Toast.LENGTH_SHORT).show();
                                             tvResendOTP.setClickable(false);
                                             CommonUtils.startTimer(tvResendOTP);
+                                            /*resendOTPCounter++;
+                                            if (resendOTPCounter==2)
+                                            {
+                                                tvResendOTP.setVisibility(View.GONE);
+                                            }*/
                                         }
                                     }
                                 }
@@ -545,7 +608,7 @@ public class EnterOtp extends BaseActivity {
         handler.postDelayed(new Runnable() {
             public void run() {
 
-                if (etFourthOTP==etCurrent)
+                if (etSixthOTP==etCurrent)
                 {
                     etCurrent.setSelection(etCurrent.getText().length());
                 }  else
@@ -583,6 +646,8 @@ public class EnterOtp extends BaseActivity {
         etSecondOTP.setText("");
         etThirdOTP.setText("");
         etFourthOTP.setText("");
+        etFifthOTP.setText("");
+        etSixthOTP.setText("");
 
         performNext(etFirstOTP, etFirstOTP);
 

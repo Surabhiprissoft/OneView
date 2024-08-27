@@ -381,6 +381,14 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
                                     }else if(action.equals("P")){
                                         currentPage = currentPage-1;
                                     }
+
+                                    if(currentPage>1)
+                                    {
+                                        imgPrev.setVisibility(View.VISIBLE);
+                                    }else{
+                                        imgPrev.setVisibility(View.GONE);
+                                    }
+
                                 }
 
 
@@ -510,7 +518,7 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
             cardPosition = position;
 
             currentCardStatus = loginResponse.getTransit().getCardDetails().get(position).getCardStatus();
-            if (currentCardStatus.equals("A")){
+            if (currentCardStatus.equals("A") || currentCardStatus.equals("ACTIVE")){
 
                 tvCardStatus.setTextColor(Color.BLACK);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
@@ -518,7 +526,7 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
                 layoutStatement.setVisibility(View.VISIBLE);
                 cardNote.setVisibility(View.GONE);
 
-            }else if(currentCardStatus.equals("PHL")){
+            }else{
 
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));

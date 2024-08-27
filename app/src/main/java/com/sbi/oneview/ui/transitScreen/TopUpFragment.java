@@ -522,14 +522,14 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
             token = loginResponse.getToken();
 
             currentCardStatus = loginResponse.getTransit().getCardDetails().get(position).getCardStatus();
-            if (currentCardStatus.equals("A")){
+            if (currentCardStatus.equals("A") || currentCardStatus.equals("ACTIVE")){
 
                 tvCardStatus.setTextColor(Color.BLACK);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
                 tvTopupNote.setVisibility(View.GONE);
                 layoutTopupOption.setVisibility(View.VISIBLE);
 
-            }else if(currentCardStatus.equals("PHL")){
+            }else{
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));
                 tvTopupNote.setVisibility(View.VISIBLE);

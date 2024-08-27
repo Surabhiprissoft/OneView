@@ -120,7 +120,26 @@ public class TransitHomeActivity extends BaseActivity {
         //set user firstName and lastName first character
 
         Data loginResponse = SharedConfig.getInstance(TransitHomeActivity.this).getLoginResponse(TransitHomeActivity.this);
-        tvUserNameChar.setText(loginResponse.getTransit().getFirstName().charAt(0)+""+loginResponse.getTransit().getLastName().charAt(0));
+        String firstName = loginResponse.getTransit().getFirstName()!=null ? loginResponse.getTransit().getFirstName():"";
+        String lastName = loginResponse.getTransit().getLastName()!=null ? loginResponse.getTransit().getLastName():"";
+
+        // Initialize a StringBuilder to build the result string
+        StringBuilder initials = new StringBuilder();
+
+        // Check the conditions and append the appropriate characters
+        if (!firstName.isEmpty()) {
+            initials.append(firstName.charAt(0)); // Append first character of firstName
+        }
+
+        if (!lastName.isEmpty()) {
+            initials.append(lastName.charAt(0)); // Append first character of lastName
+        }
+
+        // Convert the StringBuilder to a string
+        String result = initials.toString();
+        tvUserNameChar.setText(result);
+
+        //tvUserNameChar.setText(loginResponse.getTransit().getFirstName().charAt(0)+""+loginResponse.getTransit().getLastName().charAt(0));
 
         setListners();
         replaceFragment(new TransitCardDashboardFragment());

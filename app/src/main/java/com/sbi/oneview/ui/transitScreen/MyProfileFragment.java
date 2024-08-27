@@ -72,12 +72,12 @@ public class MyProfileFragment extends Fragment {
         Data loginResponse = SharedConfig.getInstance(getActivity()).getLoginResponse(getActivity());
         if (loginResponse!=null)
         {
-            firstNameTextView.setText(loginResponse.getTransit().getFirstName());
-            lastNameTextView.setText(loginResponse.getTransit().getLastName());
-            middleNameTextView.setText(loginResponse.getTransit().getMiddleName());
-            dobTextView.setText(loginResponse.getTransit().getDob());
-            ovdTypeTextView.setText(loginResponse.getTransit().getOvdType());
-            ovdValueTextView.setText(loginResponse.getTransit().getOvdValue());
+            firstNameTextView.setText(loginResponse.getTransit().getFirstName()==null ? "":loginResponse.getTransit().getFirstName());
+            lastNameTextView.setText(loginResponse.getTransit().getLastName()==null ? "":loginResponse.getTransit().getLastName());
+            middleNameTextView.setText(loginResponse.getTransit().getMiddleName()==null ? "":loginResponse.getTransit().getMiddleName());
+            dobTextView.setText(loginResponse.getTransit().getDob()==null ? "":loginResponse.getTransit().getDob());
+            ovdTypeTextView.setText(loginResponse.getTransit().getOvdType()==null ? "":loginResponse.getTransit().getOvdType());
+            ovdValueTextView.setText(loginResponse.getTransit().getOvdValue()==null ? "":loginResponse.getTransit().getOvdValue());
             kycTypeTextView.setText(loginResponse.getTransit().getKyc().equals("00")? "Min KYC":"Full KYC");
         }
         else{

@@ -234,32 +234,34 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
             String cardBalanceSync = loginResponse.getTransit().getCardDetails().get(position).getLastSyncPersonal();
             String chipBalanceSync = loginResponse.getTransit().getCardDetails().get(position).getLastSyncTransit();
 
-            if (cardBalanceSync.length() != 14)
-            {
-                tvCardBalanceSync.setText("[As on "+cardBalanceSync +"]");
-            }else{
-                String day = cardBalanceSync.substring(0,2);
-                String month = cardBalanceSync.substring(2,4);
-                String year = cardBalanceSync.substring(4,8);
-                String hour = cardBalanceSync.substring(8,10);
-                String minute = cardBalanceSync.substring(10,12);
-                String second = cardBalanceSync.substring(12,14);
+            if (cardBalanceSync!=null) {
+                if (cardBalanceSync.length() != 14) {
+                    tvCardBalanceSync.setText("[As on " + cardBalanceSync + "]");
+                } else {
+                    String day = cardBalanceSync.substring(0, 2);
+                    String month = cardBalanceSync.substring(2, 4);
+                    String year = cardBalanceSync.substring(4, 8);
+                    String hour = cardBalanceSync.substring(8, 10);
+                    String minute = cardBalanceSync.substring(10, 12);
+                    String second = cardBalanceSync.substring(12, 14);
 
-                tvCardBalanceSync.setText("[As on "+day+"/"+month+"/"+year+" "+hour+":"+minute+":"+second+"]");
+                    tvCardBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " \n " + hour + ":" + minute + ":" + second + "]");
+                }
             }
 
-            if (chipBalanceSync.length() != 14)
-            {
-                tvChipBalanceSync.setText("[As on "+chipBalanceSync+"]");
-            }else{
-                String day = chipBalanceSync.substring(0,2);
-                String month = chipBalanceSync.substring(2,4);
-                String year = chipBalanceSync.substring(4,8);
-                String hour = chipBalanceSync.substring(8,10);
-                String minute = chipBalanceSync.substring(10,12);
-                String second = chipBalanceSync.substring(12,14);
+            if (chipBalanceSync!=null) {
+                if (chipBalanceSync.length() != 14) {
+                    tvChipBalanceSync.setText("[As on " + chipBalanceSync + "]");
+                } else {
+                    String day = chipBalanceSync.substring(0, 2);
+                    String month = chipBalanceSync.substring(2, 4);
+                    String year = chipBalanceSync.substring(4, 8);
+                    String hour = chipBalanceSync.substring(8, 10);
+                    String minute = chipBalanceSync.substring(10, 12);
+                    String second = chipBalanceSync.substring(12, 14);
 
-                tvChipBalanceSync.setText("[As on "+day+"/"+month+"/"+year+" "+hour+":"+minute+":"+second+"]");
+                    tvChipBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " \n " + hour + ":" + minute + ":" + second + "]");
+                }
             }
 
 
