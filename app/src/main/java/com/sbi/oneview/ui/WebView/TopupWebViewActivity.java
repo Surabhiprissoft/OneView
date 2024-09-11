@@ -51,6 +51,7 @@ public class TopupWebViewActivity extends AppCompatActivity {
     WebView webView;
     String origin = "https://oneview.prepaid.sbi";
     String Referer = "https://oneview.prepaid.sbi/";
+    String Host = "oneview.prepaid.sbi";
     TextView tvCancelTransaction;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -67,9 +68,14 @@ public class TopupWebViewActivity extends AppCompatActivity {
         webView = findViewById(R.id.wvTopup);
         tvCancelTransaction = findViewById(R.id.tvCancelTransaction);
 
-        String epayUrl = getIntent().getStringExtra("epayUrl");
+        /*String epayUrl = getIntent().getStringExtra("epayUrl");
         String txnData = getIntent().getStringExtra("encryptTrans");
-        String merchID = getIntent().getStringExtra("merchIdVal");
+        String merchID = getIntent().getStringExtra("merchIdVal");*/
+
+        String epayUrl = "https://oneview.prepaid.sbi/oneview/epay/topup";
+        String txnData = getIntent().getStringExtra("txnData");
+        String accessKey = getIntent().getStringExtra("accessKey");
+        int amount = getIntent().getIntExtra("amount",0);
 
         tvCancelTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,18 +90,18 @@ public class TopupWebViewActivity extends AppCompatActivity {
 
 
         StringBuilder str = new StringBuilder().append(epayUrl)
-                .append("EncryptTrans")
+                .append("transdata")
                 .append(txnData)
-                .append("merchIdVal")
-                .append(merchID);
+                .append("eval")
+                .append(accessKey);
         String finalUrl = str.toString();
 
         String htmlContent = "<html>" +
                 "<head><title>Submit Form</title></head>" +
                 "<body onload=\"document.getElementById('myform').submit();\">" +
                 "<form name='myform' id='myform' method='post' action='"+epayUrl+"' target='_self'>" +
-                "<input type='hidden' name='EncryptTrans' value='" + txnData + "' >" +
-                "<input type='hidden' name='merchIdVal' value='" + merchID + "'>" +
+                "<input type='hidden' name='transdata' value='" + txnData + "' >" +
+                "<input type='hidden' name='eval' value='" + accessKey + "'>" +
                 "<b>Please wait, redirecting to payment portal</b>"+
                 "</form>" +
                 "</body></html>";
@@ -104,8 +110,9 @@ public class TopupWebViewActivity extends AppCompatActivity {
 
 
         Map<String, String> headers = new HashMap<>();
-        headers.put("Origin", origin);
-        headers.put("Referer", Referer);
+        headers.put("Host", Host);
+        /*headers.put("Origin", origin);
+        headers.put("Referer", Referer);*/
 
 
 
@@ -130,12 +137,14 @@ public class TopupWebViewActivity extends AppCompatActivity {
                 {
                     Intent i = new Intent(TopupWebViewActivity.this, PaymentStatusActivity.class);
                     i.putExtra("status","s");
+                    i.putExtra("topupAmount",amount);
                     startActivity(i);
                 }
                 if(url.equals(Constants.TOP_UP_FAIL_URL))
                 {
                     Intent i = new Intent(TopupWebViewActivity.this, PaymentStatusActivity.class);
                     i.putExtra("status","f");
+                    i.putExtra("topupAmount",amount);
                     startActivity(i);
                 }
             }

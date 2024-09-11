@@ -21,7 +21,7 @@ import com.sbi.oneview.utils.CommonUtils;
 public class PaymentStatusActivity extends AppCompatActivity {
 
     ImageView imgStatus;
-    TextView tvStatus,tvStatusDesc,tvSuccessNote;
+    TextView tvStatus,tvStatusDesc,tvSuccessNote,successNoteInstruction;
     MaterialButton btnDashboard;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +39,11 @@ public class PaymentStatusActivity extends AppCompatActivity {
         tvStatusDesc = findViewById(R.id.tvStatusDesc);
         tvSuccessNote = findViewById(R.id.successNote);
         btnDashboard = findViewById(R.id.btnDashboard);
+        successNoteInstruction = findViewById(R.id.successNoteInstruction);
 
 
         String status = getIntent().getStringExtra("status");
+        int amount = getIntent().getIntExtra("topupAmount",0);
 
         if (status!=null)
         {
@@ -51,14 +53,17 @@ public class PaymentStatusActivity extends AppCompatActivity {
                 imgStatus.setImageDrawable(getDrawable(R.drawable.success_icon));
                 tvStatus.setText(this.getString(R.string.cong));
                 tvStatus.setTextColor(Color.GREEN);
-                tvStatusDesc.setText(this.getString(R.string.success_transaction));
+                //tvStatusDesc.setText(this.getString(R.string.success_transaction));
+                tvStatusDesc.setText("Your top up of "+getResources().getString(R.string.Rs)+""+amount+"has been successful");
                 tvSuccessNote.setText(""+getResources().getString(R.string.succes_note));
+                successNoteInstruction.setText(""+getResources().getString(R.string.success_note_instruction));
 
             }else if (status.equals("f")){
                 imgStatus.setImageDrawable(getDrawable(R.drawable.fail_icon));
                 tvStatus.setText(this.getString(R.string.fail));
                 tvStatus.setTextColor(Color.RED);
-                tvStatusDesc.setText(this.getString(R.string.failed_transaction));
+               // tvStatusDesc.setText(this.getString(R.string.failed_transaction));
+                tvStatusDesc.setText("Your top up of "+getResources().getString(R.string.Rs)+""+amount+"has been failed");
                 tvSuccessNote.setText(""+getResources().getString(R.string.fail_note));
 
             }

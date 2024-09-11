@@ -53,11 +53,11 @@ public class EnterOtp extends BaseActivity {
 
     EditText etFirstOTP, etSecondOTP, etThirdOTP, etFourthOTP,etFifthOTP,etSixthOTP;
     MaterialButton btnVerify;
-    TextView tvResendOTP,txtPhoneNumber,txtEnterOtp;
+    TextView tvResendOTP,txtPhoneNumber,txtEnterOtp,tvResendOTPCount;
     ImageView topRightImg,bottomLeftImg,bottomRightImg;
     String number;
     LinearLayout otpTextViewLayout;
-    int resendOTPCounter=0;
+    int resendOTPCounter=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +88,9 @@ public class EnterOtp extends BaseActivity {
         txtPhoneNumber = findViewById(R.id.txtPhoneNumber);
         otpTextViewLayout = findViewById(R.id.otpTextViewLayout);
         txtEnterOtp = findViewById(R.id.txtEnterOtp);
+        tvResendOTPCount = findViewById(R.id.txtResendOtpCount);
+
+        tvResendOTPCount.setText("Attempt left : "+(3-resendOTPCounter));
 
         Intent intent = getIntent();
         number = intent.getStringExtra("PHONE_NUMBER");
@@ -523,11 +526,12 @@ public class EnterOtp extends BaseActivity {
                                             Toast.makeText(EnterOtp.this, "OTP successfully send to your mobile number", Toast.LENGTH_SHORT).show();
                                             tvResendOTP.setClickable(false);
                                             CommonUtils.startTimer(tvResendOTP);
-                                            /*resendOTPCounter++;
-                                            if (resendOTPCounter==2)
+                                            resendOTPCounter++;
+                                            if (resendOTPCounter==3)
                                             {
                                                 tvResendOTP.setVisibility(View.GONE);
-                                            }*/
+                                            }
+                                            tvResendOTPCount.setText("Attempt left : "+(3-resendOTPCounter));
                                         }
                                     }
                                 }

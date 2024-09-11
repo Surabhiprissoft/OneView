@@ -590,6 +590,26 @@ public class TransitHomeActivity extends BaseActivity {
         }
     }
 
+    public void replaceFragmentWithArgument(Fragment fragment,int position)
+    {
+        if (fragment!=null)
+        {
+            String fragmentName = fragment.getClass().getSimpleName();
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+            Bundle args = new Bundle();
+            args.putInt("pos",position);
+            fragment.setArguments(args);
+
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+
     public void logoutUser()
     {
 

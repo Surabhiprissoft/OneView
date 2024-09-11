@@ -96,7 +96,7 @@ public class FtcCardStatementFragment extends BaseFragment implements MyFragment
 
 
 
-        CourouselAdapter adapter = new CourouselAdapter(this,getActivity(), arrayList,customIndicatorView);
+        CourouselAdapter adapter = new CourouselAdapter(this,getActivity(), arrayList,customIndicatorView,null);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);

@@ -173,7 +173,7 @@ public class ApplyTransitCardActivity extends BaseActivity implements OtpDialogu
                 etOvdDetails.setError(null);
                 if(checkedId==0)
                 {
-                    etOvdDetails.setHint("OVD Details");
+                    etOvdDetails.setHint("OVD Details *");
                     selectedOVDType = "";
                     ((TextView) view.findViewById(android.R.id.text1)).setTextColor(getResources().getColor(R.color.transperant_white));
                 }

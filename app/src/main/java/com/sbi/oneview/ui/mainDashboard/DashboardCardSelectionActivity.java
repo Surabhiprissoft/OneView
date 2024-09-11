@@ -173,12 +173,12 @@ public class DashboardCardSelectionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (inrStatus){
+                /*if (inrStatus){
                     Intent intent = new Intent(DashboardCardSelectionActivity.this, InrPrepaidHomeActivity.class);
                     startActivity(intent);
                 }else{
                     Toast.makeText(DashboardCardSelectionActivity.this, "You don't have any INR prepaid card linked with your mobile number", Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
             }
         });
@@ -188,12 +188,12 @@ public class DashboardCardSelectionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (ftcStatus){
+                /*if (ftcStatus){
                     Intent intent = new Intent(DashboardCardSelectionActivity.this, FtcHomeActivity.class);
                     startActivity(intent);
                 }else{
                     Toast.makeText(DashboardCardSelectionActivity.this, "You don't have any FTC card linked with your mobile number", Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
             }
         });

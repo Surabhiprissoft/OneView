@@ -309,7 +309,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
-                            android:backgroundTint="#662D91"
+                            android:backgroundTint="@color/faintPurple"
+                            android:textColor="@color/faintWhite"
                             app:cornerRadius="@dimen/_10sdp"
                             android:text="@string/proceed"/>
 
@@ -384,7 +385,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
-                            android:backgroundTint="#662D91"
+                            android:backgroundTint="@color/faintPurple"
+                            android:textColor="@color/faintWhite"
                             app:cornerRadius="@dimen/_10sdp"
                             android:text="@string/proceed"/>
 

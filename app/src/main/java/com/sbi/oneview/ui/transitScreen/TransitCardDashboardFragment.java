@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -144,7 +146,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
 
 
 
-        CourouselAdapter adapter = new CourouselAdapter(this,getActivity(), arrayList,customIndicatorView);
+        CourouselAdapter adapter = new CourouselAdapter(this,getActivity(), arrayList,customIndicatorView,null);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
@@ -162,7 +164,9 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
                 if (transitHomeActivity!=null){
                     transitHomeActivity.drawerItemClick("cardManagement");
                     transitHomeActivity.subMenuClicked(transitHomeActivity.cardStatementCard,true);
-                    transitHomeActivity.replaceFragment(new CardStatementFragment());
+                    //transitHomeActivity.replaceFragment(new CardStatementFragment());
+
+                    transitHomeActivity.replaceFragmentWithArgument(new CardStatementFragment(),cardPosition);
                 }
             }
         });
@@ -174,7 +178,8 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
                 if (transitHomeActivity!=null){
                     transitHomeActivity.drawerItemClick("cardManagement");
                     transitHomeActivity.subMenuClicked(transitHomeActivity.cardTopUpCard,true);
-                    transitHomeActivity.replaceFragment(new TopUpFragment());
+                    //transitHomeActivity.replaceFragment(new TopUpFragment());
+                    transitHomeActivity.replaceFragmentWithArgument(new TopUpFragment(),cardPosition);
                 }
             }
         });
@@ -197,7 +202,9 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
                 if (transitHomeActivity!=null){
                     transitHomeActivity.drawerItemClick("cardManagement");
                     transitHomeActivity.subMenuClicked(transitHomeActivity.cardhotlistCard,true);
-                    transitHomeActivity.replaceFragment(new CardHotlistFragment());
+                    //transitHomeActivity.replaceFragment(new CardHotlistFragment());
+                    transitHomeActivity.replaceFragmentWithArgument(new CardHotlistFragment(),cardPosition);
+
                 }
             }
         });
@@ -209,7 +216,9 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
                 if (transitHomeActivity!=null){
                     transitHomeActivity.drawerItemClick("cardManagement");
                     transitHomeActivity.subMenuClicked(transitHomeActivity.cardStatementCard,true);
-                    transitHomeActivity.replaceFragment(new CardStatementFragment());
+                    //transitHomeActivity.replaceFragment(new CardStatementFragment());
+                    transitHomeActivity.replaceFragmentWithArgument(new CardStatementFragment(),cardPosition);
+
                 }
             }
         });
@@ -229,7 +238,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
             tvExpDate.setText(loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(0,2)+" / "+loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(2));
             tvCardBal.setText(getResources().getString(R.string.Rs)+loginResponse.getTransit().getCardDetails().get(position).getWallBalPersonal());
-            tvChipBal.setText(getResources().getString(R.string.Rs)+"0");
+            tvChipBal.setText(getResources().getString(R.string.Rs)+loginResponse.getTransit().getCardDetails().get(position).getWallBalTransit());
 
             String cardBalanceSync = loginResponse.getTransit().getCardDetails().get(position).getLastSyncPersonal();
             String chipBalanceSync = loginResponse.getTransit().getCardDetails().get(position).getLastSyncTransit();
@@ -271,12 +280,12 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
             token = loginResponse.getToken();
 
             currentCardStatus = loginResponse.getTransit().getCardDetails().get(position).getCardStatus();
-            if (currentCardStatus.equals("A")){
+            if (currentCardStatus.equals("A") || currentCardStatus.equals("ACTIVE")){
 
                 tvCardStatus.setTextColor(Color.BLACK);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.activeCardBackground));
 
-            }else if(currentCardStatus.equals("PHL")){
+            }else{
 
                 tvCardStatus.setTextColor(Color.WHITE);
                 layoutCardStatus.setBackgroundColor(getResources().getColor(R.color.failedTransaction));

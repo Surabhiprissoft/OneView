@@ -108,7 +108,17 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
 
 
 
-        CourouselAdapter adapter = new CourouselAdapter(this,getActivity(), arrayList,customIndicatorView);
+
+        CourouselAdapter adapter;
+
+        if (getArguments()!=null)
+        {
+            int pos = getArguments().getInt("pos");
+            adapter = new CourouselAdapter(this,getActivity(), arrayList,customIndicatorView,pos);
+        }
+        else{
+            adapter = new CourouselAdapter(this,getActivity(), arrayList,customIndicatorView,null);
+        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
@@ -232,7 +242,12 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
                     Toast.makeText(getActivity(), "Please enter amount to proceed with top up", Toast.LENGTH_SHORT).show();
                 }else{
                     int topUpAmount = Integer.parseInt(etMoney.getText().toString());
-                    initiatTopUP(topUpAmount);
+
+                    if (topUpAmount>=100) {
+                        initiatTopUP(topUpAmount);
+                    }else{
+                        Toast.makeText(getActivity(), "Minimum top up amount is 100", Toast.LENGTH_SHORT).show();
+                    }
                    // Toast.makeText(getActivity(), "Work in Progress, please try again later", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -388,13 +403,13 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
 
                                     //encryptTrans = encryptTrans.substring(0, encryptTrans.length() - 1);
                                     // Start WebViewActivity with the URL and POST data
-                                    Intent intent = new Intent(getActivity(), TopupWebViewActivity.class);
+                                    /*Intent intent = new Intent(getActivity(), TopupWebViewActivity.class);
                                     intent.putExtra("epayUrl", epayUrl);
                                     intent.putExtra("encryptTrans", encryptTrans);
                                     intent.putExtra("merchIdVal", merchIdVal);
-                                    startActivity(intent);
+                                    startActivity(intent);*/
 
-                                    //callingTopupWebpage(encryptTrans,merchIdVal);
+                                    callingTopupWebpage(encryptTrans,merchIdVal,amount);
 
                                 }
 
@@ -460,7 +475,7 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
     }
 
 
-    public void callingTopupWebpage(String txnData,String merchndId){
+    public void callingTopupWebpage(String txnData,String merchndId,int amount){
 
 
         showLoading();
@@ -490,6 +505,7 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
             Intent intent = new Intent(getActivity(), TopupWebViewActivity.class);
             intent.putExtra("txnData", encryptedMsg);
             intent.putExtra("accessKey", randomKey);
+            intent.putExtra("amount", amount);
             startActivity(intent);
 
         }
@@ -506,16 +522,48 @@ public class TopUpFragment extends BaseFragment implements MyFragmentCallback {
             tvCardNumber.setText("XXXX XXXX XXXX "+loginResponse.getTransit().getCardDetails().get(position).getCardNumber());
             tvCardStatus.setText(loginResponse.getTransit().getCardDetails().get(position).getCardStatus().equals("A") ? "ACTIVE":"INACTIVE");
             tvProductName.setText(loginResponse.getTransit().getCardDetails().get(position).getProductName());
-            tvCardBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncPersonal() +"]");
-            tvChipBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncTransit()+"]");
+          //  tvCardBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncPersonal() +"]");
+          //  tvChipBalanceSync.setText("[As on "+loginResponse.getTransit().getCardDetails().get(position).getLastSyncTransit()+"]");
             tvActDate.setText(loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(0,2) +" / "+ loginResponse.getTransit().getCardDetails().get(position).getActivityDate().substring(2));
             tvExpDate.setText(loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(0,2)+" / "+loginResponse.getTransit().getCardDetails().get(position).getExpDate().substring(2));
 
             tvCardBal.setText(getResources().getString(R.string.Rs)+loginResponse.getTransit().getCardDetails().get(position).getWallBalPersonal());
-            tvChipBal.setText(getResources().getString(R.string.Rs)+"0");
+            tvChipBal.setText(getResources().getString(R.string.Rs)+loginResponse.getTransit().getCardDetails().get(position).getWallBalTransit());
             eligibleBalance = 10000-(Double.parseDouble(loginResponse.getTransit().getCardDetails().get(position).getWallBalPersonal()));
             tvEligibleBal.setText(""+eligibleBalance.toString());
 
+            String cardBalanceSync = loginResponse.getTransit().getCardDetails().get(position).getLastSyncPersonal();
+            String chipBalanceSync = loginResponse.getTransit().getCardDetails().get(position).getLastSyncTransit();
+
+            if (cardBalanceSync!=null) {
+                if (cardBalanceSync.length() != 14) {
+                    tvCardBalanceSync.setText("[As on " + cardBalanceSync + "]");
+                } else {
+                    String day = cardBalanceSync.substring(0, 2);
+                    String month = cardBalanceSync.substring(2, 4);
+                    String year = cardBalanceSync.substring(4, 8);
+                    String hour = cardBalanceSync.substring(8, 10);
+                    String minute = cardBalanceSync.substring(10, 12);
+                    String second = cardBalanceSync.substring(12, 14);
+
+                    tvCardBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " \n " + hour + ":" + minute + ":" + second + "]");
+                }
+            }
+
+            if (chipBalanceSync!=null) {
+                if (chipBalanceSync.length() != 14) {
+                    tvChipBalanceSync.setText("[As on " + chipBalanceSync + "]");
+                } else {
+                    String day = chipBalanceSync.substring(0, 2);
+                    String month = chipBalanceSync.substring(2, 4);
+                    String year = chipBalanceSync.substring(4, 8);
+                    String hour = chipBalanceSync.substring(8, 10);
+                    String minute = chipBalanceSync.substring(10, 12);
+                    String second = chipBalanceSync.substring(12, 14);
+
+                    tvChipBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " \n " + hour + ":" + minute + ":" + second + "]");
+                }
+            }
 
             CardProxyNumber = loginResponse.getTransit().getCardDetails().get(position).getCardRefNumber();
             cardPosition = position;

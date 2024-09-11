@@ -31,13 +31,15 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
     private OnItemClickListener onItemClickListener;
     private int currentPosition = 0;
     private int initialPosition;
+    private Integer customPosition;
     private Fragment fragment;
     private CustomIndicatorView customIndicator;
     private MyFragmentCallback callback;
-    public CourouselAdapter(MyFragmentCallback callback, Context context, List<CardDetailsItem> arrayList, CustomIndicatorView customIndicator) {
+    public CourouselAdapter(MyFragmentCallback callback, Context context, List<CardDetailsItem> arrayList, CustomIndicatorView customIndicator,Integer customPosition) {
         this.context = context;
         this.arrayList = arrayList;
         this.customIndicator = customIndicator;
+        this.customPosition = customPosition;
         initialPosition = arrayList.size() / 2;
         customIndicator.setNumItems(arrayList.size());
         this.callback = callback;
@@ -53,7 +55,12 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        currentPosition = (initialPosition + position) % arrayList.size();
+        if (customPosition!=null)
+        {
+            currentPosition = customPosition;
+        }else{
+            currentPosition = (initialPosition + position) % arrayList.size();
+        }
 
         Log.e("POSITION",""+currentPosition);
         Log.e("IMAGE",""+arrayList.get(currentPosition));

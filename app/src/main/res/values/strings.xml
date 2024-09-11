@@ -147,7 +147,7 @@
     <string name="mobile_number">Mobile Number</string>
     <string name="top_up">Top-up</string>
     <string name="success_transaction">Your Transaction has been successful.</string>
-    <string name="failed_transaction">Your Transaction has been successful.</string>
+    <string name="failed_transaction">Your Transaction has been failed.</string>
     <string name="cong">Congratulations !</string>
     <string name="fail">Failed !</string>
     <string name="card_hotlisted">Your card has been permanently hotlisted.</string>
@@ -198,6 +198,7 @@
     <string name="contactcentre_sbi_co_in"><u>contactcentre@sbi.co.in</u></string>
     <string name="fail_note">Please try again after sometime</string>
     <string name="succes_note">* To view your updated card balance after a top-up, please log in again. Your transaction history is available in recent transaction card on dashboard.</string>
+    <string name="success_note_instruction">* For balance update please visit the nearest NCMC enabled metro, Bus or POS terminals.</string>
     <string name="please_visit_nearest_tom_counter_for_issuing_your_transit_card">* Please visit nearest TOM counter for issuing your transit card.</string>
     <string name="congratulations_your_card_application_has_been_successfully_created">Congratulations, your Card application has been successfully created.</string>
     <string name="mcrn_number">MCRN Number</string>
@@ -212,12 +213,13 @@
     <string name="mobile_number_apply">Mobile Number *</string>
     <string name="pan">PAN</string>
     <string name="ovd_details">OVD Details</string>
+    <string name="ovd_details_mand">OVD Details *</string>
     <string name="ovd_details_mandatory">OVD Details *</string>
     <string name="apply_card_declaration">I accept all declarations pertaining to SBI Prepaid Card Application.</string>
     <string name="transit_card">Transit Card</string>
     <string name="inr_prepaid_card">INR Prepaid Card</string>
     <string name="ftc_card">FTC Card</string>
-    <string name="a_4_digit_code_has_been_sent_to">A 4 digit code has been sent to</string>
+    <string name="a_4_digit_code_has_been_sent_to">A 6 digit code has been sent to</string>
     <string name="verify">Verify</string>
     <string name="proceed">Proceed</string>
     <string name="resend_otp">Resend OTP</string>

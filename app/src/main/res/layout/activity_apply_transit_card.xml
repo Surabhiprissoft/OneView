@@ -197,7 +197,7 @@
                 <EditText
                     android:id="@+id/et_ovddetails"
                     android:inputType="text"
-                    android:hint="@string/ovd_details_mandatory"
+                    android:hint="@string/ovd_details_mand"
                     style="@style/edittext_registration" />
             </LinearLayout>
             <LinearLayout

@@ -239,7 +239,20 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:text="@string/resend_otp"
             android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/_13ssp"/>
+
+        <TextView
+            android:id="@+id/txtResendOtpCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/txtResendOtp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:textColor="@color/white"
             android:textSize="@dimen/_12ssp"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

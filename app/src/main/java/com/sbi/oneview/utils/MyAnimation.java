@@ -12,7 +12,7 @@ import com.sbi.oneview.R;
 
 public class MyAnimation {
 
-    private static int duration = 1000;
+    private static int duration = 700;
     private static int delay = 15;
 
     public interface AnimationListener {

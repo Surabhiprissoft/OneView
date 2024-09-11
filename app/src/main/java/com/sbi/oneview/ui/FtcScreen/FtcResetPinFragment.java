@@ -89,7 +89,7 @@ public class FtcResetPinFragment extends BaseFragment implements MyFragmentCallb
 
 
 
-        CourouselAdapter adapter = new CourouselAdapter(this,getActivity(), arrayList,customIndicatorView);
+        CourouselAdapter adapter = new CourouselAdapter(this,getActivity(), arrayList,customIndicatorView,null);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);

@@ -42,6 +42,7 @@ public class OTPVerificationDialog extends Dialog {
     Button btnVerify;
     TextView tvResendOTP;
     String mobileNUmber,cardReferenceNUmber,action;
+    int resendOTPCounter=0;
     private OtpDialogueCallBack otpDialogueCallBack;
 
     public OTPVerificationDialog(OtpDialogueCallBack otpDialogueCallBack,@NonNull Context context,String mobileNUmber,String cardReferenceNumber,String action) {
@@ -140,6 +141,12 @@ public class OTPVerificationDialog extends Dialog {
                                         Toast.makeText(getContext(), "OTP successfully send to your mobile number", Toast.LENGTH_SHORT).show();
                                         tvResendOTP.setClickable(false);
                                         CommonUtils.startTimer(tvResendOTP);
+
+                                        resendOTPCounter++;
+                                        if (resendOTPCounter==2)
+                                        {
+                                            tvResendOTP.setVisibility(View.GONE);
+                                        }
                                     }
                                 }
                             }

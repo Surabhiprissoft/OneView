@@ -151,6 +151,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="#D6224F"
                         android:textColorHint="#B6B1B1"
+                        android:digits="1234567890"
                         android:inputType="phone"
                         android:layout_marginStart="@dimen/_7sdp"
                         android:textColor="@color/white"
