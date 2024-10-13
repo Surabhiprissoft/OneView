@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ public class MyProfileFragment extends Fragment {
 
     TextView tvHeader,tvCurrentDate;
     TextView tvcustomerdetails;
+    TableRow trFirstName,trMiddleName,trLastName,trDOB,trOvdType,trOvdValue;
     private TextView firstNameTextView,middleNameTextView, lastNameTextView,dobTextView, ovdTypeTextView, ovdValueTextView, kycTypeTextView, mobileNumberTextView;
 
     @Override
@@ -54,6 +56,13 @@ public class MyProfileFragment extends Fragment {
         kycTypeTextView = view.findViewById(R.id.kyc_type_value);
         mobileNumberTextView = view.findViewById(R.id.mobile_number_value);
 
+        trFirstName = view.findViewById(R.id.trFirstName);
+        trMiddleName = view.findViewById(R.id.trMiddleName);
+        trLastName = view.findViewById(R.id.trLastName);
+        trDOB = view.findViewById(R.id.trDOB);
+        trOvdType = view.findViewById(R.id.trOvdType);
+        trOvdValue = view.findViewById(R.id.trOvdValue);
+
 
         tvHeader.setText("My profile");
 
@@ -72,13 +81,29 @@ public class MyProfileFragment extends Fragment {
         Data loginResponse = SharedConfig.getInstance(getActivity()).getLoginResponse(getActivity());
         if (loginResponse!=null)
         {
+            String kycType = loginResponse.getTransit().getKyc();
+            if (kycType.equals("00"))
+            {
+                kycTypeTextView.setText("Min KYC");
+            }
+            else{
+                kycTypeTextView.setText("Zero KYC");
+
+                trFirstName.setVisibility(View.GONE);
+                trLastName.setVisibility(View.GONE);
+                trMiddleName.setVisibility(View.GONE);
+                trDOB.setVisibility(View.GONE);
+                trOvdType.setVisibility(View.GONE);
+                trOvdValue.setVisibility(View.GONE);
+            }
+
             firstNameTextView.setText(loginResponse.getTransit().getFirstName()==null ? "":loginResponse.getTransit().getFirstName());
             lastNameTextView.setText(loginResponse.getTransit().getLastName()==null ? "":loginResponse.getTransit().getLastName());
             middleNameTextView.setText(loginResponse.getTransit().getMiddleName()==null ? "":loginResponse.getTransit().getMiddleName());
             dobTextView.setText(loginResponse.getTransit().getDob()==null ? "":loginResponse.getTransit().getDob());
             ovdTypeTextView.setText(loginResponse.getTransit().getOvdType()==null ? "":loginResponse.getTransit().getOvdType());
             ovdValueTextView.setText(loginResponse.getTransit().getOvdValue()==null ? "":loginResponse.getTransit().getOvdValue());
-            kycTypeTextView.setText(loginResponse.getTransit().getKyc().equals("00")? "Min KYC":"Full KYC");
+           // kycTypeTextView.setText(loginResponse.getTransit().getKyc().equals("00")? "Min KYC":"Full KYC");
         }
         else{
             Toast.makeText(getActivity(), "No data Found", Toast.LENGTH_SHORT).show();

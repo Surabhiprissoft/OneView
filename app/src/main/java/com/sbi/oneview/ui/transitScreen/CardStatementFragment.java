@@ -34,6 +34,7 @@ import com.sbi.oneview.ui.adapters.CourouselAdapter;
 import com.sbi.oneview.ui.adapters.TransactionStatementAdapter;
 import com.sbi.oneview.ui.adapters.Transit.TransitStatementAdapter;
 import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
+import com.sbi.oneview.utils.CardDetailsSorter;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
 import com.sbi.oneview.utils.NetworkUtils;
@@ -46,6 +47,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -117,8 +119,6 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
         if (getArguments()!=null)
         {
             int pos = getArguments().getInt("pos");
-            Log.d("GIven POS",""+pos);
-
             adapter = new CourouselAdapter(this,getActivity(), arrayList,customIndicatorView,pos);
         }
         else{
@@ -527,7 +527,7 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
                     String minute = cardBalanceSync.substring(10, 12);
                     String second = cardBalanceSync.substring(12, 14);
 
-                    tvCardBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " \n " + hour + ":" + minute + ":" + second + "]");
+                    tvCardBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second + "]");
                 }
             }
 
@@ -542,7 +542,7 @@ public class CardStatementFragment extends BaseFragment implements MyFragmentCal
                     String minute = chipBalanceSync.substring(10, 12);
                     String second = chipBalanceSync.substring(12, 14);
 
-                    tvChipBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " \n " + hour + ":" + minute + ":" + second + "]");
+                    tvChipBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second + "]");
                 }
             }
 

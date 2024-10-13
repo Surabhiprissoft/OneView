@@ -227,7 +227,7 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                requestHotlist("Lost");
+                requestHotlist(selectedHotlistReason);
 
             }
         });
@@ -273,7 +273,7 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
                     String minute = cardBalanceSync.substring(10, 12);
                     String second = cardBalanceSync.substring(12, 14);
 
-                    tvCardBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " \n " + hour + ":" + minute + ":" + second + "]");
+                    tvCardBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second + "]");
                 }
             }
 
@@ -288,7 +288,7 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
                     String minute = chipBalanceSync.substring(10, 12);
                     String second = chipBalanceSync.substring(12, 14);
 
-                    tvChipBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " \n " + hour + ":" + minute + ":" + second + "]");
+                    tvChipBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second + "]");
                 }
             }
 
@@ -473,7 +473,7 @@ public class CardHotlistFragment extends BaseFragment implements MyFragmentCallb
         TransitProcessHotlistRequestModel transitProcessHotlistRequestModel = new TransitProcessHotlistRequestModel();
         transitProcessHotlistRequestModel.setCardRefNumber(CardProxyNumber);
         transitProcessHotlistRequestModel.setOtp(otp);
-        transitProcessHotlistRequestModel.setReason("Lost");
+        transitProcessHotlistRequestModel.setReason(selectedHotlistReason);
         transitProcessHotlistRequestModel.setSId("");
         transitProcessHotlistRequestModel.setRefTxnId(requestTxnID);
 

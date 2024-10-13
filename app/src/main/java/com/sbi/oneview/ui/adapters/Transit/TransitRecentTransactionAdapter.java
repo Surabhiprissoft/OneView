@@ -138,6 +138,12 @@ public class TransitRecentTransactionAdapter extends RecyclerView.Adapter<Transi
 
         tvCardNumberValue.setText(miniStatementResponse.getCardNumber());
         card_status_value.setText(miniStatementResponse.getCardStatus());
+        if (miniStatementResponse.getCardStatus().equalsIgnoreCase("A")){
+            card_status_value.setText("Active");
+        }
+        else if (miniStatementResponse.getCardStatus().equalsIgnoreCase("PHL")){
+            card_status_value.setText("Permanently Blocked");
+        }
         description_value.setText(miniStatementResponse.getTxnDesc());
         form_value.setText(miniStatementResponse.getTxnForm());
         amount_value.setText(miniStatementResponse.getAmount().replaceFirst("^0+(?!$)", ""));
@@ -151,7 +157,8 @@ public class TransitRecentTransactionAdapter extends RecyclerView.Adapter<Transi
             time_value.setText(miniStatementResponse.getTime().substring(0,2)+":"+miniStatementResponse.getTime().substring(2,4)+":"+miniStatementResponse.getTime().substring(4));
         }
         transaction_id_value.setText(miniStatementResponse.getTxnId());
-        transaction_status_value.setText(miniStatementResponse.getStatus());
+        String status = miniStatementResponse.getStatus();
+        transaction_status_value.setText(status.substring(0,7).equalsIgnoreCase("Success")? "Success":"Failed");
         failure_reason_value.setText(miniStatementResponse.getStatus().substring(0,7).equalsIgnoreCase("Success") ? "-":miniStatementResponse.getFailedReason());
         wallet_value.setText(miniStatementResponse.getWallet());
         merchant_value.setText(miniStatementResponse.getMerchantName());

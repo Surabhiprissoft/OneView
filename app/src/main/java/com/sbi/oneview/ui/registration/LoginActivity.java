@@ -220,7 +220,7 @@ public class LoginActivity extends BaseActivity {
                             Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(LoginActivity.this, ""+response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Something went wrong please try again after sometime", Toast.LENGTH_SHORT).show();
                     }
                 }
 

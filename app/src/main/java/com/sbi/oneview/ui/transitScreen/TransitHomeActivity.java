@@ -1,13 +1,17 @@
 package com.sbi.oneview.ui.transitScreen;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -29,6 +33,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.sbi.oneview.R;
 import com.sbi.oneview.base.BaseActivity;
@@ -37,6 +42,7 @@ import com.sbi.oneview.network.APIRequests;
 import com.sbi.oneview.network.NetworkResponseCallback;
 import com.sbi.oneview.network.RequestModel.LogoutRequestModel;
 import com.sbi.oneview.network.ResponseModel.LoginWithOtp.Data;
+import com.sbi.oneview.ui.WebView.TopupWebViewActivity;
 import com.sbi.oneview.ui.mainDashboard.DashboardCardSelectionActivity;
 import com.sbi.oneview.ui.registration.LoginActivity;
 import com.sbi.oneview.utils.CommonUtils;
@@ -54,8 +60,8 @@ public class TransitHomeActivity extends BaseActivity {
     private ImageView openIcon;
     private DrawerLayout drawerLayout;
 
-    LinearLayout dashboardLayout,myProfileLayout,viewProfileLayout,editProfileLayout,accountDetailsLayout,cardTopUpLayout,cardStatementLayout,cardhotlistLayout,cardLimitLayout,resetpinLayout,cardBlockUnblockLayout,cardHotListLayout;
-    MaterialCardView DashboardCardView,myProfileCardView,cardManagementCardView,contactUsCardView;
+    LinearLayout logoutLayout,dashboardLayout,myProfileLayout,viewProfileLayout,editProfileLayout,accountDetailsLayout,cardTopUpLayout,cardStatementLayout,cardhotlistLayout,cardLimitLayout,resetpinLayout,cardBlockUnblockLayout,cardHotListLayout;
+    MaterialCardView DashboardCardView,myProfileCardView,cardManagementCardView,contactUsCardView,logoutCardView;
     ImageView iconDashboard,iconMyProfile,iconCardManagement,iconContactUs,imgMenu,imgHome;
     TextView tvDashboard,tvMyProfile,tvCardManagement,tvContactUs,tvTransit,tvUserNameChar;
     MaterialCardView cardTopUpCard,cardStatementCard,cardhotlistCard,cardLimitCard,resetpinCard,cardBlockUnblockCard,cardHotListCard;
@@ -91,6 +97,7 @@ public class TransitHomeActivity extends BaseActivity {
         tvUserNameChar = findViewById(R.id.tvUserNameChar);
         myProfileLayout = findViewById(R.id.myProfileLayout);
         dashboardLayout = findViewById(R.id.dashboardLayout);
+        logoutLayout = findViewById(R.id.logoutLayout);
         imgHome = findViewById(R.id.imgHome);
         /*viewProfileLayout = findViewById(R.id.viewProfileLayout);
         editProfileLayout = findViewById(R.id.editProfileLayout);
@@ -190,6 +197,13 @@ public class TransitHomeActivity extends BaseActivity {
                 subMenuClicked(cardTopUpCard,false);
                 replaceFragment(new ContactUsBlankFragment());
                 drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+
+        logoutLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogue();
             }
         });
 
@@ -293,7 +307,15 @@ public class TransitHomeActivity extends BaseActivity {
     void setListners() {
 
 
-        imgMenu.setOnClickListener(this::showPopupMenu);
+        //imgMenu.setOnClickListener(this::showPopupMenu);
+        imgMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showDialogue();
+
+            }
+        });
 
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -521,7 +543,7 @@ public class TransitHomeActivity extends BaseActivity {
 
             contactUsCardView.setCardBackgroundColor(Color.WHITE);
             tvContactUs.setTextColor(Color.BLACK);
-            iconContactUs.setImageDrawable(getResources().getDrawable(R.drawable.bw_email));
+            iconContactUs.setImageDrawable(getResources().getDrawable(R.drawable.img_email));
         }
 
     }
@@ -741,6 +763,53 @@ public class TransitHomeActivity extends BaseActivity {
 
         }
 
+    }
+
+
+    public void showDialogue()
+    {
+        Dialog dialog = new Dialog(TransitHomeActivity.this);
+
+        dialog.setContentView(R.layout.dialogue_cancel_transaction);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparent)));
+
+
+        MaterialButton btnYes,btnNo;
+        btnYes = dialog.findViewById(R.id.btnYes);
+        btnNo  = dialog.findViewById(R.id.btnNo);
+        TextView h1 = dialog.findViewById(R.id.h1);
+        TextView h2 = dialog.findViewById(R.id.h2);
+
+        h1.setText("Confirm Logout");
+        h2.setText("Are your sure, you want to logout from oneview application ?");
+        btnYes.setText("YES");
+        btnNo.setText("NO");
+
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+                logoutUser();
+
+            }
+        });
+
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+
+            }
+        });
+
+        dialog.show();
     }
 
 

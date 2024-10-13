@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.sbi.oneview.network.APIClient;
+import com.sbi.oneview.network.APIClientSSL;
 import com.sbi.oneview.network.APIInterface;
 
 public class App extends Application {
@@ -26,18 +27,20 @@ public class App extends Application {
 
 
         // for without encryot
-        apiClientencrypt = APIClient.create(APIInterface.class);
+        //apiClientencrypt = APIClient.create(APIInterface.class);
+
+
         appContext = getApplicationContext();
 
 
         // for encrypt
-        /*try {
+        try {
             apiClientencrypt = APIClientSSL.create(appContext, APIInterface.class);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        SecretManager.loadSecrets();*/
+       // SecretManager.loadSecrets();
 
     }
 

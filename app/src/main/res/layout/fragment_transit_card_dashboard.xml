@@ -379,6 +379,7 @@
                             android:id="@+id/tvCardBalanceSync"
                             app:layout_constraintTop_toBottomOf="@id/tvCardBalance"
                             app:layout_constraintStart_toStartOf="parent"
+                            android:visibility="gone"
                             style="@style/cardDetailsValueTextStyle"/>
 
 

@@ -2,6 +2,7 @@ package com.sbi.oneview.ui.WebView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -19,8 +20,10 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -33,6 +36,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -52,6 +56,7 @@ public class TopupWebViewActivity extends AppCompatActivity {
     String origin = "https://oneview.prepaid.sbi";
     String Referer = "https://oneview.prepaid.sbi/";
     String Host = "oneview.prepaid.sbi";
+    private static final int UPI_PAYMENT_REQUEST_CODE = 123;
     TextView tvCancelTransaction;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -117,6 +122,7 @@ public class TopupWebViewActivity extends AppCompatActivity {
 
 
         webView.setWebViewClient(new WebViewClient(){
+            String currentUrl;
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -148,6 +154,30 @@ public class TopupWebViewActivity extends AppCompatActivity {
                     startActivity(i);
                 }
             }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                currentUrl = request.getUrl().toString();
+
+
+                if (!currentUrl.startsWith("https") || !currentUrl.startsWith("http")) {
+                    try {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(request.getUrl().toString()));
+                        startActivityForResult(i, 2001);
+                    } catch (ActivityNotFoundException ignored) {
+                        Log.d("EXCEPTION",""+ignored.getLocalizedMessage());
+                    }
+                }
+
+               return true;
+            }
+
+
+
+
+
+
         });
 
         webView.loadUrl(finalUrl, headers);
@@ -162,8 +192,33 @@ public class TopupWebViewActivity extends AppCompatActivity {
 
 
 
+
+
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == UPI_PAYMENT_REQUEST_CODE) {
+            if (resultCode == RESULT_OK || resultCode == 11) {
+                if (data != null) {
+                    String response = data.getStringExtra("response");
+                    handleUpiResponse(response); // Process UPI response
+                }
+            } else {
+                // Payment failed or canceled
+                Toast.makeText(this, "Payment failed or canceled", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void handleUpiResponse(String response) {
+        if (response != null && response.toLowerCase().contains("success")) {
+            Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public void showDialogue()
     {

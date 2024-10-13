@@ -59,46 +59,22 @@ public class CourouselAdapter extends RecyclerView.Adapter<CourouselAdapter.View
         {
             currentPosition = customPosition;
         }else{
-            currentPosition = (initialPosition + position) % arrayList.size();
+            //currentPosition = (initialPosition + position) % arrayList.size();
+            currentPosition=0;
         }
 
         Log.e("POSITION",""+currentPosition);
-        Log.e("IMAGE",""+arrayList.get(currentPosition));
+        Log.e("Status on 0",""+arrayList.get(0).getCardStatus());
+
+        //List<CardDetailsItem> arrayList = loginResponse.getTransit().getCardDetails();
+        for (CardDetailsItem item : arrayList) {
+            Log.d("CardStatus on Adaptor", "Status: " + item.getCardStatus());
+        }
+
 
         String productCode = arrayList.get(currentPosition).getProductCode();
         callback.onPositionChange(currentPosition);
 
-        int currentImageResourceId;
-
-        /*if (productCode.equals("266")){
-            holder.imageView.setImageResource(R.drawable.city_chennai);
-            currentImageResourceId=R.drawable.city_chennai;
-        }else if (productCode.equals("262")){
-            holder.imageView.setImageResource(R.drawable.city_noida);
-            currentImageResourceId=R.drawable.city_noida;
-        }else if (productCode.equals("267")){
-            holder.imageView.setImageResource(R.drawable.city_mumbai);
-            currentImageResourceId=R.drawable.city_mumbai;
-        }else if (productCode.equals("263")){
-            holder.imageView.setImageResource(R.drawable.city_nagpur);
-            currentImageResourceId=R.drawable.city_nagpur;
-        }else if (productCode.equals("270")){
-            holder.imageView.setImageResource(R.drawable.city_kanpur);
-            currentImageResourceId=R.drawable.city_kanpur;
-        }else if (productCode.equals("123")){
-            holder.imageView.setImageResource(R.drawable.city_kanpur);
-            currentImageResourceId=R.drawable.city_kanpur;
-        }else if (productCode.equals("GBRSBT")){
-            holder.imageView.setImageResource(R.drawable.city_mumbai);
-            currentImageResourceId=R.drawable.city_mumbai;
-        }else{
-            currentImageResourceId=R.drawable.city_kanpur;
-        }*/
-
-       // holder.imageView.setImageDrawable(context.getDrawable(R.drawable.sbi_card));
-
-        //holder.imageView.setImageResource(cardImage);
-        //Glide.with(context).load(arrayList.get(currentPosition)).into(holder.imageView);
         customIndicator.setActiveIndex(currentPosition);
 
         animateImageChange(holder.cardLayout, holder.tvCardNumber,holder.tvCardExp, true,arrayList.get(currentPosition).getCardNumber(),arrayList.get(currentPosition).getExpDate());

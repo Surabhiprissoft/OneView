@@ -132,6 +132,7 @@
     <string name="card_limit">Card Limit</string>
     <string name="transit">Transit</string>
     <string name="dashboard">Dashboard</string>
+    <string name="logout">Logout</string>
     <string name="my_profile">My Profile</string>
     <string name="card_management">Card Management</string>
     <string name="contact_us">Contact Us</string>

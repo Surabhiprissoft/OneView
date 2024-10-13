@@ -38,6 +38,7 @@ import com.sbi.oneview.network.ResponseModel.TransitMiniStatement.TransitMiniSta
 import com.sbi.oneview.ui.adapters.CourouselAdapter;
 import com.sbi.oneview.ui.adapters.Transit.TransitRecentTransactionAdapter;
 import com.sbi.oneview.ui.inrPrepaid.MyFragmentCallback;
+import com.sbi.oneview.utils.CardDetailsSorter;
 import com.sbi.oneview.utils.CommonUtils;
 import com.sbi.oneview.utils.CustomIndicatorView;
 import com.sbi.oneview.utils.NetworkUtils;
@@ -45,6 +46,7 @@ import com.sbi.oneview.utils.SharedConfig;
 import com.sbi.oneview.utils.encryption.CipherEncryption;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -143,10 +145,13 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
         loginResponse = SharedConfig.getInstance(getActivity()).getLoginResponse(getActivity());
 
         List<CardDetailsItem> arrayList = loginResponse.getTransit().getCardDetails();
+        Collections.sort(arrayList,CardDetailsSorter.cardStatusComparator);
+        loginResponse.transit.setCardDetails(arrayList);
+        SharedConfig.getInstance(getActivity()).saveLoginResponse(getActivity(),loginResponse);
 
+        Data updatedLoginResponse = SharedConfig.getInstance(getActivity()).getLoginResponse(getActivity());
 
-
-        CourouselAdapter adapter = new CourouselAdapter(this,getActivity(), arrayList,customIndicatorView,null);
+        CourouselAdapter adapter = new CourouselAdapter(this,getActivity(), updatedLoginResponse.getTransit().getCardDetails(),customIndicatorView,null);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapter);
@@ -254,7 +259,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
                     String minute = cardBalanceSync.substring(10, 12);
                     String second = cardBalanceSync.substring(12, 14);
 
-                    tvCardBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " \n " + hour + ":" + minute + ":" + second + "]");
+                    tvCardBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second + "]");
                 }
             }
 
@@ -269,7 +274,7 @@ public class TransitCardDashboardFragment extends BaseFragment implements MyFrag
                     String minute = chipBalanceSync.substring(10, 12);
                     String second = chipBalanceSync.substring(12, 14);
 
-                    tvChipBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " \n " + hour + ":" + minute + ":" + second + "]");
+                    tvChipBalanceSync.setText("[As on " + day + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second + "]");
                 }
             }
 
